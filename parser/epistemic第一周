@@ -1,0 +1,10 @@
+第一周
+预处理部分的实现方案：
+1. 识别epddl文件；得到动作表、原子表
+2. 例化部分处理（动作和谓词）；
+3. 化范式（WM-ECNF，WM-EDNF）；
+
+需要注意的问题：
+a. ConEffect中的add和del合并为lits（vector<int>）
+b. OnticAction和EpisAction中关于化范式所用到的中间承接的数据结构删除
+c. EpisCNF和EpisDNF需要将原先vector和list中的类型变为所对应的指针类型
