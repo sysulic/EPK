@@ -29,42 +29,46 @@ extern "C"  //为了能够在C++程序里面调用C函数，必须把每一个�
 
 name				[a-zA-Z][a-zA-Z_0-9\-]*
 variable			\?{name}
-variables			{variable}*
-variablex			{variable}+
 digit				[0-9]
 number				{digit}+
 terms				({name}|{variable})*
-blank	  			[ \n\t\r]*
 
 %%
 
 "K"					{ yylval.s = strdup(yytext); return K; }
 "DK"				{ return DK; }
+
 "and"				{ return AND; }
 "or"				{ return OR; }
 "not"				{ return NOT; }
+"imply"				{ return IMPLY; }
+"oneof"				{ return ONEOF; }
 
 "("					{ return LEFT_PAREN; }
 ")"					{ return RIGHT_PAREN; }
 ","					{ return COMMA; }
+":"					{ return COLON; }
+"-"					{ return MINUS; }
 "define"			{ return DEFINE; }
 "domain"			{ return DOMAIN; }
-":types"			{ yylval.s = strdup(yytext); return TYPES; }
-":predicates"		{ yylval.s = strdup(yytext); return PREDICATES; }
-":precondition"		{ yylval.s = strdup(yytext); return PRECONDITION; }
-":action" 			{ yylval.s = strdup(yytext); return ACTION; }
-":parameters"		{ yylval.s = strdup(yytext); return PARAMETERS; }
-":observe"			{ yylval.s = strdup(yytext); return OBSERVE; }
-":effect"			{ yylval.s = strdup(yytext); return EFFECT; }
+"types"				{ return TYPES; }
+"predicates"		{ return PREDICATES; }
+"precondition"		{ return PRECONDITION; }
+"action" 			{ return ACTION; }
+"parameters"		{ return PARAMETERS; }
+"observe"			{ return OBSERVE; }
+"effect"			{ return EFFECT; }
+"problem"			{ return PROBLEM; }
+"objects"			{ return OBJECTS; }
+"init"				{ return INIT; }
+"goal"				{ return GOAL; }
 
 {name}				{ return NAME; }
 {variable}			{ return VARIABLE; }
-{variablex}			{ return VARIABLEX; }
-{variables}			{ return VARIABLES; }
 {digit}				{ return DIGIT; }
 {number}			{ return NUMBER; }
 {terms}				{ return TERMS; }
-{blank}				{ }
+\n 					{ yylineno++; }
 %%
 
 int yywrap(void)

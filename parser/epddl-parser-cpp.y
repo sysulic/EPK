@@ -28,21 +28,23 @@ extern "C"			//为了能够在C++程序里面调用C函数，必须把每一个�
 
 %token <s> NAME
 %token <s> VARIABLE
-%token <s> VARIABLES  // VARIABLE*
-%token <s> VARIABLEX  // VARIABLE+
 %token <s> DIGIT
 %token <s> NUMBER
 %token <s> TERMS
 
-%token K
-%token DK
-%token AND
+%token <s> K
+%token <s> DK
+%token <s> AND
 %token OR
 %token NOT
+%token IMPLY
+%token ONEOF
 
-%token LEFT_PAREN
-%token RIGHT_PAREN
+%token <s> LEFT_PAREN
+%token <s> RIGHT_PAREN
 %token COMMA
+%token COLON
+%token <s> MINUS
 %token DEFINE
 %token DOMAIN
 %token TYPES
@@ -52,6 +54,10 @@ extern "C"			//为了能够在C++程序里面调用C函数，必须把每一个�
 %token PARAMETERS
 %token OBSERVE
 %token EFFECT
+%token PROBLEM
+%token OBJECTS
+%token INIT
+%token GOAL
 
 %type <s> epddlDoc
 %type <s> domain
@@ -61,7 +67,7 @@ extern "C"			//为了能够在C++程序里面调用C函数，必须把每一个�
 
 /*********************** Start of grammar ******************************/
 
-epddlDoc : domain | problem { cout << "epddlDoc matched" << endl; }
+epddlDoc : domain | problem { cout << yylineno << " : " << yytext << " epddlDoc matched" << endl; }
 
 /************* DOMAINS ****************************/
 
@@ -70,7 +76,6 @@ domain
 			DEFINE domainName
 			typesDef
 			predicatesDef
-			actionsDef
 		RIGHT_PAREN
 	|	LEFT_PAREN
 			DEFINE domainName
@@ -79,10 +84,12 @@ domain
 		RIGHT_PAREN
 	|	LEFT_PAREN
 			DEFINE domainName
+			typesDef
+			predicatesDef
 			actionsDef
 		RIGHT_PAREN
 {
-	cout << "domain matched" << endl;
+	cout << yylineno << " : " << yytext << " domain matched" << endl;
 }
 	;
 domainName
@@ -91,172 +98,282 @@ domainName
 
 /******** typesdef ********/
 typesDef
-	:	LEFT_PAREN TYPES primTypes RIGHT_PAREN
+	:	LEFT_PAREN COLON TYPES primTypes RIGHT_PAREN
 {
-	cout << "typesdef matched" << endl;
+	cout << yylineno << " : " << yytext << " typesdef matched" << endl;
 }
 	;
 primTypes
-	:	primTypes primType
+	:	primType primTypes
 	|	primType
 {
-	cout << "primTypes matched" << endl;
+	cout << yylineno << " : " << yytext << " primTypes matched" << endl;
 }
 	;
 primType
 	:	NAME
 {
-	cout << "primType matched" << endl;
+	cout << yylineno << " : " << yytext << " primType matched" << endl;
 }
 	;
 
 /***** predicatesdef *****/
 predicatesDef
-	:	LEFT_PAREN PREDICATES atomicFormulaSkeletons RIGHT_PAREN
+	:	LEFT_PAREN COLON PREDICATES atomicFormulaSkeletons RIGHT_PAREN
 {
-	cout << "predicatesDef matched" << endl;
+	cout << yylineno << " : " << yytext << " predicatesDef matched" << endl;
 }
 	;
 atomicFormulaSkeletons
 	:	atomicFormulaSkeletons atomicFormulaSkeleton
 	|	atomicFormulaSkeleton
 {
-	cout << "atomicFormulaSkeletons matched" << endl;
+	cout << yylineno << " : " << yytext << " atomicFormulaSkeletons matched" << endl;
 }
 	;
 atomicFormulaSkeleton
 	:	LEFT_PAREN predicate typedVariableList RIGHT_PAREN
 {
-	cout << "atomicFormulaSkeleton matched" << endl;
+	cout << yylineno << " : " << yytext << " atomicFormulaSkeleton matched" << endl;
 }
 	;
 predicate
 	:	NAME
 {
-	cout << "predicate matched" << endl;
+	cout << yylineno << " : " << yytext << " predicate matched" << endl;
 }
 	;
-// If have any typed variables, they must come FIRST!  确定类型的变量放在前面
 typedVariableList
-	:	VARIABLES
-	|	singleTypeVarLists VARIABLES
+	:	singleTypeVarList singleTypeVarList 
+	|	singleTypeVarList 
 {
-	cout << "typedVariableList matched" << endl;
-}
-	;
-singleTypeVarLists
-	:	singleTypeVarLists singleTypeVarList
-	|	singleTypeVarList
-{
-	cout << "singleTypeVarLists matched" << endl;
+	cout << yylineno << " : " << yytext << " singleTypeVarLists matched" << endl;
 }
 	;
 singleTypeVarList
-	:	VARIABLEX '-' primType
+	:	variables MINUS primType
 {
-	cout << "singleTypeVarList matched" << endl;
+	cout << yylineno << " : " << yytext << " singleTypeVarList matched" << endl;
 }
 	;
-
+variables
+	:	variables VARIABLE
+	|	VARIABLE
+{
+	cout << yylineno << " : " << yytext << " variables matched" << endl;
+}
+	;
 /****** actionsdef ******/
 actionsDef
 	:	actionsDef actionDef
 	|	actionDef
 {
-	cout << "actionsDef matched" << endl;
+	cout << yylineno << " : " << yytext << " actionsDef matched" << endl;
 }
 	;
 actionDef
 	:	LEFT_PAREN
-			ACTION actionSymbol
-			PARAMETERS LEFT_PAREN typedVariableList RIGHT_PAREN
-			PRECONDITION LEFT_PAREN precondition RIGHT_PAREN
-			OBSERVE LEFT_PAREN observe RIGHT_PAREN {
-				cout << "observe match done" << endl;
+			COLON ACTION actionSymbol
+			COLON PARAMETERS LEFT_PAREN parameters RIGHT_PAREN
+			COLON PRECONDITION LEFT_PAREN precondition RIGHT_PAREN
+			COLON OBSERVE LEFT_PAREN observe RIGHT_PAREN {
+				cout << yylineno << " : " << yytext << " observe match done" << endl;
 			}
 		RIGHT_PAREN
 	|	LEFT_PAREN
-			ACTION actionSymbol
-			PARAMETERS LEFT_PAREN typedVariableList RIGHT_PAREN
-			PRECONDITION LEFT_PAREN precondition RIGHT_PAREN
-			EFFECT LEFT_PAREN effect RIGHT_PAREN {
-				cout << "effect match done" << endl;
+			COLON ACTION actionSymbol
+			COLON PARAMETERS LEFT_PAREN parameters RIGHT_PAREN
+			COLON PRECONDITION LEFT_PAREN precondition RIGHT_PAREN
+			COLON EFFECT LEFT_PAREN effects RIGHT_PAREN {
+				cout << yylineno << " : " << yytext << " effect match done" << endl;
 			}
 		RIGHT_PAREN
 {
-	cout << "actionDef matched" << endl;
+	cout << yylineno << " : " << yytext << " actionDef matched" << endl;
 }
 	;
 actionSymbol
 	:	NAME
 {
-	cout << "actionSymbol matched" << endl;
+	cout << yylineno << " : " << yytext << " actionSymbol matched" << endl;
 }
 	;
-
+/** parameters **/
+parameters
+	:	typedVariableList
+	|
+	{
+		cout << yylineno << " : " << yytext << "parameters matched" << endl;
+	}
+	;
 /** precondition **/
 precondition
-	:	episFormula
-	|	formula
+	:	formula
 {
-	cout << "precondition matched" << endl;
+	cout << yylineno << " : " << yytext << " precondition matched" << endl;
+}
+	;
+// definition of any kinds of formulas which include 'K' or not
+formula
+	:	episFormula
+	|	AND episFormulas
+	|	OR episFormulas
+{
+	cout << yylineno << " : " << yytext << " formula matched" << endl;
+}
+	;
+episFormulas
+	:	episFormulas LEFT_PAREN episFormula RIGHT_PAREN
+	|	LEFT_PAREN episFormula RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << " episFormulas matched" << endl;
 }
 	;
 episFormula
-	:	K LEFT_PAREN formula RIGHT_PAREN
-	|	DK LEFT_PAREN formula RIGHT_PAREN
-	|	AND LEFT_PAREN episFormula RIGHT_PAREN
-	|	OR LEFT_PAREN episFormula RIGHT_PAREN
+	:	K LEFT_PAREN objFormula RIGHT_PAREN
+	|	DK LEFT_PAREN objFormula RIGHT_PAREN
 {
-	cout << "episFormula matched" << endl;
+	cout << yylineno << " : " << yytext << " episFormula matched" << endl;
 }
 	;
-formula
-	:	atomicTermFormula
-	|	AND formula formula
-	|	OR formula formula  // expr expr == expr+
-	|	NOT formula
-	|	LEFT_PAREN formula RIGHT_PAREN
+objFormula
+	:	AND objFormulas
+	|	OR objFormulas
+	|	NOT objFormulas
+	|	IMPLY objFormulas
+	|	ONEOF objFormulas
+	|	atomicProp
 {
-	cout << "formula matched" << endl;
+	cout << yylineno << " : " << yytext << " objFormula matched" << endl;
 }
 	;
-atomicTermFormula
-	:	LEFT_PAREN predicate TERMS RIGHT_PAREN
+objFormulas  // 递归地自解释通式：objFormula
+	:	objFormulas LEFT_PAREN objFormula RIGHT_PAREN
+	|	LEFT_PAREN objFormula RIGHT_PAREN
 {
-	cout << "atomicTermFormula matched" << endl;
+	cout << yylineno << " : " << yytext << " objFormulaOrAtomicProps matched" << endl;
 }
 	;
-
+atomicProp
+	:	predicate variables
+	|	NAME
+	|
+{
+	cout << yylineno << " : " << yytext << " atomicProp matched" << endl;
+}
+	;
 /** observe **/
 observe
-	:	atomicTermFormula  // observe - only predicate here (incomplete)
+	:	objFormula
 {
-	cout << "observe matched" << endl;
+	cout << yylineno << " : " << yytext << " observe matched" << endl;
 }
 	;
 
 /** effect **/
+effects
+	:	LEFT_PAREN effect RIGHT_PAREN
+	|	LEFT_PAREN effect RIGHT_PAREN effects
+{
+	cout << yylineno << " : " << yytext << " effect matched" << endl;
+}
+	;
 effect
-	:	LEFT_PAREN singleEffect RIGHT_PAREN
-	|	LEFT_PAREN singleEffect RIGHT_PAREN COMMA effect
+	:	LEFT_PAREN litSet RIGHT_PAREN COMMA LEFT_PAREN litSet RIGHT_PAREN
 {
-	cout << "effect matched" << endl;
+	cout << yylineno << " : " << yytext << " singleEffect matched" << endl;
 }
 	;
-singleEffect
-	:	formula COMMA formula
+litSet
+	:	litSet COMMA lit
+	|	lit
 {
-	cout << "singleEffect matched" << endl;
+	cout << yylineno << " : " << yytext << " litSet matched" << endl;
 }
 	;
-
+lit
+	:	NAME
+	|	NOT LEFT_PAREN NAME RIGHT_PAREN
+	|	predicate variables
+	|
+{
+	cout << yylineno << " : " << yytext << " lit matched" << endl;
+}
+	;
 /************* PROBLEMS ***************************/
 
 problem
-	: "problem hahaha"
+	:	LEFT_PAREN
+			DEFINE problemDecl
+			problemDomain
+			objectDecl
+			init
+			goal
+		RIGHT_PAREN
+	|	LEFT_PAREN
+			DEFINE problemDecl
+			problemDomain
+			init
+			goal
+		RIGHT_PAREN
 {
-	cout << "problem matched" << endl;
+	cout << yylineno << " : " << yytext << "problem matched" << endl;
+}
+	;
+problemDecl
+	:	LEFT_PAREN PROBLEM NAME RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << "problemDecl matched" << endl;
+}
+	;
+problemDomain
+	:	LEFT_PAREN COLON DOMAIN NAME RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << "problemDomain matched" << endl;
+}
+	;
+/** objectdecl **/
+objectDecl
+	:	LEFT_PAREN COLON OBJECTS objectTypes RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << "objectDecl matched" << endl;
+}
+	;
+objectTypes
+	:	objectTypes singleType
+	|	singleType
+{
+	cout << yylineno << " : " << yytext << "objectTypes matched" << endl;
+}
+	;
+singleType
+	:	objects MINUS primType
+{
+	cout << yylineno << " : " << yytext << "singleType matched" << endl;
+}
+	;
+objects
+	:	objects object
+	|	object
+{
+	cout << yylineno << " : " << yytext << "objects matched" << endl;
+}
+	;
+object
+	:	NAME
+	;
+/** init **/
+init
+	:	LEFT_PAREN COLON INIT LEFT_PAREN formula RIGHT_PAREN RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << "init matched" << endl;
+}
+	;
+/** goal **/
+goal
+	:	LEFT_PAREN COLON GOAL LEFT_PAREN formula RIGHT_PAREN RIGHT_PAREN
+{
+	cout << yylineno << " : " << yytext << "goal matched" << endl;
 }
 	;
 
@@ -264,12 +381,12 @@ problem
 
 void yyerror(const char *s)  // 当yacc遇到语法错误时，会回调yyerror函数，并且把错误信息放在参数s中
 {
-	cerr << s << endl;  // 直接输出错误信息
+	cerr << s << ":" << yylineno << " " << yytext << endl;  // 直接输出错误信息
 }
 
 int main()  // 程序主函数，这个函数也可以放到其它.c, .cpp文件里
 {
-	const char* sFile="../epddl-doc/mytest/demo_domain.epddl";  // 打开要读取的文本文件
+	const char* sFile="../epddl-doc/mytest/my_p.epddl";  // 打开要读取的文本文件
 	FILE* fp=fopen(sFile, "r");
 	if(fp==NULL)
 	{

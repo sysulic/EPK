@@ -1,8 +1,8 @@
 #!/bin/sh 
-echo \~frank: flex .l
-flex epddl-lexer-cpp.l
-echo \~frank: bison -d .y
-bison -d epddl-parser-cpp.y
+#echo \~frank: flex .l
+#flex epddl-lexer-cpp.l
+#echo \~frank: bison -d .y
+#bison -d epddl-parser-cpp.y
 echo \~frank: g++ -c .c
 g++ -c lex.yy.c
 echo \~frank: g++ -c parser.tab.c
