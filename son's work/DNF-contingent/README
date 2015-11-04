@@ -1,0 +1,28 @@
+CONTINGENT BENCHMARKS:
+
+Benchmarks in AL: set of benchmarks in action language (.AL) format obtained after running the input theory translator and then manually modified since the input theory translator does not work correctly for these benchmarks. Whenever instances of a domain are given in this folder, please use these AL files to run the benchmark instead of the PDDL file.
+
+Benchmarks in PDDL: for DNFct, CNFct, or PIct, the name of the domain files is usually extended with "1", for example domain1.pddl or d1.pddl. The other files are for other planners, e.g., CLG or CFF. Since the translator is not working properly with some domains so for those domains, the translated files in AL format are given. Hence, one should run the AL files instead if they are given. Please contact with me at sto@cs.nmsu.edu for more information.
+
+
+DNFct_run: this directory contains the input theory translator in prolog and DNF exec file. PDDL benchmarks are run in this directory using the following command:
+
+./run_cpah.sh domain.pddl problem.pddl.
+
+DNFct_source: the source code of DNFct planner in C++.
+
+USAGE:
+
+One can run a problem in PDDL or AL files:
+
+1. To run a problem in PDDL, go to dnf_run and run the following command: 
+		./run_cpah.sh domain.pddl problem.pddl
+where domain.pddl and problem.pddl are the file names of the domain and the problem to be run.
+
+
+2. To run AL files, execute the following command:
+./DNFct path/problem.al
+
+Where path is the path specifying the location of the file and  
+problem.al is the file name in AL format. For example, to run dispose-4-4.al file in the same directory, you can type:
+./DNFct dispose-4-4.al

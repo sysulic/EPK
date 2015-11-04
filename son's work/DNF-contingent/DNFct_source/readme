@@ -1,0 +1,60 @@
+======================================================================
+=  DNFct PLANNER: A sound & complete contingent planner  =
+=        as described in the paper (To, Son, and Pontelli ICAPS-2011)               =
+======================================================================
+
+0. What's new
+
+- goal can be described as a CNF formula
+
+1. Compilation
+
+        make
+
+    + Requirements:
+
+        flex, bison and a C++ compiler such as g++.
+
+2. Usage
+
+    cpa input_domain [options]
+
+a) input_domain: A domain described in the AL language. This 
+   version does not support variables and static laws.
+
+b) Options
+    -e action1 action2 action3 ...
+       Perform a sequence of actions and print out
+       results step by step. The planner does not
+       search for a plan.      
+
+c) Examples
+
+    cpa blw.al
+       Find a conformant plan for blw.al
+
+    cpa blw.al -e "move(2,table)" "move(1,2)"
+       Execute the plan [move(2,table);move(1,2)]
+
+3. Files
+   - README:      this file
+   - Makefile:    the make file
+   - define.h:    contains compilation directives, constants, 
+                  and some auxiliary classes.
+   - main.cpp:	  main program
+   - action.*:    implement actions (class Action)
+   - state.*:     implement states and c-states (class State & CState)
+   - planner.*:   the planner. The most notable functions are
+         (i) next_cstate: computes the next belief state
+         (ii)  explore_one: explores one more level of the search tree
+         (iii)   search: does the search
+   - reader.*:    the data structure for storing the input after
+                  scanning and parsing
+   - lcp.y & lcp.lex: The scanner & parser components.
+
+4. Main Classes
+   - Planner
+   - Action
+   - State
+   - CState: is a set of states
+   - Reader: stores the results after scanning & parsing the input
