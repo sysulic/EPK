@@ -7,6 +7,7 @@
 %{
 #include <iostream>
 #include <string>
+#include "../sources/actions.h"
 
 using namespace std;
 
@@ -26,25 +27,25 @@ extern "C"			//为了能够在C++程序里面调用C函数，必须把每一个�
 
 %start epddlDoc
 
-%token <s> NAME
-%token <s> VARIABLE
-%token <s> DIGIT
-%token <s> NUMBER
-%token <s> TERMS
+%token NAME
+%token VARIABLE
+%token DIGIT
+%token NUMBER
+%token TERMS
 
-%token <s> K
-%token <s> DK
-%token <s> AND
+%token K
+%token DK
+%token AND
 %token OR
 %token NOT
 %token IMPLY
 %token ONEOF
 
-%token <s> LEFT_PAREN
-%token <s> RIGHT_PAREN
+%token LEFT_PAREN
+%token RIGHT_PAREN
 %token COMMA
 %token COLON
-%token <s> MINUS
+%token MINUS
 %token DEFINE
 %token DOMAIN
 %token TYPES
