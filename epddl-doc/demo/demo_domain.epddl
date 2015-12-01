@@ -1,5 +1,7 @@
 (define (domain demo)
-
+  (:types)
+  (:predicates)
+   
   (:action senseL
    :parameters ()
    :precondition (and (DK (lightOn)) 
@@ -17,8 +19,9 @@
   (:action knock
    :parameters ()
    :precondition (K (lightOn))
-   :effect (((inRoom), (doorOpen, hasKnocked), ), 
-            ((not (inRoom)), (hasKnocked), (doorOpen))
+   :effect (
+            ((inRoom), (doorOpen, hasKnocked))
+            ((not (inRoom)), (hasKnocked, not(doorOpen)))
            )
   )
 )

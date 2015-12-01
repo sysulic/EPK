@@ -25,8 +25,19 @@
   (:action knock
    :parameters ()
    :precondition (K (lightOn))
-   :effect (((inRoom), (doorOpen, hasKnocked))
+   :effect (
+            ((inRoom), (doorOpen, hasKnocked))
             ((not (inRoom)), (hasKnocked))
            )
   )
+
+   (:action openDoor
+    :parameters (?i - pos ?j - pos)
+    :precondition(K (and (at ?i) (adj ?i ?j)))
+    :effect ( 
+    			( (),(opened ?j) )
+    		 ) 
+   )
+
+
 )
