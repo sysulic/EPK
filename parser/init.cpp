@@ -3,20 +3,104 @@
 Reader reader;
 
 int yyparse();
-int dp = 0;
-void searchTree(Formula & f) {
-	for (int i = 0; i < dp; i++) cout << " ";
+
+void printTree(Formula & f, size_t deep) {
+	for (int i = 0; i < deep; i++) cout << " ";
 	cout << f.label << endl;
 	if (f.left != NULL)
 	{
-	dp++;
-		searchTree(*(f.left));
-	dp--;
+		if (f.left->label == "same") f.left->label = f.label;
+		printTree(*(f.left), deep+1);
 	}
 	if (f.right != NULL)
-	{dp++;
-		searchTree(*(f.right));
-	dp--;}
+	{
+		if (f.right->label == "same") f.right->label = f.label;
+		printTree(*(f.right), deep+1);
+	}
+}
+
+void removeImply(Formula & f) {
+	if(f.label == "->")
+	{
+		Formula* leftF = new Formula();
+		leftF->label = "!";
+		leftF->left = f.left;
+
+		f.label = "|";
+		f.left = leftF;
+	}
+	if (f.left != NULL)
+	{
+		removeImply(*(f.left));
+	}
+	if (f.right != NULL)
+	{
+		removeImply(*(f.right));
+	}
+	return;
+}
+
+void removeOneof(Formula & f) {
+	if(f.label == "oneof")
+	{
+		vector<Formula*> oneof_vector, prop_vector;
+		// process oneof
+		prop_vector.push_back(f.right);
+		Formula* pf = f.left;
+		bool temp = false;
+		while (pf->label == "oneof") {
+			oneof_vector.push_back(pf);
+			prop_vector.push_back(pf->right);
+			pf = pf->left;
+			temp = true;
+		}
+		if (temp) prop_vector.push_back(pf);  // leftest leaf of oneof
+		else prop_vector.push_back(pf->left);
+
+		// print for debug
+		vector<Formula*>::iterator it = prop_vector.begin();
+		for ( ; it != prop_vector.end(); it++)
+		{
+			cout << (*it)->label << endl;
+		}
+
+/*
+		// construct left
+		Formula* f11 = new Formula(*f.left);  // "1" means "left", "2" means "right"
+		Formula* f121 = new Formula(*f.right);  // sequence means deepth
+		Formula* f12 = new Formula(*f.right); f12->label = "!"; f12->left = f121; f12->right = NULL;
+		Formula* f1 = new Formula; f1->label = "&"; f1->left = f11; f1->right = f12;
+		// construct right
+		Formula* f21 = new Formula; f21->label = "!"; f21->left = f.left; f21->right = NULL;
+		Formula* f2 = new Formula; f2->label = "&"; f2->left = f21; f2->right = f.right;
+
+		f.label = "|";
+		f.left = f1;
+		f.right = f2;
+		*/
+
+	return;
+	}
+	if (f.left != NULL)
+	{
+		removeOneof(*(f.left));
+	}
+	if (f.right != NULL)
+	{
+		removeOneof(*(f.right));
+	}
+	return;
+}
+
+void toDNF(Formula & f) {
+	return;
+}
+
+void convertToDNFTree(Formula & f) {
+	removeImply(f);
+	removeOneof(f);
+	toDNF(f);
+	return;
 }
 
 int main() {
@@ -51,7 +135,7 @@ int main() {
 	map<int, string> atomicByIndex;
 
 	// prop table ****
-	int atomicCounter = 0;
+	size_t atomicCounter = 0;
 	for (set<string>::iterator it = reader.atomicPropSet.begin();
 			it != reader.atomicPropSet.end(); ++it) {
 		cout << *it << endl;
@@ -62,9 +146,12 @@ int main() {
 
 	// print init
 	cout << "------Begin-----init Tree-------------------" << endl;
-	searchTree(reader.init);
+	printTree(reader.init, 0);
 	cout << "-------End------init Tree-------------------" << endl;
 	
+	convertToDNFTree(reader.init);
+	printTree(reader.init, 0);
+
 	// print goal
 	//cout << "------Begin-----goal Tree-------------------" << endl;
 	//searchTree(reader.goal);

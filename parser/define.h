@@ -8,6 +8,8 @@
 #include <list>
 #include <map>
 #include <vector>
+#include <stack>
+
 //#include <algorithm>
 //#include <sys/time.h>
 //#include <sys/resource.h>
