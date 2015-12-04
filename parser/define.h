@@ -38,6 +38,21 @@ struct Formula
 	string label;
 	Formula* left;
 	Formula* right;
+    Formula() {
+        label = "";
+        left = NULL;
+        right = NULL;
+    }
+    Formula(string la) {
+        label = la;
+        left = NULL;
+        right = NULL;
+    }
+    Formula(string la, Formula* l, Formula* r) {
+        label = la;
+        left = l;
+        right = r;
+    }
 };
 
 //观察动作的描述

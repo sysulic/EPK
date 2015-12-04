@@ -33,15 +33,17 @@ extern Reader reader;
 %start epddlDoc
 
 %token <str> NAME
-%token <str> VARIABLE
 
 %token K
 %token DK
 %token AND
 %token OR
-%token <str> NOT
+%token NOT
 %token IMPLY
 %token ONEOF
+
+%token <str> TRUE
+%token <str> FALSE
 
 %token LEFT_PAREN
 %token RIGHT_PAREN
@@ -61,8 +63,6 @@ extern Reader reader;
 %token OBJECTS
 %token INIT
 %token GOAL
-
-%type <str> epddlDoc
 
 %type <str> domainName
 
@@ -98,7 +98,6 @@ extern Reader reader;
 %type <tree> objFormulas
 
 %type <str> problemDecl
-%type <str> problemDomain
 %type <str> atomicProp
 
 %type <multitype_set> objectDecl
@@ -131,7 +130,7 @@ domain
 		reader.predicates = *$5;
 		reader.senseActions = *$6;
 		reader.onticActions = *$7;
-		cout << "domain done" << endl;
+		// cout << "domain done" << endl;
 	}
 	;
 domainName
@@ -204,7 +203,7 @@ atomicFormulaSkeleton
 	;
 predicate
 	:	NAME
-	{
+	{ 
 		$$ = $1;
 	}
 	;
@@ -229,12 +228,12 @@ singleTypeVarList
 	}
 	;
 variables
-	:	variables VARIABLE
+	:	variables NAME
 	{
 		$$ = $1;
 		$$->insert(*$2);
 	}
-	|	VARIABLE
+	|	NAME
 	{
 		$$ = new StringSet;
 		$$->insert(*$1);
@@ -266,7 +265,7 @@ senseAction
 		$$->paras = *$8;
 		$$->preCondition = *$13;
 		$$->observe = *$18;
-		cout << "senseActions done" << endl;
+		// cout << "senseActions done" << endl;
 	}
 	;
 onticActionsDef
@@ -294,7 +293,7 @@ onticAction
 		$$->paras = *$8;
 		$$->preConditions = *$13;
 		$$->effects = *$18;	
-		cout << "onticAction done" << endl;
+		// cout << "onticAction done" << endl;
 	}
 	;
 actionSymbol
@@ -312,8 +311,8 @@ precondition
 // definition of any kinds of formulas which include 'K' or not
 formula
 	:	episFormula 		{ $$ = $1; }
-	|	AND episFormulas	{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "&"; }
-	|	OR episFormulas		{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "|"; }
+	|	AND episFormulas	{ $$ = new Formula("&", $2->left, $2->right); }
+	|	OR episFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
 	;
 episFormulas
 	:	episFormulas LEFT_PAREN episFormula RIGHT_PAREN
@@ -321,62 +320,46 @@ episFormulas
 		if ($1->right == NULL) {
 			$$ = $1;
 		} else {
-			$$ = new Formula;
-			$$->label = "same";
-			$$->left = $1;
+			$$ = new Formula("same", $1, NULL);
 		}
 		$$->right = $3;
 	}
 	|	LEFT_PAREN episFormula RIGHT_PAREN
 	{
-		$$ = new Formula;
-		$$->label = "same";
-		$$->left = $2;
-		$$->right = NULL;
+		$$ = new Formula("same", $2, NULL);
 	}
 	;
 episFormula
 	:	K LEFT_PAREN objFormula RIGHT_PAREN
 	{
-		$$ = new Formula;
-		$$->label = "K";
-		$$->left = $3;
-		$$->right = NULL;
+		$$ = new Formula("K", $3, NULL);
 	}
 	|	DK LEFT_PAREN objFormula RIGHT_PAREN
 	{
-		$$ = new Formula;
-		$$->label = "DK";
-		$$->left = $3;
-		$$->right = NULL;
+		$$ = new Formula("DK", $3, NULL);
 	}
 	;
 objFormula
-	:	AND objFormulas		{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "&"; }
-	|	OR objFormulas		{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "|"; }
-	|	NOT objFormulas		{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "!"; }
-	|	IMPLY objFormulas	{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "->"; }
-	|	ONEOF objFormulas	{ $$ = new Formula; $$->left = $2->left; $$->right = $2->right; $$->label = "oneof"; }
-	|	atomicProp			{ $$ = new Formula; $$->left = NULL; $$->right = NULL; $$->label = *$1; }
+	:	AND objFormulas		{ $$ = new Formula("&", $2->left, $2->right); }
+	|	OR objFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
+	|	NOT objFormulas		{ $$ = new Formula("!", $2->left, $2->right); }
+	|	IMPLY objFormulas	{ $$ = new Formula("->", $2->left, $2->right); }
+	|	ONEOF objFormulas	{ $$ = new Formula("oneof", $2->left, $2->right); }
+	|	atomicProp			{ $$ = new Formula(*$1); }
 	;
-objFormulas  // 递归地自解释通式：objFormula
+objFormulas
 	:	objFormulas LEFT_PAREN objFormula RIGHT_PAREN
 	{
 		if ($1->right == NULL) {
 			$$ = $1;
 		} else {
-			$$ = new Formula;
-			$$->label = "same";
-			$$->left = $1;
+			$$ = new Formula("same", $1, NULL);
 		}
 		$$->right = $3;
 	}
 	|	LEFT_PAREN objFormula RIGHT_PAREN
 	{
-		$$ = new Formula;
-		$$->label = "same";
-		$$->left = $2;
-		$$->right = NULL;
+		$$ = new Formula("same", $2, NULL);
 	}
 	;
 atomicProp
@@ -390,7 +373,6 @@ atomicProp
 		reader.atomicPropSet.insert(*$$);
 	}
 	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$$); }
-	|
 	;
 /** observe **/
 observe
@@ -433,7 +415,7 @@ litSet
 	;
 lit
 	:	NAME { $$ = $1; }
-	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string(*$1 + "(" + *$3 + ")");}
+	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}
 	|	predicate variables
 	{
 		$$ = new string(*$1);
@@ -442,7 +424,8 @@ lit
 			*$$ += " " + *ssi;
 		}
 	}
-	|
+	|	TRUE	{ $$ = $1; }
+	|	FALSE	{ $$ = $1; }
 	;
 /************* PROBLEMS ***************************/
 
@@ -459,7 +442,7 @@ problem
 		reader.objects = *$5;
 		reader.init = *$6;
 		reader.goal = *$7;
-		cout << "problem done" << endl;
+		// cout << "problem done" << endl;
 	}
 	;
 problemDecl
@@ -522,7 +505,7 @@ init
 	:	LEFT_PAREN COLON INIT LEFT_PAREN formula RIGHT_PAREN RIGHT_PAREN
 	{
 		$$ = $5;
-		cout << "init done" << endl;
+		// cout << "init done" << endl;
 	}
 	;
 /** goal **/

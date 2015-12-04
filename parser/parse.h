@@ -40,62 +40,64 @@
       know about them.  */
    enum yytokentype {
      NAME = 258,
-     VARIABLE = 259,
-     K = 260,
-     DK = 261,
-     AND = 262,
-     OR = 263,
-     NOT = 264,
-     IMPLY = 265,
-     ONEOF = 266,
-     LEFT_PAREN = 267,
-     RIGHT_PAREN = 268,
-     COMMA = 269,
-     COLON = 270,
-     CONNECTOR = 271,
-     DEFINE = 272,
-     DOMAIN = 273,
-     TYPES = 274,
-     PREDICATES = 275,
-     PRECONDITION = 276,
-     ACTION = 277,
-     PARAMETERS = 278,
-     OBSERVE = 279,
-     EFFECT = 280,
-     PROBLEM = 281,
-     OBJECTS = 282,
-     INIT = 283,
-     GOAL = 284
+     K = 259,
+     DK = 260,
+     AND = 261,
+     OR = 262,
+     NOT = 263,
+     IMPLY = 264,
+     ONEOF = 265,
+     TRUE = 266,
+     FALSE = 267,
+     LEFT_PAREN = 268,
+     RIGHT_PAREN = 269,
+     COMMA = 270,
+     COLON = 271,
+     CONNECTOR = 272,
+     DEFINE = 273,
+     DOMAIN = 274,
+     TYPES = 275,
+     PREDICATES = 276,
+     PRECONDITION = 277,
+     ACTION = 278,
+     PARAMETERS = 279,
+     OBSERVE = 280,
+     EFFECT = 281,
+     PROBLEM = 282,
+     OBJECTS = 283,
+     INIT = 284,
+     GOAL = 285
    };
 #endif
 /* Tokens.  */
 #define NAME 258
-#define VARIABLE 259
-#define K 260
-#define DK 261
-#define AND 262
-#define OR 263
-#define NOT 264
-#define IMPLY 265
-#define ONEOF 266
-#define LEFT_PAREN 267
-#define RIGHT_PAREN 268
-#define COMMA 269
-#define COLON 270
-#define CONNECTOR 271
-#define DEFINE 272
-#define DOMAIN 273
-#define TYPES 274
-#define PREDICATES 275
-#define PRECONDITION 276
-#define ACTION 277
-#define PARAMETERS 278
-#define OBSERVE 279
-#define EFFECT 280
-#define PROBLEM 281
-#define OBJECTS 282
-#define INIT 283
-#define GOAL 284
+#define K 259
+#define DK 260
+#define AND 261
+#define OR 262
+#define NOT 263
+#define IMPLY 264
+#define ONEOF 265
+#define TRUE 266
+#define FALSE 267
+#define LEFT_PAREN 268
+#define RIGHT_PAREN 269
+#define COMMA 270
+#define COLON 271
+#define CONNECTOR 272
+#define DEFINE 273
+#define DOMAIN 274
+#define TYPES 275
+#define PREDICATES 276
+#define PRECONDITION 277
+#define ACTION 278
+#define PARAMETERS 279
+#define OBSERVE 280
+#define EFFECT 281
+#define PROBLEM 282
+#define OBJECTS 283
+#define INIT 284
+#define GOAL 285
 
 
 
@@ -119,7 +121,7 @@ typedef union YYSTYPE
   Formula* tree;
 }
 /* Line 1529 of yacc.c.  */
-#line 123 "parse.h"
+#line 125 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

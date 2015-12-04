@@ -10,12 +10,10 @@
 #include "parse.h"	//用yacc编译yacc.y后生成的C头文件，内含%token、YYSTYPE、yylval等定义(都是C宏)，供lex.yy.c和yacc.tab.c使用
 
 int yyerror(char *s);
-int yylineno1 = 1;
 
 %}
 
-name				[a-zA-Z][a-zA-Z_0-9\-]*
-variable			\?{name}
+name				[a-zA-Z\?][a-zA-Z_0-9\-]*
 
 %%
 
@@ -42,13 +40,15 @@ variable			\?{name}
 "parameters"		{ return PARAMETERS; }
 "observe"			{ return OBSERVE; }
 "effect"			{ return EFFECT; }
-"problem"			{ return PROBLEM; }
+"problem"			{ yylineno = 1; return PROBLEM; }
 "objects"			{ return OBJECTS; }
 "init"				{ return INIT; }
 "goal"				{ return GOAL; }
 
+"True"				{ return TRUE; }
+"False"				{ return FALSE; }
+
 {name}				{ yylval.str = new string(yytext); return NAME; }
-{variable}			{ yylval.str = new string(yytext); return VARIABLE; }
 \n 					{ yylineno++; }
 %%
 

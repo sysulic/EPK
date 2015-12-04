@@ -19,12 +19,25 @@ void printTree(Formula & f, size_t deep) {
 	}
 }
 
+/*
+ * This function is to replace all "->"s in binary tree
+ * with "|" and "!".
+ *
+ * E.g:
+ *  a imply b <=> !a V b
+ *  ----------- ---------------- --------------------
+ * | epddl-doc |  imply b-tree  |  non-imply b-tree  |
+ *  -------------------------------------------------
+ * | imply (a) |     imply      |         |          |
+ * |       (b) |     /   \      |       /   \        |
+ * |           |    a    b      |      !    b        |
+ * |           |                |      a             |
+ *  ----------- ---------------- --------------------
+ */
 void removeImply(Formula & f) {
 	if(f.label == "->")
 	{
-		Formula* leftF = new Formula();
-		leftF->label = "!";
-		leftF->left = f.left;
+		Formula* leftF = new Formula("!", f.left, NULL);
 
 		f.label = "|";
 		f.left = leftF;
@@ -40,46 +53,87 @@ void removeImply(Formula & f) {
 	return;
 }
 
+/*
+ * This function is to replace all "oneof"s in binary tree
+ * with "&", "|" and "!".
+ *
+ * E.g:
+ *  oneof (a) (b) (c) <=> (!a&b&c) | (a&!b&c) | (a&b&!c)
+ *  ----------- ---------------- --------------------------
+ * | epddl-doc |  oneof b-tree  |       non-oneof b-tree   |
+ *  -------------------------------------------------------
+ * | oneof (a) |     oneof      |               |          |
+ * |       (b) |     /   \      |           /       \      |
+ * |       (c) |  oneof  c      |          |         &     |
+ * |           |   / \          |        /   \     /   \   |
+ * |           |  a  b          |       &    &    &    !   |
+ * |           |                |      /\   /\   /\   /    |
+ * |           |                |     & c  & c  a b  c     |
+ * |           |                |    / \  / \              |
+ * |           |                |   !  b a  !              |
+ * |           |                |  /       /               |
+ * |           |                | a       b                |
+ *  ----------- ---------------- --------------------------
+ */
 void removeOneof(Formula & f) {
 	if(f.label == "oneof")
 	{
-		vector<Formula*> oneof_vector, prop_vector;
-		// process oneof
-		prop_vector.push_back(f.right);
-		Formula* pf = f.left;
-		bool temp = false;
-		while (pf->label == "oneof") {
-			oneof_vector.push_back(pf);
-			prop_vector.push_back(pf->right);
-			pf = pf->left;
-			temp = true;
-		}
-		if (temp) prop_vector.push_back(pf);  // leftest leaf of oneof
-		else prop_vector.push_back(pf->left);
-
-		// print for debug
-		vector<Formula*>::iterator it = prop_vector.begin();
-		for ( ; it != prop_vector.end(); it++)
-		{
-			cout << (*it)->label << endl;
-		}
-
-/*
-		// construct left
-		Formula* f11 = new Formula(*f.left);  // "1" means "left", "2" means "right"
-		Formula* f121 = new Formula(*f.right);  // sequence means deepth
-		Formula* f12 = new Formula(*f.right); f12->label = "!"; f12->left = f121; f12->right = NULL;
-		Formula* f1 = new Formula; f1->label = "&"; f1->left = f11; f1->right = f12;
-		// construct right
-		Formula* f21 = new Formula; f21->label = "!"; f21->left = f.left; f21->right = NULL;
-		Formula* f2 = new Formula; f2->label = "&"; f2->left = f21; f2->right = f.right;
-
 		f.label = "|";
-		f.left = f1;
-		f.right = f2;
-		*/
+		vector<Formula*> clause_vec;  // points to each prop in the leaf
+		vector<string> prop_vec;  // props in the leaf
+		if (f.right == NULL) {
+			cout << "Warning: at least two atomic propositions with oneof!\n";
+			return;
+		}
+		clause_vec.push_back(f.right);
+		prop_vec.push_back(f.right->label);
+		Formula* pf = f.left;
+		bool only_oneof = false;
+		while (pf->label == "oneof") {
+			pf->label = "|";
+			clause_vec.push_back(pf->right);
+			prop_vec.push_back(pf->right->label);
+			pf = pf->left;
+			only_oneof = true;
+		}
+		if (only_oneof) { 
+			clause_vec.push_back(pf);  // leftest leaf of oneof
+			prop_vec.push_back(pf->label);
+		} else {
+			clause_vec.push_back(pf);
+			prop_vec.push_back(pf->label);
+		}
 
-	return;
+cout << clause_vec.size() << endl;
+cout << prop_vec.size() << endl;
+
+		const size_t prop_size = prop_vec.size();
+		vector<Formula*>::iterator clause_it = clause_vec.begin();
+		// neg_counter - a tag for locating which literal should be the negative
+		for (int neg_counter = 0; clause_it != clause_vec.end(); clause_it++, neg_counter++)
+		{
+			// generate a CNF in place of the prop in every leaf
+			size_t i;
+			for (i = 0; i < prop_size-1; i++)
+			{
+				(*clause_it)->label = "&";
+				(*clause_it)->left = new Formula();
+				if (i == neg_counter) {
+					(*clause_it)->right = new Formula("!");
+					(*clause_it)->right->left = new Formula(prop_vec.at(i));
+				} else {
+					(*clause_it)->right = new Formula(prop_vec.at(i));
+				}
+				*clause_it = (*clause_it)->left;
+			}
+			if (i == neg_counter) {
+				(*clause_it)->label = "!";
+				(*clause_it)->left = new Formula(prop_vec.at(i));
+			} else {
+				(*clause_it)->label = prop_vec.at(i);
+			}
+		}
+
 	}
 	if (f.left != NULL)
 	{
@@ -122,7 +176,7 @@ int main() {
 	puts("-----begin parsing");
 	extern FILE* yyin;  // yyin和yyout都是FILE*类型
 	yyin = fp_d;  // yacc会从yyin读取输入，yyin默认是标准输入，这里改为磁盘文件。yacc默认向yyout输出，可修改yyout改变输出目的
-	yyparse();
+	//yyparse();
 	yyin = fp_p;
 	yyparse();
 	puts("-----end parsing");
@@ -138,19 +192,21 @@ int main() {
 	size_t atomicCounter = 0;
 	for (set<string>::iterator it = reader.atomicPropSet.begin();
 			it != reader.atomicPropSet.end(); ++it) {
-		cout << *it << endl;
+		// cout << *it << endl;
 		atomicByName.insert( pair<string, int>(*it, atomicCounter++) );
 		atomicByIndex.insert( pair<int, string>((atomicCounter), *it) );
 	}
 	atomicCounter--;
 
 	// print init
-	cout << "------Begin-----init Tree-------------------" << endl;
+	cout << "------Begin-----init Tree-------------------\n";
 	printTree(reader.init, 0);
-	cout << "-------End------init Tree-------------------" << endl;
+	cout << "-------End------init Tree-------------------\n\n";
 	
+	cout << "------Begin-----init CNF Tree-------------------\n";
 	convertToDNFTree(reader.init);
 	printTree(reader.init, 0);
+	cout << "-------End------init CNF Tree-------------------\n\n";
 
 	// print goal
 	//cout << "------Begin-----goal Tree-------------------" << endl;
