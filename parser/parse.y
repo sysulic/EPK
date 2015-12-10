@@ -311,6 +311,7 @@ precondition
 // definition of any kinds of formulas which include 'K' or not
 formula
 	:	episFormula 		{ $$ = $1; }
+	|	objFormula 			{ $$ = $1; }
 	|	AND episFormulas	{ $$ = new Formula("&", $2->left, $2->right); }
 	|	OR episFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
 	;

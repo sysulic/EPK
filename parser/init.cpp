@@ -297,9 +297,21 @@ void convertToCNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
-	if (f.label == "|" &&
-		(f.left->label == "&" || (f.right != NULL && f.right->label == "&")))
-			inwardMoveAnd(f);
+	if (f.label == "|") {
+		/* several cases to make algorithm complete */
+		if (f.left->label == "->")
+			removeImply(*f.left);
+		if (f.right->label == "->")
+			removeImply(*f.right);
+		if (f.left && f.left->label == "!" &&
+			(f.left->left->label == "&" || f.left->left->label == "|"))
+			inwardMoveNot(*f.left);
+		if (f.right && f.right->label == "!" &&
+			(f.right->left->label == "&" || f.right->left->label == "|"))
+			inwardMoveNot(*f.right);
+		if (f.left && (f.left->label == "&" || (f.right && f.right->label == "&"))) {
+			inwardMoveOr(f);}
+	}
 
 	if (f.left != NULL)
 	{
@@ -360,7 +372,7 @@ int main() {
 	
 	// print init DNFed
 	cout << "------Begin-----init DNF Tree-------------------\n";
-	convertToDNFTree(reader.init);
+	convertToCNFTree(reader.init);
 	printTree(reader.init, 0);
 	cout << "-------End------init DNF Tree-------------------\n\n";
 /*
