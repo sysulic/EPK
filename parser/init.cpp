@@ -1,5 +1,6 @@
 #include "reader.h"
 
+
 Reader reader;
 
 int yyparse();
@@ -10,150 +11,304 @@ void printTree(Formula & f, size_t deep) {
 	if (f.left != NULL)
 	{
 		if (f.left->label == "same") f.left->label = f.label;
-		printTree(*(f.left), deep+1);
+		// cout << "left\n";
+		printTree(*f.left, deep+1);
 	}
 	if (f.right != NULL)
 	{
 		if (f.right->label == "same") f.right->label = f.label;
-		printTree(*(f.right), deep+1);
+		// cout << "right\n";
+		printTree(*f.right, deep+1);
 	}
 }
 
 /*
- * This function is to replace all "->"s in binary tree
- * with "|" and "!".
+ * The function is to replace all "->"s in
+ * binary tree with "|" and "!".
  *
  * E.g:
- *  a imply b <=> !a V b
- *  ----------- ---------------- --------------------
- * | epddl-doc |  imply b-tree  |  non-imply b-tree  |
- *  -------------------------------------------------
- * | imply (a) |     imply      |         |          |
- * |       (b) |     /   \      |       /   \        |
- * |           |    a    b      |      !    b        |
- * |           |                |      a             |
- *  ----------- ---------------- --------------------
+ *             A -> B <=> ¬A V B
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | imply (A) |     imply     |       |      |
+ * |       (B) |     /   \     |     /   \    |
+ * |           |    A    B     |    !    B    |
+ * |           |               |    A         |
+ *  ------------------------------------------
  */
 void removeImply(Formula & f) {
-	if(f.label == "->")
-	{
-		Formula* leftF = new Formula("!", f.left, NULL);
-
-		f.label = "|";
-		f.left = leftF;
-	}
-	if (f.left != NULL)
-	{
-		removeImply(*(f.left));
-	}
-	if (f.right != NULL)
-	{
-		removeImply(*(f.right));
-	}
-	return;
+	Formula* leftF = new Formula("!", f.left, NULL);
+	f.label = "|";
+	f.left = leftF;
 }
 
 /*
- * This function is to replace all "oneof"s in binary tree
+ * The function is to replace all "oneof"s in binary tree
  * with "&", "|" and "!".
  *
  * E.g:
- *  oneof (a) (b) (c) <=> (!a&b&c) | (a&!b&c) | (a&b&!c)
- *  ----------- ---------------- --------------------------
- * | epddl-doc |  oneof b-tree  |       non-oneof b-tree   |
- *  -------------------------------------------------------
- * | oneof (a) |     oneof      |               |          |
- * |       (b) |     /   \      |           /       \      |
- * |       (c) |  oneof  c      |          |         &     |
- * |           |   / \          |        /   \     /   \   |
- * |           |  a  b          |       &    &    &    !   |
- * |           |                |      /\   /\   /\   /    |
- * |           |                |     & c  & c  a b  c     |
- * |           |                |    / \  / \              |
- * |           |                |   !  b a  !              |
- * |           |                |  /       /               |
- * |           |                | a       b                |
- *  ----------- ---------------- --------------------------
+ *  oneof (A) (B) (C) <=> (¬A^B^C) V (A^¬B^C) V (A^B^¬C)
+ *  ----------------------------------------------------
+ * | epddl-doc | before b-tree |      after b-tree      |
+ *  ----------------------------------------------------
+ * | oneof (A) |     oneof     |               |        |
+ * |       (B) |     /   \     |           /       \    |
+ * |       (C) |  oneof  C     |          |         &   |
+ * |           |   / \         |        /   \     /   \ |
+ * |           |  A  B         |       &    &    &    ! |
+ * |           |               |      /\   /\   /\   /  |
+ * |           |               |     & C  & C  A B  C   |
+ * |           |               |    / \  / \            |
+ * |           |               |   !  B A  !            |
+ * |           |               |  /       /             |
+ * |           |               | A       B              |
+ *  ----------------------------------------------------
  */
 void removeOneof(Formula & f) {
-	if(f.label == "oneof")
+	// cout << "In function removeOneof, root: " f.label << "\n";
+	f.label = "|";
+	vector<Formula*> clause_vec;  // points to each prop in the leaf
+	vector<string> prop_vec;  // props in the leaf
+	if (f.right == NULL) {
+		cout << "Warning: at least two atomic propositions with oneof!\n";
+		return;
+	}
+	clause_vec.push_back(f.right);
+	prop_vec.push_back(f.right->label);
+	Formula* pf = f.left;
+	bool only_oneof = false;
+	while (pf->label == "oneof") {
+		pf->label = "|";
+		clause_vec.push_back(pf->right);
+		prop_vec.push_back(pf->right->label);
+		pf = pf->left;
+		only_oneof = true;
+	}
+	if (only_oneof) { 
+		clause_vec.push_back(pf);  // leftest leaf of oneof
+		prop_vec.push_back(pf->label);
+	} else {
+		clause_vec.push_back(pf);
+		prop_vec.push_back(pf->label);	
+	}
+
+// cout << clause_vec.size() << endl;
+// cout << prop_vec.size() << endl;
+
+	const size_t prop_size = prop_vec.size();
+	vector<Formula*>::iterator clause_it = clause_vec.begin();
+	// neg_counter - a tag for locating which literal should be the negative
+	for (int neg_counter = 0; clause_it != clause_vec.end(); clause_it++, neg_counter++)
 	{
-		f.label = "|";
-		vector<Formula*> clause_vec;  // points to each prop in the leaf
-		vector<string> prop_vec;  // props in the leaf
-		if (f.right == NULL) {
-			cout << "Warning: at least two atomic propositions with oneof!\n";
-			return;
-		}
-		clause_vec.push_back(f.right);
-		prop_vec.push_back(f.right->label);
-		Formula* pf = f.left;
-		bool only_oneof = false;
-		while (pf->label == "oneof") {
-			pf->label = "|";
-			clause_vec.push_back(pf->right);
-			prop_vec.push_back(pf->right->label);
-			pf = pf->left;
-			only_oneof = true;
-		}
-		if (only_oneof) { 
-			clause_vec.push_back(pf);  // leftest leaf of oneof
-			prop_vec.push_back(pf->label);
-		} else {
-			clause_vec.push_back(pf);
-			prop_vec.push_back(pf->label);
-		}
-
-cout << clause_vec.size() << endl;
-cout << prop_vec.size() << endl;
-
-		const size_t prop_size = prop_vec.size();
-		vector<Formula*>::iterator clause_it = clause_vec.begin();
-		// neg_counter - a tag for locating which literal should be the negative
-		for (int neg_counter = 0; clause_it != clause_vec.end(); clause_it++, neg_counter++)
+		// generate a CNF in place of the prop in every leaf
+		size_t i;
+		for (i = 0; i < prop_size-1; i++)
 		{
-			// generate a CNF in place of the prop in every leaf
-			size_t i;
-			for (i = 0; i < prop_size-1; i++)
-			{
-				(*clause_it)->label = "&";
-				(*clause_it)->left = new Formula();
-				if (i == neg_counter) {
-					(*clause_it)->right = new Formula("!");
-					(*clause_it)->right->left = new Formula(prop_vec.at(i));
-				} else {
-					(*clause_it)->right = new Formula(prop_vec.at(i));
-				}
-				*clause_it = (*clause_it)->left;
-			}
+			(*clause_it)->label = "&";
+			(*clause_it)->left = new Formula();
 			if (i == neg_counter) {
-				(*clause_it)->label = "!";
-				(*clause_it)->left = new Formula(prop_vec.at(i));
+				(*clause_it)->right = new Formula("!");
+				(*clause_it)->right->left = new Formula(prop_vec.at(i));
 			} else {
-				(*clause_it)->label = prop_vec.at(i);
+				(*clause_it)->right = new Formula(prop_vec.at(i));
 			}
+			*clause_it = (*clause_it)->left;
 		}
+		if (i == neg_counter) {
+			(*clause_it)->label = "!";
+			(*clause_it)->left = new Formula(prop_vec.at(i));
+		} else {
+			(*clause_it)->label = prop_vec.at(i);
+		}
+	}
+	// cout << "In function removeOneof, root: " f.label << " doen\n";
+}
 
-	}
-	if (f.left != NULL)
-	{
-		removeOneof(*(f.left));
-	}
-	if (f.right != NULL)
-	{
-		removeOneof(*(f.right));
-	}
+/*
+ * The function is to move all "!"s to the
+ * front of atomic propositions
+ *
+ * E.g:
+ *           ¬(A ^ B) <=> ¬A V ¬B
+ *           ¬(A V B) <=> ¬A ^ ¬B
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | After b-tree |
+ *  ------------------------------------------
+ * | not(and   |        !      |        |     |
+ * |       (A) |       /       |      /   \   |
+ * |       (B) |      &        |     !    !   |
+ * |    )      |     / \       |    /    /    |
+ * |           |    A  B       |   A    B     |
+ *  ------------------------------------------
+ * | not(or    |        !      |        &     |
+ * |       (A) |       /       |      /   \   |
+ * |       (B) |      |        |     !    !   |
+ * |    )      |     / \       |    /    /    |
+ * |           |    A  B       |   A    B     |
+ *  ------------------------------------------
+ */
+void inwardMoveNot(Formula & f) {
+	// cout << "In function inwardMoveNot, root: " << f.label << "\n";
+	Formula* r = new Formula("!", f.left->right, NULL);
+
+	if (f.left->label == "&") f.label = "|";
+	else f.label = "&";
+	f.right = r;
+
+	f.left->right = NULL;
+	f.left->label = "!";
+	// cout << "In function inwardMoveNot, root: " << f.label << " doen\n";
 	return;
 }
 
-void toDNF(Formula & f) {
+/*
+ * The function is to move all "&"s to the
+ * underneath of all "|"s by distributive law.
+ *
+ * E.g:
+ *        (AVB) ^ C <=> A^C V B^C
+ *        A ^ (BVC) <=> A^B V A^C
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | and(or    |       &       |       |      |
+ * |       (A) |      / \      |     /   \    |
+ * |       (B) |     |  C      |    &    &    |
+ * |    )      |    / \        |   / \  / \   |
+ * |    (C)    |   A  B        |  A  C B  C   |
+ *  ------------------------------------------
+ * | and(A)    |       &       |       |      |
+ * |    (or    |      / \      |     /   \    |
+ * |       (B) |     A  |      |    &    &    |
+ * |       (C) |       / \     |   / \  / \   |
+ * |    )      |      B  C     |  A  B A  C   |
+ *  ------------------------------------------
+ */
+void inwardMoveAnd(Formula & f) {
+	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
+	if (f.left->label == "|") {
+		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
+		Formula* r = new Formula("&", f.left->right, rr);
+		f.left->right = f.right;
+		f.left->label = "&";
+		f.right = r;
+		f.label = "|";
+	// cout << "left label is | : doen\n";
+	} else {
+		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
+		Formula* l = new Formula("&", ll, f.right->left);
+		f.right->left = f.left;
+		f.right->label = "&";
+		f.left = l;
+		f.label = "|";
+	// cout << "left label is & : doen\n";
+	}
+	// cout << "In function inwardMoveAnd, root: " << f.label << " doen\n";
+	return;
+}
+
+/*
+ * The function is to move all "|"s to the
+ * underneath of all "&"s by distributive law.
+ *
+ * E.g:
+ *        A^B V C <=> (AVC) ^ (BVC)
+ *        A V B^C <=> (AVB) ^ (AVC)
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | or(and    |       |       |       &      |
+ * |       (A) |      / \      |     /   \    |
+ * |       (B) |     &  C      |    |    |    |
+ * |   )       |    / \        |   / \  / \   |
+ * |   (C)     |   A  B        |  A  C B  C   |
+ *  ------------------------------------------
+ * | or (A)    |       |       |       &      |
+ * |    (and   |      / \      |     /   \    |
+ * |       (B) |     A  &      |    |    |    |
+ * |       (C) |       / \     |   / \  / \   |
+ * |    )      |      B  C     |  A  B A  C   |
+ *  ------------------------------------------
+ */
+void inwardMoveOr(Formula & f) {
+	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
+	if (f.left->label == "&") {
+		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
+		Formula* r = new Formula("|", f.left->right, rr);
+		f.left->right = f.right;
+		f.left->label = "|";
+		f.right = r;
+		f.label = "&";
+	// cout << "left label is | : doen\n";
+	} else {
+		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
+		Formula* l = new Formula("|", ll, f.right->left);
+		f.right->left = f.left;
+		f.right->label = "|";
+		f.left = l;
+		f.label = "&";
+	// cout << "left label is & : doen\n";
+	}
+	// cout << "In function inwardMoveAnd, root: " << f.label << " doen\n";
 	return;
 }
 
 void convertToDNFTree(Formula & f) {
-	removeImply(f);
-	removeOneof(f);
-	toDNF(f);
+	if (f.label == "->")
+		removeImply(f);
+	if (f.label == "oneof")
+		removeOneof(f);
+	if (f.label == "!" &&
+		(f.left->label == "&" || f.left->label == "|"))
+			inwardMoveNot(f);
+	if (f.label == "&") {
+		/* several cases to make algorithm complete */
+		if (f.left->label == "->")
+			removeImply(*f.left);
+		if (f.right->label == "->")
+			removeImply(*f.right);
+		if (f.left && f.left->label == "!" &&
+			(f.left->left->label == "&" || f.left->left->label == "|"))
+			inwardMoveNot(*f.left);
+		if (f.right && f.right->label == "!" &&
+			(f.right->left->label == "&" || f.right->left->label == "|"))
+			inwardMoveNot(*f.right);
+		if (f.left && (f.left->label == "|" || (f.right && f.right->label == "|")))
+			inwardMoveAnd(f);
+	}
+
+	if (f.left != NULL)
+	{
+		convertToDNFTree(*f.left);
+	}
+	if (f.right != NULL)
+	{
+		convertToDNFTree(*f.right);
+	}
+	return;
+}
+
+void convertToCNFTree(Formula & f) {
+	if (f.label == "->")
+		removeImply(f);
+	if (f.label == "oneof")
+		removeOneof(f);
+	if (f.label == "!" &&
+		(f.left->label == "&" || f.left->label == "|"))
+			inwardMoveNot(f);
+	if (f.label == "|" &&
+		(f.left->label == "&" || (f.right != NULL && f.right->label == "&")))
+			inwardMoveAnd(f);
+
+	if (f.left != NULL)
+	{
+		convertToDNFTree(*f.left);
+	}
+	if (f.right != NULL)
+	{
+		convertToDNFTree(*f.right);
+	}
 	return;
 }
 
@@ -203,16 +358,23 @@ int main() {
 	printTree(reader.init, 0);
 	cout << "-------End------init Tree-------------------\n\n";
 	
-	cout << "------Begin-----init CNF Tree-------------------\n";
+	// print init DNFed
+	cout << "------Begin-----init DNF Tree-------------------\n";
 	convertToDNFTree(reader.init);
 	printTree(reader.init, 0);
-	cout << "-------End------init CNF Tree-------------------\n\n";
-
+	cout << "-------End------init DNF Tree-------------------\n\n";
+/*
 	// print goal
-	//cout << "------Begin-----goal Tree-------------------" << endl;
-	//searchTree(reader.goal);
-	//cout << "-------End------goal Tree-------------------" << endl;
-
+	cout << "------Begin-----goal Tree-------------------\n";
+	printTree(reader.goal, 0);
+	cout << "-------End------goal Tree-------------------\n\n";
+	
+	// print goal DNFed
+	cout << "------Begin-----goal CNF Tree-------------------\n";
+	convertToCNFTree(reader.goal);
+	printTree(reader.goal, 0);
+	cout << "-------End------goal CNF Tree-------------------\n\n";
+*/
 
 /*
 	// prop grounding **
