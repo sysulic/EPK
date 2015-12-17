@@ -114,10 +114,10 @@ typedef union YYSTYPE
   PredicateSet* pre_set;
   Effect* eff;
   EffectList* eff_set;
-  SenseAction* sense_action;
-  OnticAction* ontic_action;
-  SenseActionList* sense_list;
-  OnticActionList* ontic_list;
+  PreSenseAction* sense_action;
+  PreOnticAction* ontic_action;
+  PreSenseActionList* sense_list;
+  PreOnticActionList* ontic_list;
   Formula* tree;
 }
 /* Line 1529 of yacc.c.  */

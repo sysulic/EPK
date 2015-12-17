@@ -1,11 +1,66 @@
 #include "reader.h"
 
-
 Reader reader;
 
 int yyparse();
 
-void printTree(Formula & f, size_t deep) {
+Reader::Reader() {
+
+	const char* dFile="../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
+	const char* pFile="../epddl-doc/demo/demo_p.epddl";  // 打开要读取的文本文件
+	FILE* fp_d=fopen(dFile, "r");
+	FILE* fp_p=fopen(pFile, "r");
+	if(fp_d==NULL)
+	{
+		printf("cannot open %s\n", dFile);
+		return;
+	}
+	if(fp_p==NULL)
+	{
+		printf("cannot open %s\n", pFile);
+		return;
+	}
+	puts("-----begin parsing");
+	extern FILE* yyin;  // yyin和yyout都是FILE*类型
+	yyin = fp_d;  // yacc会从yyin读取输入，yyin默认是标准输入，这里改为磁盘文件。yacc默认向yyout输出，可修改yyout改变输出目的
+	yyparse();
+	yyin = fp_p;
+	yyparse();
+	puts("-----end parsing");
+	fclose(fp_d);
+	fclose(fp_p);
+
+/*
+	// print init
+	cout << "------Begin-----init Tree-------------------\n";
+	printTree(reader.init, 0);
+	cout << "-------End------init Tree-------------------\n\n";
+	
+	// print init DNFed
+	cout << "------Begin-----init DNF Tree-------------------\n";
+	convertToCNFTree(reader.init);
+	printTree(reader.init, 0);
+	cout << "-------End------init DNF Tree-------------------\n\n";
+
+	// print goal
+	cout << "------Begin-----goal Tree-------------------\n";
+	printTree(reader.goal, 0);
+	cout << "-------End------goal Tree-------------------\n\n";
+	
+	// print goal DNFed
+	cout << "------Begin-----goal CNF Tree-------------------\n";
+	convertToCNFTree(reader.goal);
+	printTree(reader.goal, 0);
+	cout << "-------End------goal CNF Tree-------------------\n\n";
+*/
+
+}
+
+Reader::~Reader() {
+
+}
+
+void Reader::printTree(Formula & f, size_t deep) {
 	for (int i = 0; i < deep; i++) cout << " ";
 	cout << f.label << endl;
 	if (f.left != NULL)
@@ -37,7 +92,7 @@ void printTree(Formula & f, size_t deep) {
  * |           |               |    A         |
  *  ------------------------------------------
  */
-void removeImply(Formula & f) {
+void Reader::removeImply(Formula & f) {
 	Formula* leftF = new Formula("!", f.left, NULL);
 	f.label = "|";
 	f.left = leftF;
@@ -48,24 +103,24 @@ void removeImply(Formula & f) {
  * with "&", "|" and "!".
  *
  * E.g:
- *  oneof (A) (B) (C) <=> (¬A^B^C) V (A^¬B^C) V (A^B^¬C)
- *  ----------------------------------------------------
- * | epddl-doc | before b-tree |      after b-tree      |
- *  ----------------------------------------------------
- * | oneof (A) |     oneof     |               |        |
- * |       (B) |     /   \     |           /       \    |
- * |       (C) |  oneof  C     |          |         &   |
- * |           |   / \         |        /   \     /   \ |
- * |           |  A  B         |       &    &    &    ! |
- * |           |               |      /\   /\   /\   /  |
- * |           |               |     & C  & C  A B  C   |
- * |           |               |    / \  / \            |
- * |           |               |   !  B A  !            |
- * |           |               |  /       /             |
- * |           |               | A       B              |
- *  ----------------------------------------------------
+ *  oneof (A) (B) (C) <=> (A^¬B^¬C) V (¬A^B^¬C) V (¬A^¬B^C)
+ *  -----------------------------------------------------
+ * | epddl-doc | before b-tree |       after b-tree      |
+ *  -----------------------------------------------------
+ * | oneof (A) |     oneof     |                |        |
+ * |       (B) |     /   \     |           /          \  |
+ * |       (C) |    /    C     |          |           &  |
+ * |           |   / \         |       /     \      /  \ |
+ * |           |  A  B         |      &      &     &   C |
+ * |           |               |    /   \  /   \  / \    |
+ * |           |               |   &    ! &    ! !  !    |
+ * |           |               |  / \  / / \  / /  /     |
+ * |           |               | A  ! C !  B ! A  B      |
+ * |           |               |   /   /    /            |
+ * |           |               |  B   A    C             |
+ *  -----------------------------------------------------
  */
-void removeOneof(Formula & f) {
+void Reader::removeOneof(Formula & f) {
 	// cout << "In function removeOneof, root: " f.label << "\n";
 	f.label = "|";
 	vector<Formula*> clause_vec;  // points to each prop in the leaf
@@ -92,10 +147,6 @@ void removeOneof(Formula & f) {
 		clause_vec.push_back(pf);
 		prop_vec.push_back(pf->label);	
 	}
-
-// cout << clause_vec.size() << endl;
-// cout << prop_vec.size() << endl;
-
 	const size_t prop_size = prop_vec.size();
 	vector<Formula*>::iterator clause_it = clause_vec.begin();
 	// neg_counter - a tag for locating which literal should be the negative
@@ -107,7 +158,7 @@ void removeOneof(Formula & f) {
 		{
 			(*clause_it)->label = "&";
 			(*clause_it)->left = new Formula();
-			if (i == neg_counter) {
+			if (i != neg_counter) {
 				(*clause_it)->right = new Formula("!");
 				(*clause_it)->right->left = new Formula(prop_vec.at(i));
 			} else {
@@ -115,7 +166,8 @@ void removeOneof(Formula & f) {
 			}
 			*clause_it = (*clause_it)->left;
 		}
-		if (i == neg_counter) {
+		// process the leftest leaf
+		if (i != neg_counter) {
 			(*clause_it)->label = "!";
 			(*clause_it)->left = new Formula(prop_vec.at(i));
 		} else {
@@ -148,7 +200,7 @@ void removeOneof(Formula & f) {
  * |           |    A  B       |   A    B     |
  *  ------------------------------------------
  */
-void inwardMoveNot(Formula & f) {
+void Reader::inwardMoveNot(Formula & f) {
 	// cout << "In function inwardMoveNot, root: " << f.label << "\n";
 	Formula* r = new Formula("!", f.left->right, NULL);
 
@@ -159,6 +211,56 @@ void inwardMoveNot(Formula & f) {
 	f.left->right = NULL;
 	f.left->label = "!";
 	// cout << "In function inwardMoveNot, root: " << f.label << " doen\n";
+	return;
+}
+
+/*
+ * The function is to merge all "K"s to one "K".
+ *
+ * E.g:
+ *           K(A) ^ K(B) <=> K(A^B)
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | and(K(A)) |        &      |       K      |
+ * |    (K(B)) |       / \     |      /       |
+ * |           |      K  K     |     &        |
+ * |           |     /  /      |    / \       |
+ * |           |    A  B       |   A  B       |
+ *  ------------------------------------------
+ */
+void Reader::mergeK(Formula & f) {
+	// cout << "In function mergeK, root: " << f.label << "\n";
+	f.left = f.right->left;
+	delete f.right;
+	f.label = "K";
+	f.left->label = "&";
+	// cout << "In function mergeK, root: " << f.label << " doen\n";
+	return;
+}
+
+/*
+ * The function is to merge all "DK"s to one "DK".
+ *
+ * E.g:
+ *           DK(A) V DK(B) <=> DK(AVB)
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | or(DK(A)) |        |      |       DK     |
+ * |   (DK(B)) |      /   \    |       /      |
+ * |           |     DK   DK   |      |       |
+ * |           |    /    /     |     / \      |
+ * |           |   A    B      |    A  B      |
+ *  ------------------------------------------
+ */
+void Reader::mergeDK(Formula & f) {
+	// cout << "In function mergeDK, root: " << f.label << "\n";
+	f.left = f.right->left;
+	delete f.right;
+	f.label = "DK";
+	f.left->label = "|";
+	// cout << "In function mergeDK, root: " << f.label << " doen\n";
 	return;
 }
 
@@ -185,7 +287,7 @@ void inwardMoveNot(Formula & f) {
  * |    )      |      B  C     |  A  B A  C   |
  *  ------------------------------------------
  */
-void inwardMoveAnd(Formula & f) {
+void Reader::inwardMoveAnd(Formula & f) {
 	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
 	if (f.left->label == "|") {
 		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
@@ -231,7 +333,7 @@ void inwardMoveAnd(Formula & f) {
  * |    )      |      B  C     |  A  B A  C   |
  *  ------------------------------------------
  */
-void inwardMoveOr(Formula & f) {
+void Reader::inwardMoveOr(Formula & f) {
 	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
 	if (f.left->label == "&") {
 		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
@@ -254,7 +356,7 @@ void inwardMoveOr(Formula & f) {
 	return;
 }
 
-void convertToDNFTree(Formula & f) {
+void Reader::convertToDNFTree(Formula & f) {
 	if (f.label == "->")
 		removeImply(f);
 	if (f.label == "oneof")
@@ -262,19 +364,27 @@ void convertToDNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
+	if (f.label == "|" &&
+		f.left->label == "K" && f.right && f.right->label == "K")
+			mergeK(f);
 	if (f.label == "&") {
 		/* several cases to make algorithm complete */
+		if (f.left->label == "&")
+			convertToDNFTree(*f.left);
+		if (f.left->label == "K" &&
+			f.right && f.right->label == "K")
+			mergeK(f);
 		if (f.left->label == "->")
 			removeImply(*f.left);
 		if (f.right->label == "->")
 			removeImply(*f.right);
-		if (f.left && f.left->label == "!" &&
+		if (f.left->label == "!" &&
 			(f.left->left->label == "&" || f.left->left->label == "|"))
 			inwardMoveNot(*f.left);
 		if (f.right && f.right->label == "!" &&
 			(f.right->left->label == "&" || f.right->left->label == "|"))
 			inwardMoveNot(*f.right);
-		if (f.left && (f.left->label == "|" || (f.right && f.right->label == "|")))
+		if (f.left->label == "|" || (f.right && f.right->label == "|"))
 			inwardMoveAnd(f);
 	}
 
@@ -289,7 +399,7 @@ void convertToDNFTree(Formula & f) {
 	return;
 }
 
-void convertToCNFTree(Formula & f) {
+void Reader::convertToCNFTree(Formula & f) {
 	if (f.label == "->")
 		removeImply(f);
 	if (f.label == "oneof")
@@ -297,73 +407,42 @@ void convertToCNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
+	if (f.label == "|" &&
+		f.left->label == "K" && f.right && f.right->label == "K")
+			mergeK(f);
 	if (f.label == "|") {
 		/* several cases to make algorithm complete */
+		if (f.left->label == "|")
+			convertToCNFTree(*f.left);
+		if (f.left->label == "K" &&
+			f.right && f.right->label == "K")
+			mergeK(f);
 		if (f.left->label == "->")
 			removeImply(*f.left);
 		if (f.right->label == "->")
 			removeImply(*f.right);
-		if (f.left && f.left->label == "!" &&
+		if (f.left->label == "!" &&
 			(f.left->left->label == "&" || f.left->left->label == "|"))
 			inwardMoveNot(*f.left);
 		if (f.right && f.right->label == "!" &&
 			(f.right->left->label == "&" || f.right->left->label == "|"))
 			inwardMoveNot(*f.right);
-		if (f.left && (f.left->label == "&" || (f.right && f.right->label == "&"))) {
-			inwardMoveOr(f);}
+		if (f.left->label == "&" || (f.right && f.right->label == "&"))
+			inwardMoveOr(f);
 	}
 
 	if (f.left != NULL)
 	{
-		convertToDNFTree(*f.left);
+		convertToCNFTree(*f.left);
 	}
 	if (f.right != NULL)
 	{
-		convertToDNFTree(*f.right);
+		convertToCNFTree(*f.right);
 	}
 	return;
 }
 
-int main() {
-
-	const char* dFile="../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
-	const char* pFile="../epddl-doc/demo/demo_p.epddl";  // 打开要读取的文本文件
-	FILE* fp_d=fopen(dFile, "r");
-	FILE* fp_p=fopen(pFile, "r");
-	if(fp_d==NULL)
-	{
-		printf("cannot open %s\n", dFile);
-		return -1;
-	}
-	if(fp_p==NULL)
-	{
-		printf("cannot open %s\n", pFile);
-		return -1;
-	}
-	puts("-----begin parsing");
-	extern FILE* yyin;  // yyin和yyout都是FILE*类型
-	yyin = fp_d;  // yacc会从yyin读取输入，yyin默认是标准输入，这里改为磁盘文件。yacc默认向yyout输出，可修改yyout改变输出目的
-	//yyparse();
-	yyin = fp_p;
-	yyparse();
-	puts("-----end parsing");
-	fclose(fp_d);
-	fclose(fp_p);
-	cout << endl;
-	
-	// final structure
-	map<string, int> atomicByName;
-	map<int, string> atomicByIndex;
-
-	// prop table ****
-	size_t atomicCounter = 0;
-	for (set<string>::iterator it = reader.atomicPropSet.begin();
-			it != reader.atomicPropSet.end(); ++it) {
-		// cout << *it << endl;
-		atomicByName.insert( pair<string, int>(*it, atomicCounter++) );
-		atomicByIndex.insert( pair<int, string>((atomicCounter), *it) );
-	}
-	atomicCounter--;
+void Reader::show() {
 
 	// print init
 	cout << "------Begin-----init Tree-------------------\n";
@@ -375,7 +454,7 @@ int main() {
 	convertToCNFTree(reader.init);
 	printTree(reader.init, 0);
 	cout << "-------End------init DNF Tree-------------------\n\n";
-/*
+
 	// print goal
 	cout << "------Begin-----goal Tree-------------------\n";
 	printTree(reader.goal, 0);
@@ -386,109 +465,5 @@ int main() {
 	convertToCNFTree(reader.goal);
 	printTree(reader.goal, 0);
 	cout << "-------End------goal CNF Tree-------------------\n\n";
-*/
 
-/*
-	// prop grounding **
-	for (PredicateSet::iterator predi = reader.predicates.begin();
-			predi != reader.predicates.end(); ++predi) {
-		for (MultiTypeSet::iterator type = (*predi).second.begin();
-				type != (*predi).second.end(); ++type) {
-			// find objects to the specific type
-			for (MultiTypeSet::iterator obj = reader.objects.begin();
-					obj != reader.objects.end(); ++obj) {
-				if((*type).first == (*obj).first) {
-					for (StringSet::iterator ob = (*obj).second.begin();
-						ob != (*obj).second.end(); ++ob)
-					{
-						cout << *ob << endl;
-						atomicByName.insert( pair<string, int>(*ob, atomicCounter++) );
-						atomicByIndex.insert( pair<int, string>((atomicCounter), *ob) );
-					}
-				}
-			}
-		}
-	}
-*/
-	// node to DNF and CNF
-
-
-
-	return 0;
 }
-
-//bool Planner::DNF(const Node* node, list<boost::dynamic_bitset<> >& f) {
-	
-//}
-
-/*
-bool Planner::DNF(const Node* node, list<boost::dynamic_bitset<> >& f) {	
-	bool leftOK, rightOK;
-	list<boost::dynamic_bitset<> > lf, rf;
-	list<boost::dynamic_bitset<> >::iterator itl, itr;	
-	boost::dynamic_bitset<> st;
-		
-	if (timeout()) return false;
-
-	if (node->label == "|") {		
-		leftOK = DNF(node->left, f);
-		if (timeout()) return false;
-
-		if (!leftOK) {			
-			if (!(rightOK = DNF(node->right, f)))
-				return false;
-			return true;
-		}
-		
-		rightOK = DNF(node->right, rf);
-		if (timeout()) return false;
-
-		if (!rightOK) {			
-			return true;
-		}
-		
-		if (annul(f, rf)) {
-			f.clear();
-			return true;
-		}
-
-		//f.splice(f.end(), rf);
-		f.merge(rf);
-		f.unique();
-
-		return true;
-	}	
-
-	if (node->label == "&") {		
-
-		leftOK = DNF(node->left, lf);
-		if (timeout()) return false;
-		if (!leftOK) return false;	
-
-		rightOK = DNF(node->right, rf);
-		if (timeout()) return false;		
-		if (!rightOK) return false;
-		
-		if (!lf.size()) {
-			f = rf;
-			return true;
-		}
-		else if (!rf.size()) {
-			f = lf;
-			return true;
-		}
-		else {			
-			merge(lf, rf, f);			
-		}				
-		if (!f.size())
-			return false;
-
-		return true;
-	}
-	
-	st.resize(m_literals.size());
-	st[ground(node->label)] = 1;	
-	f.push_back(st);
-	return true;
-}
-*/

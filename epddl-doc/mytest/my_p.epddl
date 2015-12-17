@@ -54,7 +54,11 @@
   			
   	  ))
   (DK (not (inRoom)))
-  (DK ())
+  (DK (oneof 
+             (a)
+             (b)
+      )
+  )
   (DK (not (lightOn)))
   )
 )

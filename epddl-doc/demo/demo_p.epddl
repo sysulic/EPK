@@ -1,6 +1,10 @@
 (define (problem demo)
 (:domain demo)
-(:objects)
+(:objects
+	aa
+	bb
+	cc - pos
+)
 (:init (and
   (K (and (imply (doorOpen) (inRoom)) 
           (imply (not (lightOn)) (not(inRoom)))
@@ -13,9 +17,7 @@
   )
 )
 
-(:goal (or
-  (K (inRoom))
-  (K (not (inRoom)))
-  )
+(:goal (oneof (a) (b) (c))
+  
 )
 )

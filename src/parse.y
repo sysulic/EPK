@@ -23,10 +23,10 @@ extern Reader reader;
   PredicateSet* pre_set;
   Effect* eff;
   EffectList* eff_set;
-  SenseAction* sense_action;
-  OnticAction* ontic_action;
-  SenseActionList* sense_list;
-  OnticActionList* ontic_list;
+  PreSenseAction* sense_action;
+  PreOnticAction* ontic_action;
+  PreSenseActionList* sense_list;
+  PreOnticActionList* ontic_list;
   Formula* tree;
 }
 
@@ -248,7 +248,7 @@ senseActionsDef
 	}
 	|	senseAction
 	{
-		$$ = new SenseActionList;
+		$$ = new PreSenseActionList;
 		$$->insert($$->begin(), *$1);
 	}
 	;
@@ -260,7 +260,7 @@ senseAction
 			COLON OBSERVE LEFT_PAREN observe RIGHT_PAREN
 		RIGHT_PAREN
 	{
-		$$ = new SenseAction;
+		$$ = new PreSenseAction;
 		$$->name = *$4;
 		$$->paras = *$8;
 		$$->preCondition = *$13;
@@ -276,7 +276,7 @@ onticActionsDef
 	}
 	|	onticAction
 	{
-		$$ = new OnticActionList;
+		$$ = new PreOnticActionList;
 		$$->insert($$->begin(), *$1);
 	}
 	;
@@ -288,7 +288,7 @@ onticAction
 			COLON EFFECT LEFT_PAREN effects RIGHT_PAREN
 		RIGHT_PAREN
 	{
-		$$ = new OnticAction;
+		$$ = new PreOnticAction;
 		$$->name = *$4;
 		$$->paras = *$8;
 		$$->preConditions = *$13;
@@ -371,9 +371,9 @@ atomicProp
 		{
 			*$$ += " " + *ssi;
 		}
-		reader.atomicPropSet.insert(*$$);
+		//reader.atomicPropSet.insert(*$$);
 	}
-	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$$); }
+	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	;
 /** observe **/
 observe
@@ -405,17 +405,15 @@ litSet
 	{
 		$$ = $1;
 		$$->insert(*$3);
-		reader.atomicPropSet.insert(*$3); 
 	}
 	|	lit
 	{
 		$$ = new StringSet;
 		$$->insert(*$1);
-		reader.atomicPropSet.insert(*$1);
 	}
 	;
 lit
-	:	NAME { $$ = $1; }
+	:	NAME { $$ = $1;	reader.atomicPropSet.insert(*$1); }
 	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}
 	|	predicate variables
 	{
