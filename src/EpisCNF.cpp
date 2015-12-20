@@ -1,10 +1,6 @@
-#include <boost/dynamic_bitset.hpp>
-#include <list>
-#include <iostream>
-#include <fstream>
-#include "atoms.h"
-#include "EpisCNF.h"
+#include "define2.h"
 
+/*
 bool PropClause::entails(const PropClause& prop_clause) const {
     return true;
 }
@@ -213,3 +209,4 @@ void EpisCNF::show(FILE *out) const
     }
 }
 
+*/

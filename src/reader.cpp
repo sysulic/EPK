@@ -6,17 +6,15 @@ int yyparse();
 
 Reader::Reader() {
 
-	const char* dFile="../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
-	const char* pFile="../epddl-doc/demo/demo_p.epddl";  // 打开要读取的文本文件
+	const char* dFile = "../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
+	const char* pFile = "../epddl-doc/demo/demo_p.epddl";
 	FILE* fp_d=fopen(dFile, "r");
 	FILE* fp_p=fopen(pFile, "r");
-	if(fp_d==NULL)
-	{
+	if(fp_d==NULL) {
 		printf("cannot open %s\n", dFile);
 		return;
 	}
-	if(fp_p==NULL)
-	{
+	if(fp_p==NULL) {
 		printf("cannot open %s\n", pFile);
 		return;
 	}
@@ -30,50 +28,64 @@ Reader::Reader() {
 	fclose(fp_d);
 	fclose(fp_p);
 
-/*
+	const char* beginFile = "init_and_goal_begin";  // 打开要写入的文本文件
+	const char* endFile = "init_and_goal_end";  // 打开要写入的文本文件
+	FILE* fp_begin=fopen(beginFile, "w");
+	FILE* fp_end=fopen(endFile, "w");
+	if(fp_begin==NULL) {
+		printf("cannot open %s\n", beginFile);
+		return;
+	}
+	if(fp_end==NULL) {
+		printf("cannot open %s\n", endFile);
+		return;
+	}
 	// print init
-	cout << "------Begin-----init Tree-------------------\n";
-	printTree(reader.init, 0);
-	cout << "-------End------init Tree-------------------\n\n";
-	
+	fprintf(fp_begin, "------Begin-----init Tree-------------------\n");
+	printTree(fp_begin, reader.init, 0);
+	fprintf(fp_begin, "-------End------init Tree-------------------\n\n");
+
 	// print init DNFed
-	cout << "------Begin-----init DNF Tree-------------------\n";
-	convertToCNFTree(reader.init);
-	printTree(reader.init, 0);
-	cout << "-------End------init DNF Tree-------------------\n\n";
+	fprintf(fp_end, "------Begin-----init DNF Tree-------------------\n");
+	convertToDNFTree(reader.init);
+	printTree(fp_end, reader.init, 0);
+	fprintf(fp_end, "-------End------init DNF Tree-------------------\n\n");
 
 	// print goal
-	cout << "------Begin-----goal Tree-------------------\n";
-	printTree(reader.goal, 0);
-	cout << "-------End------goal Tree-------------------\n\n";
+	fprintf(fp_begin, "------Begin-----goal Tree-------------------\n");
+	printTree(fp_begin, reader.goal, 0);
+	fprintf(fp_begin, "-------End------goal Tree-------------------\n\n");
 	
 	// print goal DNFed
-	cout << "------Begin-----goal CNF Tree-------------------\n";
+	fprintf(fp_end, "------Begin-----goal CNF Tree-------------------\n");
 	convertToCNFTree(reader.goal);
-	printTree(reader.goal, 0);
-	cout << "-------End------goal CNF Tree-------------------\n\n";
-*/
+	printTree(fp_end, reader.goal, 0);
+	fprintf(fp_end, "-------End------goal CNF Tree-------------------\n\n");
 
+	fclose(fp_begin);
+	fclose(fp_end);
+
+	cout << endl;  // 清空缓冲区？
 }
 
 Reader::~Reader() {
 
 }
 
-void Reader::printTree(Formula & f, size_t deep) {
-	for (int i = 0; i < deep; i++) cout << " ";
-	cout << f.label << endl;
+void Reader::printTree(FILE* file, Formula & f, size_t deep) {
+	for (int i = 0; i < deep; i++) fprintf(file, " ");
+	fprintf(file, (f.label+"\n").c_str());
 	if (f.left != NULL)
 	{
 		if (f.left->label == "same") f.left->label = f.label;
 		// cout << "left\n";
-		printTree(*f.left, deep+1);
+		printTree(file, *f.left, deep+1);
 	}
 	if (f.right != NULL)
 	{
 		if (f.right->label == "same") f.right->label = f.label;
 		// cout << "right\n";
-		printTree(*f.right, deep+1);
+		printTree(file, *f.right, deep+1);
 	}
 }
 
@@ -364,7 +376,7 @@ void Reader::convertToDNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
-	if (f.label == "|" &&
+	if (f.label == "&" &&
 		f.left->label == "K" && f.right && f.right->label == "K")
 			mergeK(f);
 	if (f.label == "&") {
@@ -387,7 +399,22 @@ void Reader::convertToDNFTree(Formula & f) {
 		if (f.left->label == "|" || (f.right && f.right->label == "|"))
 			inwardMoveAnd(f);
 	}
-
+    /*** use the rule: not (not (a) ) <=> a ***/
+    if (f.left && f.left->left &&
+            f.left->label == "!" && f.left->left->label == "!") {
+        Formula* tmp = f.left;
+        f.left = f.left->left->left;
+        delete tmp->left;
+        delete tmp;
+    }
+    if (f.right && f.right->left &&
+            f.right->label == "!" && f.right->left->label == "!") {
+        Formula* tmp = f.right;
+        f.right = f.right->left->left;
+        delete tmp->left;
+        delete tmp;
+    }
+    
 	if (f.left != NULL)
 	{
 		convertToDNFTree(*f.left);
@@ -407,7 +434,7 @@ void Reader::convertToCNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
-	if (f.label == "|" &&
+	if (f.label == "&" &&
 		f.left->label == "K" && f.right && f.right->label == "K")
 			mergeK(f);
 	if (f.label == "|") {
@@ -430,6 +457,21 @@ void Reader::convertToCNFTree(Formula & f) {
 		if (f.left->label == "&" || (f.right && f.right->label == "&"))
 			inwardMoveOr(f);
 	}
+    /*** use the rule: not (not (a) ) <=> a ***/
+    if (f.left && f.left->left &&
+            f.left->label == "!" && f.left->left->label == "!") {
+        Formula* tmp = f.left;
+        f.left = f.left->left->left;
+        delete tmp->left;
+        delete tmp;
+    }
+    if (f.right && f.right->left &&
+            f.right->label == "!" && f.right->left->label == "!") {
+        Formula* tmp = f.right;
+        f.right = f.right->left->left;
+        delete tmp->left;
+        delete tmp;
+    }
 
 	if (f.left != NULL)
 	{
@@ -440,30 +482,4 @@ void Reader::convertToCNFTree(Formula & f) {
 		convertToCNFTree(*f.right);
 	}
 	return;
-}
-
-void Reader::show() {
-
-	// print init
-	cout << "------Begin-----init Tree-------------------\n";
-	printTree(reader.init, 0);
-	cout << "-------End------init Tree-------------------\n\n";
-	
-	// print init DNFed
-	cout << "------Begin-----init DNF Tree-------------------\n";
-	convertToCNFTree(reader.init);
-	printTree(reader.init, 0);
-	cout << "-------End------init DNF Tree-------------------\n\n";
-
-	// print goal
-	cout << "------Begin-----goal Tree-------------------\n";
-	printTree(reader.goal, 0);
-	cout << "-------End------goal Tree-------------------\n\n";
-	
-	// print goal DNFed
-	cout << "------Begin-----goal CNF Tree-------------------\n";
-	convertToCNFTree(reader.goal);
-	printTree(reader.goal, 0);
-	cout << "-------End------goal CNF Tree-------------------\n\n";
-
 }

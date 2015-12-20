@@ -1,10 +1,6 @@
-#include "EpisDNF.h"
-#include "atoms.h"
-#include "Progression.h"
-#include <boost/dynamic_bitset.hpp>
-#include <vector>
-#include <fstream>
+#include "define2.h"
 
+/*
 bool PropTerm::consistent() const
 {
     for(int i = 0; i < Atoms::instance().atoms_length(); i++){
@@ -54,17 +50,21 @@ PropClause PropTerm::negation()
     }
     return result;
 }   
+*/
 
 PropTerm PropTerm::group(const PropTerm& prop_term) const
-{
+{/*
     PropTerm result(Atoms::instance().atoms_length() * 2);
     for (int i = 0; i < Atoms::instance().atoms_length() * 2; i++) {
         if (literals[i] || prop_term.literals[i])
             result.literals[i] = 1;
     }
     return result;
+  */
+    PropTerm a;
+    return a;
 }
-
+/*
 PropTerm& PropTerm::minimal()
 {
     if (consistent())
@@ -222,7 +222,7 @@ bool PropDNF::entails(const PropCNF& propCNF) const
     }
     return true;
 }
-
+*/
 PropDNF PropDNF::group(const PropDNF& propDNF) const
 {
     // 处理任意一边为空的情况
@@ -240,7 +240,7 @@ PropDNF PropDNF::group(const PropDNF& propDNF) const
     else
         return *this;
 }
-
+/*
 PropDNF& PropDNF::minimal()
 {  
     // 删除非consistent
@@ -362,6 +362,7 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
     }
     return is_t_delete;
 }
+*/
 
 void PropDNF::show(FILE *out, bool print_new_line) const 
 {
@@ -379,6 +380,7 @@ void PropDNF::show(FILE *out, bool print_new_line) const
         fprintf(out, "\n");
 }
 
+/*
 bool EpisTerm::consistent() const
 {
     if (!pos_propDNF.consistent())
@@ -487,6 +489,7 @@ EpisTerm& EpisTerm::separable()
     }
     return *this;
 }
+*/
 
 void EpisTerm::show(FILE *out) const
 { 
@@ -499,7 +502,7 @@ void EpisTerm::show(FILE *out) const
     }
 }
 
-
+/*
 void EpisTerm::convert_IPIA() {
     if (! pos_propDNF.prop_terms.empty())
         pos_propDNF.convert_IPIA();
@@ -600,7 +603,7 @@ vector<EpisDNF> EpisDNF::epistemic_prog(const EpisAction& epis_action)
     result.push_back(n_episDNF);
     return result;
 }
-
+*/
 void EpisDNF::show(FILE *out) const
 { 
     int i = 0;
@@ -611,10 +614,13 @@ void EpisDNF::show(FILE *out) const
         fprintf(out, "\n");
     }
 }
-
+/*
 void EpisDNF::convert_IPIA() {
     for (list<EpisTerm>::iterator it = epis_terms.begin();
             it != epis_terms.end(); ++ it) {
         it->convert_IPIA();
     }
 }
+
+ */
+

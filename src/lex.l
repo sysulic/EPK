@@ -38,8 +38,8 @@ name				[a-zA-Z\?][a-zA-Z_0-9\-]*
 "precondition"		{ return PRECONDITION; }
 "action" 			{ return ACTION; }
 "parameters"		{ return PARAMETERS; }
-"observe"			{ return OBSERVE; }
-"effect"			{ return EFFECT; }
+"observe"			{ yylval.str = new string(yytext); return OBSERVE; }
+"effect"			{ yylval.str = new string(yytext); return EFFECT; }
 "problem"			{ yylineno = 1; return PROBLEM; }
 "objects"			{ return OBJECTS; }
 "init"				{ return INIT; }

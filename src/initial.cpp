@@ -1,9 +1,18 @@
 #include "initial.h"
 #include "reader.h"
 
-Initial::Initial() {
-	extern Reader reader;
+extern Reader reader;
 
+Initial::Initial() {
+    atomsGrounding();
+    init = getEpisDNFfromTree(reader.init);
+}
+
+Initial::~Initial() {
+
+}
+
+void Initial::atomsGrounding() {
 	/* get atomic propositions from reader */
 
 	// propositions table 
@@ -55,11 +64,8 @@ Initial::Initial() {
 			(*atom_queue).pop();
 		}
 	}
-
-}
-
-Initial::~Initial() {
-
+    
+    atoms_length = atomsByIndex.size();  // initial atoms_length
 }
 
 void Initial::printAtoms() {
@@ -69,5 +75,123 @@ void Initial::printAtoms() {
 		cout << atomsByIndex[i] << endl;
 	}
 	cout << "-------- end print all atoms ----------------\n";
+}
+
+
+void Initial::episActionGrounding() {
+
+}
+
+void Initial::onticActionGrounding() {
+
+}
+
+EpisDNF Initial::getEpisDNFfromTree(Formula & f) {
+	EpisDNF e_dnf;
+	Formula* fml = &f;
+	stack<Formula*> s;
+    while(fml != NULL || !s.empty())
+    {
+        while(fml != NULL)
+        {
+            if (fml->label == "&") {
+            	e_dnf.epis_terms.push_back(getEpisTermFromTree(*fml));
+            	break;
+            } else {
+            	s.push(fml);
+            	fml = fml->left;
+            }
+        }
+        if(!s.empty())
+        {
+            fml = s.top();
+            s.pop();
+            fml = fml->right;
+        }
+    }
+    return e_dnf;
+}
+
+EpisTerm Initial::getEpisTermFromTree(Formula & f) {
+	EpisTerm e_term;
+	Formula* fml = &f;
+	stack<Formula*> s;
+    while(fml != NULL || !s.empty())
+    {
+        while(fml != NULL)
+        {
+            if (fml->label == "K") {
+            	e_term.pos_propDNF.group(getPropDNFfromTree(*fml));
+            	break;
+            } else if (fml->label == "DK") {
+                e_term.neg_propDNFs.push_back(getPropDNFfromTree(*fml));
+                break;
+            } else {
+            	s.push(fml);
+            	fml = fml->left;
+            }
+        }
+        if(!s.empty())
+        {
+            fml = s.top();
+            s.pop();
+            fml = fml->right;
+        }
+    }
+    return e_term;
+}
+
+PropDNF Initial::getPropDNFfromTree(Formula & f) {
+	PropDNF p_dnf;
+	Formula* fml = &f;
+	stack<Formula*> s;
+    while(fml != NULL || !s.empty())
+    {
+        while(fml != NULL)
+        {
+            if (fml->label == "&") {
+            	p_dnf.prop_terms.push_back(getPropTermFromTree(*fml));
+            	break;
+            } else {
+            	s.push(fml);
+            	fml = fml->left;
+            }
+        }
+        if(!s.empty())
+        {
+            fml = s.top();
+            s.pop();
+            fml = fml->right;
+        }
+    }
+    return p_dnf;
+}
+
+PropTerm Initial::getPropTermFromTree(Formula & f) {
+	PropTerm p_term(atomsByIndex.size());
+	Formula* fml = &f;
+	stack<Formula*> s;
+    while(fml != NULL || !s.empty())
+    {
+        while(fml != NULL)
+        {
+            if (fml->label != "&") {
+                if (fml->label == "!")
+                    p_term.literals[atomsByName[fml->left->label]+1] = 1;
+                else
+                    p_term.literals[atomsByName[fml->label]] = 1;
+            } else {
+            	s.push(fml);
+            	fml = fml->left;
+            }
+        }
+        if(!s.empty())
+        {
+            fml = s.top();
+            s.pop();
+            fml = fml->right;
+        }
+    }
+    return p_term;
 }
 

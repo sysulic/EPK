@@ -1,23 +1,27 @@
-(define (problem demo)
-(:domain demo)
-(:objects
-	aa
-	bb
-	cc - pos
-)
-(:init (and
-  (K (and (imply (doorOpen) (inRoom)) 
-          (imply (not (lightOn)) (not(inRoom)))
-      )
+(define (problem doors-1)
+  (:domain doors)
+  (:objects 
+    p11  
+    p12  
+    p21 
+    p22 - pos 
   )
-  (DK (inRoom))
-  (DK (not (inRoom)))
-  (DK (lightOn))
-  (DK (not (lightOn)))
-  )
-)
-
-(:goal (oneof (a) (b) (c))
   
-)
+  (:init (K 
+    (or 
+      (and
+      (opened p11)
+      (opened p12)
+      (not (opened p21)))
+      
+      (and 
+      (opened p11)
+      (not (opened p12))
+      (opened p21))
+    )
+    )
+  )
+  
+  (:goal (K (not (not (at p22))))
+  )
 )

@@ -11,8 +11,6 @@
 #include <vector>
 #include <stack>
 
-#include "EpisDNF.h"
-#include "EpisCNF.h"
 //#include <algorithm>
 //#include <sys/time.h>
 //#include <sys/resource.h>
@@ -62,6 +60,7 @@ struct Formula
 struct PreSenseAction
 {
     string name; // action name
+    string type; // sense or ontic
     MultiTypeSet paras; // parameters
     Formula preCondition;
     Formula observe; //需要观察的“公式”
@@ -78,41 +77,13 @@ struct Effect
 struct PreOnticAction
 {
     string name; //动作的名称
+    string type; // sense or ontic
     MultiTypeSet paras;
     Formula preConditions;
     EffectList effects; //效果二元组
 };
 
-/**************************************************
- **************  final structure  *****************
- **************************************************/
 /*
-//物理动作中的effect（效果三元组）
-struct ConEffect
-{
-    vector<int> conditions; //效果中的条件!!!
-    vector<int> lits; //add集合存储的变量代表做完该动作之后，这些变量需要变为True!!!
-    
-};
-
-//物理动作的描述
-struct OnticAction
-{
-    string name; //动作的名称!!!
-    EpisCNF pre_con; //动作执行的前置条件!!!
-    vector<ConEffect> con_eff; //效果二元组!!!
-};
-
-//观察动作的描述
-struct EpisAction
-{
-    string name; //动作的名称!!!
-    EpisCNF pre_con; //动作执行的前置条件!!!
-
-    PropDNF pos_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 positive result !!!
-    PropDNF neg_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 negative result !!!
-};
-
 //搜索算法中的结点
 struct Node
 {

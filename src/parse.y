@@ -57,8 +57,8 @@ extern Reader reader;
 %token PRECONDITION
 %token ACTION
 %token PARAMETERS
-%token OBSERVE
-%token EFFECT
+%token <str> OBSERVE
+%token <str> EFFECT
 %token PROBLEM
 %token OBJECTS
 %token INIT
@@ -87,8 +87,6 @@ extern Reader reader;
 %type <tree> observe
 %type <sense_action> senseAction
 %type <ontic_action> onticAction
-%type <sense_list> senseActionsDef
-%type <ontic_list> onticActionsDef
 
 %type <tree> precondition
 %type <tree> formula
@@ -121,15 +119,12 @@ domain
 			DEFINE domainName
 			typesDef
 			predicatesDef
-			senseActionsDef
-			onticActionsDef
+			actionsDef
 		RIGHT_PAREN
 	{
 		reader.domainName = *$3;
 		reader.types = *$4;
 		reader.predicates = *$5;
-		reader.senseActions = *$6;
-		reader.onticActions = *$7;
 		// cout << "domain done" << endl;
 	}
 	;
@@ -240,17 +235,13 @@ variables
 	}
 	;
 /****** actionsdef ******/
-senseActionsDef
-	:	senseActionsDef senseAction
-	{
-		$$ = $1;
-		$$->insert($$->begin(), *$2);
-	}
-	|	senseAction
-	{
-		$$ = new PreSenseActionList;
-		$$->insert($$->begin(), *$1);
-	}
+actionsDef
+	:	actionsDef action
+	|	action
+	;
+action
+	:	senseAction { reader.senseActions.insert(reader.senseActions.begin(), *$1); }
+	|	onticAction { reader.onticActions.insert(reader.onticActions.begin(), *$1); }
 	;
 senseAction
 	:	LEFT_PAREN
@@ -262,22 +253,11 @@ senseAction
 	{
 		$$ = new PreSenseAction;
 		$$->name = *$4;
+		$$->type = *$16;
 		$$->paras = *$8;
 		$$->preCondition = *$13;
 		$$->observe = *$18;
 		// cout << "senseActions done" << endl;
-	}
-	;
-onticActionsDef
-	:	onticActionsDef onticAction
-	{
-		$$ = $1;
-		$$->insert($$->begin(), *$2);
-	}
-	|	onticAction
-	{
-		$$ = new PreOnticActionList;
-		$$->insert($$->begin(), *$1);
 	}
 	;
 onticAction
@@ -290,6 +270,7 @@ onticAction
 	{
 		$$ = new PreOnticAction;
 		$$->name = *$4;
+		$$->type = *$16;
 		$$->paras = *$8;
 		$$->preConditions = *$13;
 		$$->effects = *$18;	
@@ -364,7 +345,9 @@ objFormulas
 	}
 	;
 atomicProp
-	:	predicate variables
+	:       TRUE	{ $$ = $1; }
+	|	FALSE	{ $$ = $1; }
+        |	predicate variables
 	{
 		$$ = new string(*$1);
 		for (StringSet::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
@@ -413,7 +396,9 @@ litSet
 	}
 	;
 lit
-	:	NAME { $$ = $1;	reader.atomicPropSet.insert(*$1); }
+	:       TRUE	{ $$ = $1; }
+	|	FALSE	{ $$ = $1; }
+        |	NAME    { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}
 	|	predicate variables
 	{
@@ -423,8 +408,15 @@ lit
 			*$$ += " " + *ssi;
 		}
 	}
-	|	TRUE	{ $$ = $1; }
-	|	FALSE	{ $$ = $1; }
+	|	NOT LEFT_PAREN predicate variables RIGHT_PAREN
+	{ 
+		$$ = new string("not("+*$3);
+		for (StringSet::iterator ssi = (*$4).begin(); ssi != (*$4).end(); ssi++)
+		{
+			*$$ += " " + *ssi;
+		}
+		*$$ += ")";
+	}
 	;
 /************* PROBLEMS ***************************/
 

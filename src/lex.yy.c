@@ -899,12 +899,12 @@ YY_RULE_SETUP
 case 20:
 YY_RULE_SETUP
 #line 41 "lex.l"
-{ return OBSERVE; }
+{ yylval.str = new string(yytext); return OBSERVE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 42 "lex.l"
-{ return EFFECT; }
+{ yylval.str = new string(yytext); return EFFECT; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP

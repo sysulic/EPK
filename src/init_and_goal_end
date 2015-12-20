@@ -1,0 +1,22 @@
+------Begin-----init DNF Tree-------------------
+K
+ |
+  &
+   &
+    opened p11
+    opened p12
+   !
+    opened p21
+  &
+   &
+    opened p11
+    !
+     opened p12
+   opened p21
+-------End------init DNF Tree-------------------
+
+------Begin-----goal CNF Tree-------------------
+K
+ at p22
+-------End------goal CNF Tree-------------------
+

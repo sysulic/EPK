@@ -1,14 +1,11 @@
 # Makefile
 
-OBJS	= main.o reader.o lex.o parse.o initial.o
+OBJS	= main.o reader.o lex.o parse.o initial.o EpisCNF.o EpisDNF.o
 
 CC	= g++
 CFLAGS	= -g -Wall
 LEXER = flex
 PARSER = bison
-
-#DFL
-DFL_HEADER = define.h reader.h initial.h
 
 start:	$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o start
@@ -18,6 +15,12 @@ main.o:  main.cpp
 
 initial.o:  initial.cpp initial.h
 		$(CC) $(CFLAGS) -c initial.cpp -o initial.o
+	
+EpisDNF.o:  EpisDNF.cpp EpisDNF.h
+		$(CC) $(CFLAGS) -c EpisDNF.cpp -o EpisDNF.o
+	
+EpisCNF.o:  EpisCNF.cpp EpisCNF.h
+		$(CC) $(CFLAGS) -c EpisCNF.cpp -o EpisCNF.o
 
 reader.o:  reader.cpp reader.h
 		$(CC) $(CFLAGS) -c reader.cpp -o reader.o

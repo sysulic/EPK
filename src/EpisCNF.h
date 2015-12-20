@@ -2,9 +2,7 @@
 #define	EPISCNF_H
 
 #include <boost/dynamic_bitset.hpp>
-#include <list>
-#include <iostream>
-#include <cstdio>
+#include "define2.h"
 #include "EpisDNF.h"
 
 using namespace std;

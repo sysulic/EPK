@@ -1,0 +1,46 @@
+g++ -g -Wall -c main.cpp -o main.o
+g++ -g -Wall -c reader.cpp -o reader.o
+reader.cpp:77:16: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+        fprintf(file, (f.label+"\n").c_str());
+                      ^~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+bison --defines=parse.h -d parse.y
+parse.y:358.10: warning: empty rule for typed nonterminal, and no action
+parse.y:420.10: warning: empty rule for typed nonterminal, and no action
+g++ -g -Wall -c parse.tab.c -o parse.o
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+parse.tab.c:2080:20: warning: conversion from string literal to 'char *' is deprecated [-Wc++11-compat-deprecated-writable-strings]
+      yyerror (YY_("syntax error"));
+                   ^
+parse.tab.c:251:22: note: expanded from macro 'YY_'
+#  define YY_(msgid) msgid
+                     ^
+parse.tab.c:2226:16: warning: conversion from string literal to 'char *' is deprecated [-Wc++11-compat-deprecated-writable-strings]
+  yyerror (YY_("memory exhausted"));
+               ^
+parse.tab.c:251:22: note: expanded from macro 'YY_'
+#  define YY_(msgid) msgid
+                     ^
+2 warnings generated.
+flex lex.l
+g++ -g -Wall -c lex.yy.c -o lex.o
+clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+lex.yy.c:1284:17: warning: unused function 'yyunput' [-Wunused-function]
+    static void yyunput (int c, register char * yy_bp )
+                ^
+lex.yy.c:1323:16: warning: function 'yyinput' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+    static int yyinput (void)
+               ^
+2 warnings generated.
+g++ -g -Wall -c initial.cpp -o initial.o
+initial.cpp:97:13: error: no member named 's' in 'std::__1::list<EpisTerm, std::__1::allocator<EpisTerm> >'
+            s.push(fml);
+            ^
+initial.cpp:98:24: error: no member named 'lchild' in 'Formula'
+            fml = fml->lchild;
+                  ~~~  ^
+initial.cpp:104:24: error: no member named 'rchild' in 'Formula'
+            fml = fml->rchild;
+                  ~~~  ^
+3 errors generated.
+make: *** [initial.o] Error 1

@@ -30,7 +30,7 @@ class Reader
   ~Reader();
 
   // intermediate structure
-  void printTree(Formula & f, size_t deep);
+  void printTree(FILE* file, Formula & f, size_t deep);
   void removeImply(Formula & f);
   void removeOneof(Formula & f);
   void inwardMoveNot(Formula & f) ;
@@ -40,7 +40,6 @@ class Reader
   void inwardMoveOr(Formula & f) ;
   void convertToDNFTree(Formula & f);
   void convertToCNFTree(Formula & f);
-  void show();
 
 };
 
