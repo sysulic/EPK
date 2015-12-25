@@ -27,10 +27,10 @@ class Reader
 
  public:
   Reader();
-  ~Reader();
+  ~Reader() {}
 
   // intermediate structure
-  void printTree(FILE* file, Formula & f, size_t deep);
+  void printTree(ofstream & file, Formula & f, size_t deep);
   void removeImply(Formula & f);
   void removeOneof(Formula & f);
   void inwardMoveNot(Formula & f) ;
@@ -41,6 +41,10 @@ class Reader
   void convertToDNFTree(Formula & f);
   void convertToCNFTree(Formula & f);
 
+  void printInit(ofstream & out_begin, ofstream & out_end);
+  void printGoal(ofstream & out_begin, ofstream & out_end);
+  void printSenseActions(ofstream & out_file);
+  void printOnticActions(ofstream & out_file);
 };
 
 #endif

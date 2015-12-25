@@ -45,8 +45,8 @@ name				[a-zA-Z\?][a-zA-Z_0-9\-]*
 "init"				{ return INIT; }
 "goal"				{ return GOAL; }
 
-"True"				{ return TRUE; }
-"False"				{ return FALSE; }
+"True"				{ yylval.str = new string(yytext); return TRUE; }
+"False"				{ yylval.str = new string(yytext); return FALSE; }
 
 {name}				{ yylval.str = new string(yytext); return NAME; }
 \n 					{ yylineno++; }

@@ -1,7 +1,5 @@
 #include "reader.h"
 
-Reader reader;
-
 int yyparse();
 
 Reader::Reader() {
@@ -28,63 +26,153 @@ Reader::Reader() {
 	fclose(fp_d);
 	fclose(fp_p);
 
-	const char* beginFile = "init_and_goal_begin";  // 打开要写入的文本文件
-	const char* endFile = "init_and_goal_end";  // 打开要写入的文本文件
-	FILE* fp_begin=fopen(beginFile, "w");
-	FILE* fp_end=fopen(endFile, "w");
-	if(fp_begin==NULL) {
+	const char* beginFile = "output_begin";
+	const char* endFile = "output_reader";
+	ofstream out_begin(beginFile);  // 打开要写入的文本文件
+	ofstream out_end(endFile);  // 打开要写入的文本文件
+	if(!out_begin.is_open()) {
 		printf("cannot open %s\n", beginFile);
 		return;
 	}
-	if(fp_end==NULL) {
+	if(!out_end.is_open()) {
 		printf("cannot open %s\n", endFile);
 		return;
 	}
+
+	printInit(out_begin, out_end);
+	printGoal(out_begin, out_end);
+	printSenseActions(out_begin);
+	printSenseActions(out_end);
+	printOnticActions(out_begin);
+	printOnticActions(out_end);  // conversion after first printActions()
+
+	out_begin.close();
+	out_end.close();
+}
+
+void Reader::printInit(ofstream & out_begin, ofstream & out_end) {
+
 	// print init
-	fprintf(fp_begin, "------Begin-----init Tree-------------------\n");
-	printTree(fp_begin, reader.init, 0);
-	fprintf(fp_begin, "-------End------init Tree-------------------\n\n");
+	out_begin << "----------------init Tree-------------------" << endl;
+	printTree(out_begin, this->init, 0);
+	out_begin << "----------------  done  -------------------\n" << endl;
 
 	// print init DNFed
-	fprintf(fp_end, "------Begin-----init DNF Tree-------------------\n");
-	convertToDNFTree(reader.init);
-	printTree(fp_end, reader.init, 0);
-	fprintf(fp_end, "-------End------init DNF Tree-------------------\n\n");
+	out_end << "----------------init DNF Tree-------------------" << endl;
+	convertToDNFTree(this->init);
+	printTree(out_end, this->init, 0);
+	out_end << "----------------  done  -------------------\n" << endl;
+
+}
+
+void Reader::printGoal(ofstream & out_begin, ofstream & out_end) {
 
 	// print goal
-	fprintf(fp_begin, "------Begin-----goal Tree-------------------\n");
-	printTree(fp_begin, reader.goal, 0);
-	fprintf(fp_begin, "-------End------goal Tree-------------------\n\n");
+	out_begin << "----------------goal Tree-------------------" << endl;
+	printTree(out_begin, this->goal, 0);
+	out_begin << "----------------  done  -------------------\n" << endl;
 	
 	// print goal DNFed
-	fprintf(fp_end, "------Begin-----goal CNF Tree-------------------\n");
-	convertToCNFTree(reader.goal);
-	printTree(fp_end, reader.goal, 0);
-	fprintf(fp_end, "-------End------goal CNF Tree-------------------\n\n");
-
-	fclose(fp_begin);
-	fclose(fp_end);
-
-	cout << endl;  // 清空缓冲区？
+	out_end << "----------------goal CNF Tree-------------------" << endl;
+	convertToCNFTree(this->goal);
+	printTree(out_end, this->goal, 0);
+	out_end << "----------------  done  -------------------\n" << endl;
 }
 
-Reader::~Reader() {
+void Reader::printSenseActions(ofstream & out_file) {
+
+	out_file << "-------------- sense actions ----------------" << endl;
+  	for(PreSenseActionList::iterator it_action = senseActions.begin();
+  		it_action != senseActions.end(); ++it_action) {
+
+		if (it_action != senseActions.begin())
+			out_file << "******************************************" << endl;
+		out_file << ":action " << (*it_action).name << " --------------" << endl;
+
+		out_file << "\n:parameters ----------------" << endl;
+		for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
+			it_para != (*it_action).paras.end(); ++it_para) {
+			out_file << (*it_para).first << ":";
+			for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
+				it_vrb != (*it_para).second.end(); ++it_vrb) {
+				out_file << " " << *it_vrb;
+			}
+			out_file << endl;
+		}
+
+		out_file << "\n:precondition --------------" << endl;
+		printTree(out_file, (*it_action).preCondition, 0);
+		convertToCNFTree((*it_action).preCondition);
+
+		out_file << "\n:observe -------------------" << endl;
+		printTree(out_file, (*it_action).observe, 0);
+		convertToCNFTree((*it_action).observe);
+
+  	}
+	out_file << "----------------  done  -------------------\n" << endl;
 
 }
 
-void Reader::printTree(FILE* file, Formula & f, size_t deep) {
-	for (int i = 0; i < deep; i++) fprintf(file, " ");
-	fprintf(file, (f.label+"\n").c_str());
+void Reader::printOnticActions(ofstream & out_file) {
+
+	out_file << "-------------- ontic actions ----------------" << endl;
+  	for(PreOnticActionList::iterator it_action = onticActions.begin();
+  		it_action != onticActions.end(); ++it_action) {
+
+		if (it_action != onticActions.begin())
+			out_file << "******************************************" << endl;
+		out_file << ":action " << (*it_action).name << " --------------" << endl;
+
+		out_file << "\n:parameters ----------------" << endl;
+		for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
+			it_para != (*it_action).paras.end(); ++it_para) {
+			out_file << (*it_para).first << ":";
+			for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
+				it_vrb != (*it_para).second.end(); ++it_vrb) {
+				out_file << " " << *it_vrb;
+			}
+			out_file << endl;
+		}
+
+		out_file << "\n:precondition --------------" << endl;
+		printTree(out_file, (*it_action).preCondition, 0);
+		convertToCNFTree((*it_action).preCondition);
+
+		out_file << "\n:effect --------------------" << endl;
+		size_t counter = 0;
+		for (EffectList::iterator it_ef = (*it_action).effects.begin();
+			it_ef != (*it_action).effects.end(); ++it_ef, ++counter) {
+			out_file << "--- effect --- No." << counter << " :" << endl;
+			for (StringSet::iterator str = (*it_ef).condition.begin();
+				str != (*it_ef).condition.end(); ++str) {
+				out_file << *str << ", ";
+			}
+			out_file << "\n-----" << endl;
+			for (StringSet::iterator str = (*it_ef).lits.begin();
+				str != (*it_ef).lits.end(); ++str) {
+				out_file << *str << ", ";
+			}
+			out_file << "" << endl;
+		}
+
+  	}
+	out_file << "----------------  done  -------------------\n" << endl;
+
+}
+
+void Reader::printTree(ofstream & file, Formula & f, size_t deep) {
+	for (int i = 0; i < deep; i++) file << " ";
+	file << f.label << endl;
 	if (f.left != NULL)
 	{
 		if (f.left->label == "same") f.left->label = f.label;
-		// cout << "left\n";
+		// cout << "left" << endl;
 		printTree(file, *f.left, deep+1);
 	}
 	if (f.right != NULL)
 	{
 		if (f.right->label == "same") f.right->label = f.label;
-		// cout << "right\n";
+		// cout << "right" << endl;
 		printTree(file, *f.right, deep+1);
 	}
 }
@@ -133,12 +221,12 @@ void Reader::removeImply(Formula & f) {
  *  -----------------------------------------------------
  */
 void Reader::removeOneof(Formula & f) {
-	// cout << "In function removeOneof, root: " f.label << "\n";
+	// cout << "In function removeOneof, root: " f.label << "" << endl;
 	f.label = "|";
 	vector<Formula*> clause_vec;  // points to each prop in the leaf
 	vector<string> prop_vec;  // props in the leaf
 	if (f.right == NULL) {
-		cout << "Warning: at least two atomic propositions with oneof!\n";
+		cout << "Warning: at least two atomic propositions with oneof!" << endl;
 		return;
 	}
 	clause_vec.push_back(f.right);
@@ -186,7 +274,7 @@ void Reader::removeOneof(Formula & f) {
 			(*clause_it)->label = prop_vec.at(i);
 		}
 	}
-	// cout << "In function removeOneof, root: " f.label << " doen\n";
+	// cout << "In function removeOneof, root: " f.label << " doen" << endl;
 }
 
 /*
@@ -213,7 +301,7 @@ void Reader::removeOneof(Formula & f) {
  *  ------------------------------------------
  */
 void Reader::inwardMoveNot(Formula & f) {
-	// cout << "In function inwardMoveNot, root: " << f.label << "\n";
+	// cout << "In function inwardMoveNot, root: " << f.label << "" << endl;
 	Formula* r = new Formula("!", f.left->right, NULL);
 
 	if (f.left->label == "&") f.label = "|";
@@ -222,7 +310,7 @@ void Reader::inwardMoveNot(Formula & f) {
 
 	f.left->right = NULL;
 	f.left->label = "!";
-	// cout << "In function inwardMoveNot, root: " << f.label << " doen\n";
+	// cout << "In function inwardMoveNot, root: " << f.label << " doen" << endl;
 	return;
 }
 
@@ -242,12 +330,12 @@ void Reader::inwardMoveNot(Formula & f) {
  *  ------------------------------------------
  */
 void Reader::mergeK(Formula & f) {
-	// cout << "In function mergeK, root: " << f.label << "\n";
+	// cout << "In function mergeK, root: " << f.label << "" << endl;
 	f.left = f.right->left;
-	delete f.right;
+	delete f.right; f.right = NULL;
 	f.label = "K";
 	f.left->label = "&";
-	// cout << "In function mergeK, root: " << f.label << " doen\n";
+	// cout << "In function mergeK, root: " << f.label << " doen" << endl;
 	return;
 }
 
@@ -267,12 +355,12 @@ void Reader::mergeK(Formula & f) {
  *  ------------------------------------------
  */
 void Reader::mergeDK(Formula & f) {
-	// cout << "In function mergeDK, root: " << f.label << "\n";
+	// cout << "In function mergeDK, root: " << f.label << "" << endl;
 	f.left = f.right->left;
-	delete f.right;
+	delete f.right; f.right = NULL;
 	f.label = "DK";
 	f.left->label = "|";
-	// cout << "In function mergeDK, root: " << f.label << " doen\n";
+	// cout << "In function mergeDK, root: " << f.label << " doen" << endl;
 	return;
 }
 
@@ -300,7 +388,7 @@ void Reader::mergeDK(Formula & f) {
  *  ------------------------------------------
  */
 void Reader::inwardMoveAnd(Formula & f) {
-	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
+	// cout << "In function inwardMoveAnd, root: " << f.label << "" << endl;
 	if (f.left->label == "|") {
 		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
 		Formula* r = new Formula("&", f.left->right, rr);
@@ -308,7 +396,7 @@ void Reader::inwardMoveAnd(Formula & f) {
 		f.left->label = "&";
 		f.right = r;
 		f.label = "|";
-	// cout << "left label is | : doen\n";
+	// cout << "left label is | : doen" << endl;
 	} else {
 		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
 		Formula* l = new Formula("&", ll, f.right->left);
@@ -316,9 +404,9 @@ void Reader::inwardMoveAnd(Formula & f) {
 		f.right->label = "&";
 		f.left = l;
 		f.label = "|";
-	// cout << "left label is & : doen\n";
+	// cout << "left label is & : doen" << endl;
 	}
-	// cout << "In function inwardMoveAnd, root: " << f.label << " doen\n";
+	// cout << "In function inwardMoveAnd, root: " << f.label << " doen" << endl;
 	return;
 }
 
@@ -346,7 +434,7 @@ void Reader::inwardMoveAnd(Formula & f) {
  *  ------------------------------------------
  */
 void Reader::inwardMoveOr(Formula & f) {
-	// cout << "In function inwardMoveAnd, root: " << f.label << "\n";
+	// cout << "In function inwardMoveAnd, root: " << f.label << "" << endl;
 	if (f.left->label == "&") {
 		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
 		Formula* r = new Formula("|", f.left->right, rr);
@@ -354,7 +442,7 @@ void Reader::inwardMoveOr(Formula & f) {
 		f.left->label = "|";
 		f.right = r;
 		f.label = "&";
-	// cout << "left label is | : doen\n";
+	// cout << "left label is | : doen" << endl;
 	} else {
 		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
 		Formula* l = new Formula("|", ll, f.right->left);
@@ -362,9 +450,9 @@ void Reader::inwardMoveOr(Formula & f) {
 		f.right->label = "|";
 		f.left = l;
 		f.label = "&";
-	// cout << "left label is & : doen\n";
+	// cout << "left label is & : doen" << endl;
 	}
-	// cout << "In function inwardMoveAnd, root: " << f.label << " doen\n";
+	// cout << "In function inwardMoveAnd, root: " << f.label << " doen" << endl;
 	return;
 }
 
@@ -376,9 +464,9 @@ void Reader::convertToDNFTree(Formula & f) {
 	if (f.label == "!" &&
 		(f.left->label == "&" || f.left->label == "|"))
 			inwardMoveNot(f);
-	if (f.label == "&" &&
-		f.left->label == "K" && f.right && f.right->label == "K")
-			mergeK(f);
+	if (f.label == "|" &&
+		f.left->label == "DK" && f.right && f.right->label == "DK")
+			mergeDK(f);
 	if (f.label == "&") {
 		/* several cases to make algorithm complete */
 		if (f.left->label == "&")
@@ -404,15 +492,15 @@ void Reader::convertToDNFTree(Formula & f) {
             f.left->label == "!" && f.left->left->label == "!") {
         Formula* tmp = f.left;
         f.left = f.left->left->left;
-        delete tmp->left;
-        delete tmp;
+        delete tmp->left; tmp->left = NULL;
+        delete tmp; tmp = NULL;
     }
     if (f.right && f.right->left &&
             f.right->label == "!" && f.right->left->label == "!") {
         Formula* tmp = f.right;
         f.right = f.right->left->left;
-        delete tmp->left;
-        delete tmp;
+        delete tmp->left; tmp->left = NULL;
+        delete tmp; tmp = NULL;
     }
     
 	if (f.left != NULL)
@@ -441,9 +529,9 @@ void Reader::convertToCNFTree(Formula & f) {
 		/* several cases to make algorithm complete */
 		if (f.left->label == "|")
 			convertToCNFTree(*f.left);
-		if (f.left->label == "K" &&
-			f.right && f.right->label == "K")
-			mergeK(f);
+		if (f.left->label == "DK" &&
+			f.right && f.right->label == "DK")
+			mergeDK(f);
 		if (f.left->label == "->")
 			removeImply(*f.left);
 		if (f.right->label == "->")
@@ -462,15 +550,15 @@ void Reader::convertToCNFTree(Formula & f) {
             f.left->label == "!" && f.left->left->label == "!") {
         Formula* tmp = f.left;
         f.left = f.left->left->left;
-        delete tmp->left;
-        delete tmp;
+        delete tmp->left; tmp->left = NULL;
+        delete tmp; tmp = NULL;
     }
     if (f.right && f.right->left &&
             f.right->label == "!" && f.right->left->label == "!") {
         Formula* tmp = f.right;
         f.right = f.right->left->left;
-        delete tmp->left;
-        delete tmp;
+        delete tmp->left; tmp->left = NULL;
+        delete tmp; tmp = NULL;
     }
 
 	if (f.left != NULL)

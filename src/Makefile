@@ -7,6 +7,10 @@ CFLAGS	= -g -Wall
 LEXER = flex
 PARSER = bison
 
+run:	start
+	./start
+	make clean
+
 start:	$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o start
 
@@ -36,6 +40,7 @@ parse.o:  parse.tab.c
 
 parse.tab.c:	parse.y
 		$(PARSER) --defines=parse.h -d parse.y
+
 
 .PHONY : clean
 

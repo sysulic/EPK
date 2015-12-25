@@ -2,8 +2,9 @@
 #define DEFINE_H
 
 
-#include <string>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <set>
 #include <list>
 #include <map>
@@ -79,7 +80,7 @@ struct PreOnticAction
     string name; //动作的名称
     string type; // sense or ontic
     MultiTypeSet paras;
-    Formula preConditions;
+    Formula preCondition;
     EffectList effects; //效果二元组
 };
 

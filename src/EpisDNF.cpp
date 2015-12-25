@@ -1,9 +1,9 @@
 #include "define2.h"
 
-/*
+
 bool PropTerm::consistent() const
 {
-    for(int i = 0; i < Atoms::instance().atoms_length(); i++){
+    for(int i = 0; i < length; i++){
         if(literals[i * 2] && literals[i * 2 + 1] )
             return false;
     }
@@ -19,9 +19,7 @@ bool PropTerm::entails(const PropTerm& prop_term) const
 
 bool PropTerm::equals(const PropTerm& prop_term)
 {
-    if (prop_term.literals == literals)
-	return true;
-    return false;
+    return prop_term.literals == literals;
 }
 
 //This reasoning rule is Proposition 3.4 PropTerm |= PropClause
@@ -29,7 +27,7 @@ bool PropTerm::entails(const PropClause& prop_clause) const
 {
     //I understood Proposition 3.4 means if the PropTerm and PropClause has only one same literal, 
     //then return true, otherwise return false
-    for (int i = 0; i < Atoms::instance().atoms_length(); i++) {
+    for (int i = 0; i < length; i++) {
         if ((literals[2 * i] && prop_clause.literals[2 * i]) || 
                 (literals[2 * i + 1] && prop_clause.literals[2 * i + 1]))
             return true;
@@ -39,7 +37,7 @@ bool PropTerm::entails(const PropClause& prop_clause) const
 
 PropClause PropTerm::negation()
 {
-    PropClause result(Atoms::instance().atoms_length() * 2);
+    PropClause result(length);
     for (size_t i = 0; i < literals.size(); i++) {
         if (literals[i]) {
             if (i % 2 == 0)
@@ -49,27 +47,24 @@ PropClause PropTerm::negation()
         }
     }
     return result;
-}   
-*/
+}
 
 PropTerm PropTerm::group(const PropTerm& prop_term) const
-{/*
-    PropTerm result(Atoms::instance().atoms_length() * 2);
-    for (int i = 0; i < Atoms::instance().atoms_length() * 2; i++) {
+{
+    PropTerm result(length);
+    for (int i = 0; i < length; i++) {
         if (literals[i] || prop_term.literals[i])
             result.literals[i] = 1;
     }
     return result;
-  */
-    PropTerm a;
-    return a;
 }
-/*
+
 PropTerm& PropTerm::minimal()
 {
     if (consistent())
         return *this;
-    literals.set(); //inconsistent means this PropTerm is false, we can use a dynamic_bitset whose bits are 1.
+    literals.set(); // inconsistent means this PropTerm is false,
+                    // we can use a dynamic_bitset whose bits are 1.
     return *this;
 }
 
@@ -82,7 +77,7 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
     for (size_t eff_i = 0; eff_i < ontic_action.con_eff.size(); eff_i++) {
         ConEffect cur_con_eff = ontic_action.con_eff[eff_i];  //current effect triple         
         //convert vector<int> to PropTerm
-        PropTerm condition(Atoms::instance().atoms_length() * 2);
+        PropTerm condition(length);
         for (size_t i = 0; i < cur_con_eff.condition.size(); i++) { //current size of condition is 1
             if (cur_con_eff.condition[i] > 0) 
                 condition.literals.set((cur_con_eff.condition[i] - 1) * 2, true);
@@ -93,7 +88,7 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
         //check current PropTerm. Mostly, splitting is necessary 
         if (!(this->entails(condition) || this->entails(condition.negation()))) {            
             // 把condition里面出现，但this里面没有出现过的原子加入missing_atom里面
-            for (int l = 1; l <= Atoms::instance().length; ++ l) {
+            for (int l = 1; l <= length; ++ l) {
                 int pos = (l - 1) * 2;
                 int neg = (l - 1) * 2 + 1;
                 if (! this->literals[pos] && ! this->literals[neg] && 
@@ -118,22 +113,17 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
         PropTerm origin = *it;//保存没做之前的状态，用作判断条件
         for (size_t eff_i = 0; eff_i < ontic_action.con_eff.size(); eff_i++) {
             if (origin.entails(conditions[eff_i])) {
-                // deal with the elements in the add set
-                for (size_t add_i = 0; add_i < ontic_action.con_eff[eff_i].add.size(); add_i++) {
-                    int pos_i = (ontic_action.con_eff[eff_i].add[add_i] - 1) * 2;
+                // deal with the elements in the lit set
+                for (size_t lit_i = 0; lit_i < ontic_action.con_eff[eff_i].lits.size(); ++lit_i) {
+                    int pos_i = (ontic_action.con_eff[eff_i].lits[lit_i] - 1) * 2;
                     int neg_i = pos_i + 1;
-                    if (it->literals[neg_i])
+                    if (atomsByIndex[ontic_action.con_eff[eff_i].lits[lit_i]].substr(0, 4) != "not(") {
                         it->literals.set(neg_i, false);
-                    it->literals.set(pos_i, true);
-                }
-                
-                // deal with the elements in the del set
-                for (size_t del_i = 0; del_i < ontic_action.con_eff[eff_i].del.size(); del_i++) {
-                    int pos_i = (ontic_action.con_eff[eff_i].del[del_i] - 1) * 2;
-                    int neg_i = pos_i + 1;
-                    if (it->literals[pos_i])
+                        it->literals.set(pos_i, true);
+                    } else {
                         it->literals.set(pos_i, false);
-                    it->literals.set(neg_i, true);
+                        it->literals.set(neg_i, true);
+                    }
                 }
             }
         }
@@ -142,24 +132,11 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
     return progression;
 }
 
-void PropTerm::show(FILE *out, bool print_new_line) const
+void PropTerm::show(ofstream & out) const
 {
-    vector<int> id_atoms;
-    // 提取原子
-    for (size_t i = 0; i < literals.size(); ++ i)
-        if (literals[i])
-            id_atoms.push_back(i);
-    if (id_atoms.empty())
-        return ;
-    // 注意奇数为非
-    fprintf(out, "(%s%s", (id_atoms[0] % 2 ? "~" : ""),
-            Atoms::instance().get_atom_string(id_atoms[0] / 2 + 1).c_str());
-    for (size_t i = 1; i < id_atoms.size(); ++ i)
-        fprintf(out, " & %s%s", (id_atoms[i] % 2 ? "~" : ""),
-                Atoms::instance().get_atom_string(id_atoms[i] / 2 + 1).c_str());
-    fprintf(out, ")");
-    if (print_new_line)
-        fprintf(out, "\n");
+    for (size_t i = 0; i < length; ++i)
+        out << literals[i] << " ";
+    out << endl;
 }
 
 void PropTerm::split(const vector<int>& missing_atom, const int index, PropTerm& cur_propTerm,
@@ -222,7 +199,7 @@ bool PropDNF::entails(const PropCNF& propCNF) const
     }
     return true;
 }
-*/
+
 PropDNF PropDNF::group(const PropDNF& propDNF) const
 {
     // 处理任意一边为空的情况
@@ -240,7 +217,7 @@ PropDNF PropDNF::group(const PropDNF& propDNF) const
     else
         return *this;
 }
-/*
+
 PropDNF& PropDNF::minimal()
 {  
     // 删除非consistent
@@ -362,31 +339,25 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
     }
     return is_t_delete;
 }
-*/
 
-void PropDNF::show(FILE *out, bool print_new_line) const 
+void PropDNF::show(ofstream & out) const 
 {
-    if (prop_terms.empty())
-        return ;
-    fprintf(out, "( ");
-    prop_terms.begin()->show(out, false);
-    for (list<PropTerm>::const_iterator it = (++ prop_terms.begin());
+    out << "( ";
+    for (list<PropTerm>::const_iterator it = prop_terms.begin();
             it != prop_terms.end(); ++ it) {
-        fprintf(out, " | ");
-        it->show(out, false);
+        out << " | ";
+        it->show(out);
     }
-    fprintf(out, " )");
-    if (print_new_line)
-        fprintf(out, "\n");
+    out << " )" << endl;
 }
 
-/*
 bool EpisTerm::consistent() const
 {
     if (!pos_propDNF.consistent())
         return false;
     else {
-        for (list<PropDNF>::const_iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); it++) {
+        for (list<PropDNF>::const_iterator it = neg_propDNFs.begin();
+            it != neg_propDNFs.end(); it++) {
             if (!it->consistent())
                 return false;
         }
@@ -489,20 +460,18 @@ EpisTerm& EpisTerm::separable()
     }
     return *this;
 }
-*/
 
-void EpisTerm::show(FILE *out) const
+void EpisTerm::show(ofstream & out) const
 { 
-    fprintf(out, "K");
+    out << "K";
     pos_propDNF.show(out);
     for (list<PropDNF>::const_iterator it = neg_propDNFs.begin();
-            it != neg_propDNFs.end(); ++ it) {
-        fprintf(out, "~K~");
+            it != neg_propDNFs.end(); ++it) {
+        out << "~K~";
         it->show(out);
     }
 }
 
-/*
 void EpisTerm::convert_IPIA() {
     if (! pos_propDNF.prop_terms.empty())
         pos_propDNF.convert_IPIA();
@@ -603,24 +572,22 @@ vector<EpisDNF> EpisDNF::epistemic_prog(const EpisAction& epis_action)
     result.push_back(n_episDNF);
     return result;
 }
-*/
-void EpisDNF::show(FILE *out) const
+
+void EpisDNF::show(ofstream &out) const
 { 
     int i = 0;
     for (list<EpisTerm>::const_iterator it = epis_terms.begin();
-            it != epis_terms.end(); ++ it) {
-        fprintf(out, "epis term %d:\n", i ++);
+            it != epis_terms.end(); ++it) {
+        out << "epis term " << i++ << endl;
         it->show(out);
-        fprintf(out, "\n");
+        out << endl;
     }
 }
-/*
+
 void EpisDNF::convert_IPIA() {
     for (list<EpisTerm>::iterator it = epis_terms.begin();
             it != epis_terms.end(); ++ it) {
         it->convert_IPIA();
     }
 }
-
- */
 

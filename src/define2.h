@@ -12,10 +12,16 @@
 #include "EpisCNF.h"
 #include "EpisDNF.h"
 
-//物理动作中的effect（效果三元组）
+extern map<int, string> atomsByIndex;
+extern map<string, int> atomsByName;
+
+extern vector<EpisAction> epis_actions;
+extern vector<OnticAction> ontic_actions;
+
+//物理动作中的effect（效果二元组）
 struct ConEffect
 {
-    vector<int> conditions; //效果中的条件
+    vector<int> condition; //效果中的条件
     vector<int> lits; //add集合存储的变量代表做完该动作之后，这些变量需要变为True
     
 };

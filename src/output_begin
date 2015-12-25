@@ -1,0 +1,84 @@
+----------------init Tree-------------------
+&
+ &
+  &
+   &
+    K
+     &
+      ->
+       doorOpen
+       inRoom
+      ->
+       !
+        lightOn
+       !
+        inRoom
+    DK
+     inRoom
+   DK
+    !
+     inRoom
+  DK
+   lightOn
+ DK
+  !
+   lightOn
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+|
+ K
+  inRoom
+ K
+  !
+   inRoom
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+:action senseD --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ hasKnocked
+
+:observe -------------------
+doorOpen
+******************************************
+:action senseL --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ DK
+  lightOn
+ DK
+  !
+   lightOn
+
+:observe -------------------
+lightOn
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action knock --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ lightOn
+
+:effect --------------------
+--- effect --- No.0 :
+not(inRoom), 
+-----
+hasKnocked, not(doorOpen), 
+--- effect --- No.1 :
+inRoom, 
+-----
+doorOpen, hasKnocked, 
+----------------  done  -------------------
+

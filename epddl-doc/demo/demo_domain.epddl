@@ -1,23 +1,25 @@
-(define (domain doors) 
-   (:types pos)
-   (:predicates (adj ?i ?j - pos) 
-                (at ?i - pos)  
-                (opened ?i - pos)                
-   ) 
-   
-   (:action senseDoor
-    :parameters (?i - pos)
-    :precondition (True)
-    :observe (at ?i)
-   )
-
-   
-   
-   (:action move
-    :parameters (?i - pos ?j - pos )
-    :precondition (K (and (adj ?i ?j) (at ?i) (opened ?j)))
-    :effect (
-    ((True), (at ?j, not(at ?i)))
-    )
-   )
+(define (domain demo)
+  (:types)
+  (:predicates)
+  (:action senseL
+   :parameters ()
+   :precondition (and (DK (lightOn)) 
+   					  (DK (not (lightOn)))
+   				 )
+   :observe (lightOn)
+  )
+  
+  (:action senseD
+   :parameters ()
+   :precondition (K (hasKnocked))
+   :observe (doorOpen)
+  )
+  
+  (:action knock
+   :parameters ()
+   :precondition (K (lightOn))
+   :effect (((inRoom), (doorOpen, hasKnocked) ) 
+            ((not (inRoom)), (hasKnocked, not (doorOpen)))
+           )
+  )
 )

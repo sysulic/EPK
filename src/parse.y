@@ -272,7 +272,7 @@ onticAction
 		$$->name = *$4;
 		$$->type = *$16;
 		$$->paras = *$8;
-		$$->preConditions = *$13;
+		$$->preCondition = *$13;
 		$$->effects = *$18;	
 		// cout << "onticAction done" << endl;
 	}
@@ -380,7 +380,7 @@ effect
 	{
 		$$ = new Effect;
 		$$->condition = *$2;
-		$$->lits = *$2;
+		$$->lits = *$6;
 	}
 	;
 litSet
@@ -396,7 +396,7 @@ litSet
 	}
 	;
 lit
-	:       TRUE	{ $$ = $1; }
+	:   TRUE	{ $$ = $1; }
 	|	FALSE	{ $$ = $1; }
         |	NAME    { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}

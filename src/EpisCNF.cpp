@@ -1,13 +1,13 @@
 #include "define2.h"
 
-/*
+
 bool PropClause::entails(const PropClause& prop_clause) const {
     return true;
 }
 
 PropTerm PropClause::negation() const
 {
-    PropTerm result(Atoms::instance().atoms_length() * 2);
+    PropTerm result(length);
     for (size_t i = 0; i < literals.size(); i++) {
         if(literals[i]) {
             result.literals[i] = 0; //?dynamic_bitset constructor makes all of bis in literals 0, so this clause is useless 
@@ -27,8 +27,8 @@ bool PropClause::is_true() const
 
 PropClause& PropClause::minimal()
 {
-    PropClause result(Atoms::instance().atoms_length() * 2);
-    for (int i = 0; i < Atoms::instance().atoms_length(); i += 2) {
+    PropClause result(length);
+    for (int i = 0; i < length; i += 2) {
         if (literals[i] && literals[i + 1]) {
             result.literals.set(); //This PropClause is true, we can use a dynamic_bitset whose bits are 1.
             break;
@@ -40,8 +40,8 @@ PropClause& PropClause::minimal()
 
 PropClause PropClause::group(const PropClause& prop_clause) const
 {
-    PropClause result(Atoms::instance().atoms_length() * 2);
-    for (int i = 0; i < Atoms::instance().atoms_length() * 2; i++) {
+    PropClause result(length);
+    for (int i = 0; i < length; i++) {
         if (literals[i] || prop_clause.literals[i])
             result.literals[i] = 1;
     }
@@ -59,56 +59,41 @@ PropCNF PropCNF::group(const PropCNF& propCNF) const
     return result;
 }
 
-void PropClause::show(FILE *out, bool print_new_line) const
+void PropClause::show(ofstream & out) const
 {
-    vector<int> id_atoms;
-    // 提取原子
-    for (size_t i = 0; i < literals.size(); ++ i)
-        if (literals[i])
-            id_atoms.push_back(i);
-    if (id_atoms.empty())
-        return ;
-    // 注意奇数为非
-    fprintf(out, "(%s%s", (id_atoms[0] % 2 ? "~" : ""),
-            Atoms::instance().get_atom_string(id_atoms[0] / 2 + 1).c_str());
-    for (size_t i = 1; i < id_atoms.size(); ++ i)
-        fprintf(out, " | %s%s", (id_atoms[i] % 2 ? "~" : ""),
-                Atoms::instance().get_atom_string(id_atoms[i] / 2 + 1).c_str());
-    fprintf(out, ")");
-    if (print_new_line)
-        fprintf(out, "\n");
+    for (size_t i = 0; i < literals.size(); ++i)
+        out << literals[i] << " ";
+    out << endl;
 }
 
-void PropCNF::show(FILE *out, bool print_new_line) const
+void PropCNF::show(ofstream & out) const
 {    
     if (prop_clauses.empty())
         return ;
-    fprintf(out, "( ");
-    prop_clauses.begin()->show(out, false);
-    for (list<PropClause>::const_iterator it = (++ prop_clauses.begin());
-            it != prop_clauses.end(); ++ it) {
-        fprintf(out, " & ");
-        it->show(out, false);
+    out << "( ";
+    prop_clauses.begin()->show(out);
+    for (list<PropClause>::const_iterator it = (++prop_clauses.begin());
+            it != prop_clauses.end(); ++it) {
+        out << " & ";
+        it->show(out);
     }
-    fprintf(out, " )");
-    if (print_new_line)
-        fprintf(out, "\n");
+    out << " )" << endl;
 }
 
-void EpisClause::show(FILE *out) const
+void EpisClause::show(ofstream & out) const
 {
     for (list<PropCNF>::const_iterator it = pos_propCNFs.begin();
             it != pos_propCNFs.end(); ++ it) {
-        fprintf(out, "K");
+        out << "K";
         it->show(out);
     }
     for (list<PropCNF>::const_iterator it = neg_propCNFs.begin();
             it != neg_propCNFs.end(); ++ it) {
-        fprintf(out, "*~K~");
+        out << "*~K~";
         it->show(out);
     }
     if (! neg_propCNF.prop_clauses.empty()) {
-        fprintf(out, "~K~");
+        out << "~K~";
         neg_propCNF.show(out);
     }
 }
@@ -145,7 +130,8 @@ PropCNF& PropCNF::minimal()
     return *this;
 }
 
-void EpisClause::min(){
+void EpisClause::min()
+{
     if(neg_propCNFs.size()>1){
         PropCNF p = *neg_propCNFs.begin();
         list<PropCNF>::iterator it = neg_propCNFs.begin();
@@ -199,14 +185,13 @@ EpisCNF::EpisCNF()
         it->minimal();
 }
 
-void EpisCNF::show(FILE *out) const
+void EpisCNF::show(ofstream & out) const
 {
     int i = 0;
     for(list<EpisClause>::const_iterator it = epis_clauses.begin(); it != epis_clauses.end(); it++) {
-        fprintf(out, "epis cnf %d:\n", i ++);
+        out << "epis cnf " << i++ << endl;
         it->show(out);
-        fprintf(out, "\n");
+        out << endl;
     }
 }
 
-*/
