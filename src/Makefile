@@ -8,8 +8,7 @@ LEXER = flex
 PARSER = bison
 
 run:	start
-	./start
-	make clean
+	./start 
 
 start:	$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o start

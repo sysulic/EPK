@@ -345,9 +345,9 @@ objFormulas
 	}
 	;
 atomicProp
-	:       TRUE	{ $$ = $1; }
+	:   TRUE	{ $$ = $1; }
 	|	FALSE	{ $$ = $1; }
-        |	predicate variables
+    |	predicate variables
 	{
 		$$ = new string(*$1);
 		for (StringSet::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
@@ -398,7 +398,7 @@ litSet
 lit
 	:   TRUE	{ $$ = $1; }
 	|	FALSE	{ $$ = $1; }
-        |	NAME    { $$ = $1; reader.atomicPropSet.insert(*$1); }
+    |	NAME    { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}
 	|	predicate variables
 	{

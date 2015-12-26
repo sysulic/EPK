@@ -2,6 +2,13 @@
 
 int yyparse();
 
+Formula* copyFormula(Formula* f) {
+	Formula* tmp = new Formula(*f);
+	if (f->left) tmp->left = copyFormula(f->left);
+	if (f->right) tmp->right = copyFormula(f->right);
+	return tmp;
+}
+
 Reader::Reader() {
 
 	const char* dFile = "../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
@@ -54,13 +61,13 @@ void Reader::printInit(ofstream & out_begin, ofstream & out_end) {
 
 	// print init
 	out_begin << "----------------init Tree-------------------" << endl;
-	printTree(out_begin, this->init, 0);
+	printTree(out_begin, &this->init, 0);
 	out_begin << "----------------  done  -------------------\n" << endl;
 
 	// print init DNFed
 	out_end << "----------------init DNF Tree-------------------" << endl;
-	convertToDNFTree(this->init);
-	printTree(out_end, this->init, 0);
+	convertToDNFTree(&this->init);
+	printTree(out_end, &this->init, 0);
 	out_end << "----------------  done  -------------------\n" << endl;
 
 }
@@ -69,13 +76,13 @@ void Reader::printGoal(ofstream & out_begin, ofstream & out_end) {
 
 	// print goal
 	out_begin << "----------------goal Tree-------------------" << endl;
-	printTree(out_begin, this->goal, 0);
+	printTree(out_begin, &this->goal, 0);
 	out_begin << "----------------  done  -------------------\n" << endl;
 	
 	// print goal DNFed
 	out_end << "----------------goal CNF Tree-------------------" << endl;
-	convertToCNFTree(this->goal);
-	printTree(out_end, this->goal, 0);
+	convertToCNFTree(&this->goal);
+	printTree(out_end, &this->goal, 0);
 	out_end << "----------------  done  -------------------\n" << endl;
 }
 
@@ -101,12 +108,12 @@ void Reader::printSenseActions(ofstream & out_file) {
 		}
 
 		out_file << "\n:precondition --------------" << endl;
-		printTree(out_file, (*it_action).preCondition, 0);
-		convertToCNFTree((*it_action).preCondition);
+		printTree(out_file, &(*it_action).preCondition, 0);
+		convertToCNFTree(&(*it_action).preCondition);
 
 		out_file << "\n:observe -------------------" << endl;
-		printTree(out_file, (*it_action).observe, 0);
-		convertToCNFTree((*it_action).observe);
+		printTree(out_file, &(*it_action).observe, 0);
+		convertToCNFTree(&(*it_action).observe);
 
   	}
 	out_file << "----------------  done  -------------------\n" << endl;
@@ -135,8 +142,8 @@ void Reader::printOnticActions(ofstream & out_file) {
 		}
 
 		out_file << "\n:precondition --------------" << endl;
-		printTree(out_file, (*it_action).preCondition, 0);
-		convertToCNFTree((*it_action).preCondition);
+		printTree(out_file, &(*it_action).preCondition, 0);
+		convertToCNFTree(&(*it_action).preCondition);
 
 		out_file << "\n:effect --------------------" << endl;
 		size_t counter = 0;
@@ -160,20 +167,20 @@ void Reader::printOnticActions(ofstream & out_file) {
 
 }
 
-void Reader::printTree(ofstream & file, Formula & f, size_t deep) {
+void Reader::printTree(ofstream & file, Formula * f, size_t deep) {
 	for (int i = 0; i < deep; i++) file << " ";
-	file << f.label << endl;
-	if (f.left != NULL)
+	file << f->label << endl;
+	if (f->left != NULL)
 	{
-		if (f.left->label == "same") f.left->label = f.label;
+		if (f->left->label == "same") f->left->label = f->label;
 		// cout << "left" << endl;
-		printTree(file, *f.left, deep+1);
+		printTree(file, f->left, deep+1);
 	}
-	if (f.right != NULL)
+	if (f->right != NULL)
 	{
-		if (f.right->label == "same") f.right->label = f.label;
+		if (f->right->label == "same") f->right->label = f->label;
 		// cout << "right" << endl;
-		printTree(file, *f.right, deep+1);
+		printTree(file, f->right, deep+1);
 	}
 }
 
@@ -192,10 +199,10 @@ void Reader::printTree(ofstream & file, Formula & f, size_t deep) {
  * |           |               |    A         |
  *  ------------------------------------------
  */
-void Reader::removeImply(Formula & f) {
-	Formula* leftF = new Formula("!", f.left, NULL);
-	f.label = "|";
-	f.left = leftF;
+void Reader::removeImply(Formula * f) {
+	Formula* leftF = new Formula("!", f->left, NULL);
+	f->label = "|";
+	f->left = leftF;
 }
 
 /*
@@ -220,18 +227,18 @@ void Reader::removeImply(Formula & f) {
  * |           |               |  B   A    C             |
  *  -----------------------------------------------------
  */
-void Reader::removeOneof(Formula & f) {
-	// cout << "In function removeOneof, root: " f.label << "" << endl;
-	f.label = "|";
+void Reader::removeOneof(Formula * f) {
+	// cout << "In function removeOneof, root: " f->label << "" << endl;
+	f->label = "|";
 	vector<Formula*> clause_vec;  // points to each prop in the leaf
 	vector<string> prop_vec;  // props in the leaf
-	if (f.right == NULL) {
+	if (f->right == NULL) {
 		cout << "Warning: at least two atomic propositions with oneof!" << endl;
 		return;
 	}
-	clause_vec.push_back(f.right);
-	prop_vec.push_back(f.right->label);
-	Formula* pf = f.left;
+	clause_vec.push_back(f->right);
+	prop_vec.push_back(f->right->label);
+	Formula* pf = f->left;
 	bool only_oneof = false;
 	while (pf->label == "oneof") {
 		pf->label = "|";
@@ -274,7 +281,7 @@ void Reader::removeOneof(Formula & f) {
 			(*clause_it)->label = prop_vec.at(i);
 		}
 	}
-	// cout << "In function removeOneof, root: " f.label << " doen" << endl;
+	// cout << "In function removeOneof, root: " f->label << " doen" << endl;
 }
 
 /*
@@ -300,17 +307,17 @@ void Reader::removeOneof(Formula & f) {
  * |           |    A  B       |   A    B     |
  *  ------------------------------------------
  */
-void Reader::inwardMoveNot(Formula & f) {
-	// cout << "In function inwardMoveNot, root: " << f.label << "" << endl;
-	Formula* r = new Formula("!", f.left->right, NULL);
+void Reader::inwardMoveNot(Formula * f) {
+	// cout << "In function inwardMoveNot, root: " << f->label << "" << endl;
+	Formula* r = new Formula("!", f->left->right, NULL);
 
-	if (f.left->label == "&") f.label = "|";
-	else f.label = "&";
-	f.right = r;
+	if (f->left->label == "&") f->label = "|";
+	else f->label = "&";
+	f->right = r;
 
-	f.left->right = NULL;
-	f.left->label = "!";
-	// cout << "In function inwardMoveNot, root: " << f.label << " doen" << endl;
+	f->left->right = NULL;
+	f->left->label = "!";
+	// cout << "In function inwardMoveNot, root: " << f->label << " doen" << endl;
 	return;
 }
 
@@ -329,13 +336,13 @@ void Reader::inwardMoveNot(Formula & f) {
  * |           |    A  B       |   A  B       |
  *  ------------------------------------------
  */
-void Reader::mergeK(Formula & f) {
-	// cout << "In function mergeK, root: " << f.label << "" << endl;
-	f.left = f.right->left;
-	delete f.right; f.right = NULL;
-	f.label = "K";
-	f.left->label = "&";
-	// cout << "In function mergeK, root: " << f.label << " doen" << endl;
+void Reader::mergeK(Formula * f) {
+	// cout << "In function mergeK, root: " << f->label << "" << endl;
+	f->left = f->right->left;
+	delete f->right; f->right = NULL;
+	f->label = "K";
+	f->left->label = "&";
+	// cout << "In function mergeK, root: " << f->label << " doen" << endl;
 	return;
 }
 
@@ -354,13 +361,13 @@ void Reader::mergeK(Formula & f) {
  * |           |   A    B      |    A  B      |
  *  ------------------------------------------
  */
-void Reader::mergeDK(Formula & f) {
-	// cout << "In function mergeDK, root: " << f.label << "" << endl;
-	f.left = f.right->left;
-	delete f.right; f.right = NULL;
-	f.label = "DK";
-	f.left->label = "|";
-	// cout << "In function mergeDK, root: " << f.label << " doen" << endl;
+void Reader::mergeDK(Formula * f) {
+	// cout << "In function mergeDK, root: " << f->label << "" << endl;
+	f->left = f->right->left;
+	delete f->right; f->right = NULL;
+	f->label = "DK";
+	f->left->label = "|";
+	// cout << "In function mergeDK, root: " << f->label << " doen" << endl;
 	return;
 }
 
@@ -387,26 +394,32 @@ void Reader::mergeDK(Formula & f) {
  * |    )      |      B  C     |  A  B A  C   |
  *  ------------------------------------------
  */
-void Reader::inwardMoveAnd(Formula & f) {
-	// cout << "In function inwardMoveAnd, root: " << f.label << "" << endl;
-	if (f.left->label == "|") {
-		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
-		Formula* r = new Formula("&", f.left->right, rr);
-		f.left->right = f.right;
-		f.left->label = "&";
-		f.right = r;
-		f.label = "|";
+void Reader::inwardMoveAnd(Formula * f) {
+	ofstream out("aaaa", ios::app);
+	out << "------------ before ----------- " << endl;
+	printTree(out, f, 0);
+	// cout << "In function inwardMoveAnd, root: " << f->label << "" << endl;
+	if (f->left->label == "|") {
+		Formula* rr = copyFormula(f->right);  // "rr" meas right subtree of right subtree of f
+		Formula* r = new Formula("&", f->left->right, rr);
+		f->left->right = f->right;
+		f->left->label = "&";
+		f->right = r;
+		f->label = "|";
 	// cout << "left label is | : doen" << endl;
 	} else {
-		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
-		Formula* l = new Formula("&", ll, f.right->left);
-		f.right->left = f.left;
-		f.right->label = "&";
-		f.left = l;
-		f.label = "|";
+		Formula* ll = copyFormula(f->left);  // "ll" meas left subtree of left subtree of f
+		Formula* l = new Formula("&", ll, f->right->left);
+		f->right->left = f->left;
+		f->right->label = "&";
+		f->left = l;
+		f->label = "|";
 	// cout << "left label is & : doen" << endl;
 	}
-	// cout << "In function inwardMoveAnd, root: " << f.label << " doen" << endl;
+	// cout << "In function inwardMoveAnd, root: " << f->label << " doen" << endl;
+	out << "------------ after ----------- " << endl;
+	printTree(out, f, 0);
+	out.close();
 	return;
 }
 
@@ -433,141 +446,151 @@ void Reader::inwardMoveAnd(Formula & f) {
  * |    )      |      B  C     |  A  B A  C   |
  *  ------------------------------------------
  */
-void Reader::inwardMoveOr(Formula & f) {
-	// cout << "In function inwardMoveAnd, root: " << f.label << "" << endl;
-	if (f.left->label == "&") {
-		Formula* rr = new Formula(*f.right);  // "rr" meas right subtree of right subtree of f
-		Formula* r = new Formula("|", f.left->right, rr);
-		f.left->right = f.right;
-		f.left->label = "|";
-		f.right = r;
-		f.label = "&";
+void Reader::inwardMoveOr(Formula * f) {
+	// cout << "In function inwardMoveAnd, root: " << f->label << "" << endl;
+	if (f->left->label == "&") {
+		Formula* rr = copyFormula(f->right);  // "rr" meas right subtree of right subtree of f
+		Formula* r = new Formula("|", f->left->right, rr);
+		f->left->right = f->right;
+		f->left->label = "|";
+		f->right = r;
+		f->label = "&";
 	// cout << "left label is | : doen" << endl;
 	} else {
-		Formula* ll = new Formula(*f.left);  // "ll" meas left subtree of left subtree of f
-		Formula* l = new Formula("|", ll, f.right->left);
-		f.right->left = f.left;
-		f.right->label = "|";
-		f.left = l;
-		f.label = "&";
+		Formula* ll = copyFormula(f->left);  // "ll" meas left subtree of left subtree of f
+		Formula* l = new Formula("|", ll, f->right->left);
+		f->right->left = f->left;
+		f->right->label = "|";
+		f->left = l;
+		f->label = "&";
 	// cout << "left label is & : doen" << endl;
 	}
-	// cout << "In function inwardMoveAnd, root: " << f.label << " doen" << endl;
+	// cout << "In function inwardMoveAnd, root: " << f->label << " doen" << endl;
 	return;
 }
 
-void Reader::convertToDNFTree(Formula & f) {
-	if (f.label == "->")
-		removeImply(f);
-	if (f.label == "oneof")
-		removeOneof(f);
-	if (f.label == "!" &&
-		(f.left->label == "&" || f.left->label == "|"))
+/*
+ * The function is to remove continuous "not" operator.
+ *
+ * E.g:
+ *               ¬(¬A) <=> A
+ *  ------------------------------------------
+ * | epddl-doc | before b-tree | after b-tree |
+ *  ------------------------------------------
+ * | not(not   |       !       |       A      |
+ * |       (A) |      /        |              |
+ * |    )      |     !         |              |
+ * |           |    /          |              |
+ * |           |   A           |              |
+ *  ------------------------------------------
+ */
+void Reader::removeDoubleNot(Formula * f) {
+	if (f->left && f->left->label == "!" &&
+		f->left->left && f->left->left->label == "!") {
+		Formula * tmp = f->left;
+		f->left = f->left->left->left;
+		delete tmp->left; tmp->left = NULL;
+		delete tmp; tmp = NULL;
+	} else if (f->right && f->right->label == "!" &&
+		f->right->left && f->right->left->label == "!") {
+		Formula * tmp = f->right;
+		f->right = f->right->left->left;
+		delete tmp->left; tmp->left = NULL;
+		delete tmp; tmp = NULL;
+	}
+	if (f->left != NULL)
+	{
+		removeDoubleNot(f->left);
+	}
+	if (f->right != NULL)
+	{
+		removeDoubleNot(f->right);
+	}
+}
+
+void Reader::convertToDNFTree(Formula * f) {
+	removeDoubleNot(f);
+	if (f->label == "!")
+		if (f->left->label == "&" || f->left->label == "|")
 			inwardMoveNot(f);
-	if (f.label == "|" &&
-		f.left->label == "DK" && f.right && f.right->label == "DK")
+	if (f->label == "->")
+		removeImply(f);
+	if (f->label == "oneof")
+		removeOneof(f);
+	if (f->label == "|" &&
+		f->left->label == "DK" && f->right && f->right->label == "DK")
 			mergeDK(f);
-	if (f.label == "&") {
+	if (f->label == "&") {
 		/* several cases to make algorithm complete */
-		if (f.left->label == "&")
-			convertToDNFTree(*f.left);
-		if (f.left->label == "K" &&
-			f.right && f.right->label == "K")
+		if (f->left->label == "&")
+			convertToDNFTree(f->left);
+		if (f->left->label == "K" &&
+			f->right && f->right->label == "K")
 			mergeK(f);
-		if (f.left->label == "->")
-			removeImply(*f.left);
-		if (f.right->label == "->")
-			removeImply(*f.right);
-		if (f.left->label == "!" &&
-			(f.left->left->label == "&" || f.left->left->label == "|"))
-			inwardMoveNot(*f.left);
-		if (f.right && f.right->label == "!" &&
-			(f.right->left->label == "&" || f.right->left->label == "|"))
-			inwardMoveNot(*f.right);
-		if (f.left->label == "|" || (f.right && f.right->label == "|"))
+		if (f->left->label == "->")
+			removeImply(f->left);
+		if (f->right->label == "->")
+			removeImply(f->right);
+		if (f->left->label == "!" &&
+			(f->left->left->label == "&" || f->left->left->label == "|"))
+			inwardMoveNot(f->left);
+		if (f->right && f->right->label == "!" &&
+			(f->right->left->label == "&" || f->right->left->label == "|"))
+			inwardMoveNot(f->right);
+		if (f->left->label == "|" || (f->right && f->right->label == "|"))
 			inwardMoveAnd(f);
 	}
-    /*** use the rule: not (not (a) ) <=> a ***/
-    if (f.left && f.left->left &&
-            f.left->label == "!" && f.left->left->label == "!") {
-        Formula* tmp = f.left;
-        f.left = f.left->left->left;
-        delete tmp->left; tmp->left = NULL;
-        delete tmp; tmp = NULL;
-    }
-    if (f.right && f.right->left &&
-            f.right->label == "!" && f.right->left->label == "!") {
-        Formula* tmp = f.right;
-        f.right = f.right->left->left;
-        delete tmp->left; tmp->left = NULL;
-        delete tmp; tmp = NULL;
-    }
     
-	if (f.left != NULL)
+	if (f->left != NULL)
 	{
-		convertToDNFTree(*f.left);
+		convertToDNFTree(f->left);
 	}
-	if (f.right != NULL)
+	if (f->right != NULL)
 	{
-		convertToDNFTree(*f.right);
+		convertToDNFTree(f->right);
 	}
 	return;
 }
 
-void Reader::convertToCNFTree(Formula & f) {
-	if (f.label == "->")
+void Reader::convertToCNFTree(Formula * f) {
+	if (f->label == "->")
 		removeImply(f);
-	if (f.label == "oneof")
+	if (f->label == "oneof")
 		removeOneof(f);
-	if (f.label == "!" &&
-		(f.left->label == "&" || f.left->label == "|"))
+	if (f->label == "!" &&
+		(f->left->label == "&" || f->left->label == "|"))
 			inwardMoveNot(f);
-	if (f.label == "&" &&
-		f.left->label == "K" && f.right && f.right->label == "K")
+	if (f->label == "&" &&
+		f->left->label == "K" && f->right && f->right->label == "K")
 			mergeK(f);
-	if (f.label == "|") {
+	if (f->label == "|") {
 		/* several cases to make algorithm complete */
-		if (f.left->label == "|")
-			convertToCNFTree(*f.left);
-		if (f.left->label == "DK" &&
-			f.right && f.right->label == "DK")
+		if (f->left->label == "|")
+			convertToCNFTree(f->left);
+		if (f->left->label == "DK" &&
+			f->right && f->right->label == "DK")
 			mergeDK(f);
-		if (f.left->label == "->")
-			removeImply(*f.left);
-		if (f.right->label == "->")
-			removeImply(*f.right);
-		if (f.left->label == "!" &&
-			(f.left->left->label == "&" || f.left->left->label == "|"))
-			inwardMoveNot(*f.left);
-		if (f.right && f.right->label == "!" &&
-			(f.right->left->label == "&" || f.right->left->label == "|"))
-			inwardMoveNot(*f.right);
-		if (f.left->label == "&" || (f.right && f.right->label == "&"))
+		if (f->left->label == "->")
+			removeImply(f->left);
+		if (f->right->label == "->")
+			removeImply(f->right);
+		if (f->left->label == "!" &&
+			(f->left->left->label == "&" || f->left->left->label == "|"))
+			inwardMoveNot(f->left);
+		if (f->right && f->right->label == "!" &&
+			(f->right->left->label == "&" || f->right->left->label == "|"))
+			inwardMoveNot(f->right);
+		if (f->left->label == "&" || (f->right && f->right->label == "&"))
 			inwardMoveOr(f);
 	}
-    /*** use the rule: not (not (a) ) <=> a ***/
-    if (f.left && f.left->left &&
-            f.left->label == "!" && f.left->left->label == "!") {
-        Formula* tmp = f.left;
-        f.left = f.left->left->left;
-        delete tmp->left; tmp->left = NULL;
-        delete tmp; tmp = NULL;
-    }
-    if (f.right && f.right->left &&
-            f.right->label == "!" && f.right->left->label == "!") {
-        Formula* tmp = f.right;
-        f.right = f.right->left->left;
-        delete tmp->left; tmp->left = NULL;
-        delete tmp; tmp = NULL;
-    }
 
-	if (f.left != NULL)
+	if (f->left != NULL)
 	{
-		convertToCNFTree(*f.left);
+		convertToCNFTree(f->left);
 	}
-	if (f.right != NULL)
+	if (f->right != NULL)
 	{
-		convertToCNFTree(*f.right);
+		convertToCNFTree(f->right);
 	}
 	return;
 }

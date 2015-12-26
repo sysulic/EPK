@@ -18,7 +18,7 @@ public:
     void episActionGrounding();
     void onticActionGrounding();
     
-    EpisDNF getEpisDNFfromTree(Formula f);
+    EpisDNF getEpisDNFfromTree(Formula & f);
     EpisTerm getEpisTermFromTree(Formula & f);
     PropDNF getPropDNFfromTree(Formula & f);
     PropTerm getPropTermFromTree(Formula & f);

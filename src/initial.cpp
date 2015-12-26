@@ -11,7 +11,7 @@ Initial::Initial() {
     const char* endFile = "output_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
     if(!out_end.is_open()) {
-        printf("cannot open %s\n", endFile);
+        cout << "cannot open " << endFile << endl;
         return;
     }
     printAtoms(out_end);
@@ -191,7 +191,7 @@ void Initial::onticActionGrounding() {
 
 }
 
-EpisDNF Initial::getEpisDNFfromTree(Formula f) {
+EpisDNF Initial::getEpisDNFfromTree(Formula & f) {
 	EpisDNF e_dnf;
 	Formula* fml = &f;
 	stack<Formula*> s;
@@ -222,7 +222,7 @@ EpisTerm Initial::getEpisTermFromTree(Formula & f) {
         while(fml->label != "NULL") {
             if (fml->label == "K") {
     //cout << "226 : " << fml->label << endl;
-            	e_term.pos_propDNF.group(getPropDNFfromTree(*fml));
+            	e_term.pos_propDNF = e_term.pos_propDNF.group(getPropDNFfromTree(*fml));
                 fml->label = "NULL";
             } else if (fml->label == "DK") { //cout << "229 : " << fml->label << endl;
                 e_term.neg_propDNFs.push_back(getPropDNFfromTree(*fml));
@@ -244,11 +244,11 @@ EpisTerm Initial::getEpisTermFromTree(Formula & f) {
 PropDNF Initial::getPropDNFfromTree(Formula & f) {
 	PropDNF p_dnf;
 	Formula* fml = &f;
-    //cout << fml->label << endl;
 	stack<Formula*> s;
     do {
         while(fml->label != "NULL") {
-            if (fml->label != "K" || fml->label != "DK") {
+            if (fml->label != "K" && fml->label != "DK"
+                && fml->label != "|") {
             	p_dnf.prop_terms.push_back(getPropTermFromTree(*fml));
                 fml->label = "NULL";
             } else {
@@ -269,16 +269,18 @@ PropDNF Initial::getPropDNFfromTree(Formula & f) {
 
 PropTerm Initial::getPropTermFromTree(Formula & f) {
 	PropTerm p_term(atomsByIndex.size()*2);
-	Formula* fml = &f;
+	Formula* fml = &f;//cout << " 275 : " << fml->label << endl;
+    //return p_term;
 	stack<Formula*> s;
     do {
         while(fml->label != "NULL") { //cout << "go3" << endl;//cout << fml->label << endl;
-            if (fml->label != "&") {//cout << "280 : " << fml->label << endl;
-                if (fml->label == "!") {//cout << " 281 : " << fml->label << endl;
-                    p_term.literals[atomsByName[fml->left->label]+1] = 1;
+            if (fml->label != "&") {
+                if (fml->label == "!") {
+                    p_term.literals[atomsByName[fml->left->label]*2+1] = 1;
                 } else {//cout << fml->label << endl;
-                    p_term.literals[atomsByName[fml->label]] = 1;
+                    p_term.literals[atomsByName[fml->label]*2] = 1;
                 }
+                //cout << "285 : " << fml->label << endl;
                 fml->label = "NULL";
             } else {
             	s.push(fml);

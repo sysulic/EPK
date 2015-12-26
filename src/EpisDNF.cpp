@@ -53,7 +53,7 @@ PropTerm PropTerm::group(const PropTerm& prop_term) const
 {
     PropTerm result(length);
     for (int i = 0; i < length; i++) {
-        if (literals[i] || prop_term.literals[i])
+        if (prop_term.literals[i])
             result.literals[i] = 1;
     }
     return result;
@@ -109,7 +109,7 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
     }
 
     //begin ontic progression for each PropTerm (many PropTerms are split by current PropTerm)
-    for (list<PropTerm>::iterator it = progression.begin(); it != progression.end(); it++) {
+    for (list<PropTerm>::iterator it = progression.begin(); it != progression.end(); ++it) {
         PropTerm origin = *it;//保存没做之前的状态，用作判断条件
         for (size_t eff_i = 0; eff_i < ontic_action.con_eff.size(); eff_i++) {
             if (origin.entails(conditions[eff_i])) {
@@ -159,7 +159,7 @@ void PropTerm::split(const vector<int>& missing_atom, const int index, PropTerm&
 
 bool PropDNF::consistent() const
 {
-    for (list<PropTerm>::const_iterator it = prop_terms.begin(); it != prop_terms.end(); it++) {
+    for (list<PropTerm>::const_iterator it = prop_terms.begin(); it != prop_terms.end(); ++it) {
         if (it->consistent())
             return true;
     }   
@@ -191,7 +191,7 @@ bool PropDNF::equals(const PropDNF& propDNF)
 //This reasoning rule is Proposition 3.3 DNF |= CNF
 bool PropDNF::entails(const PropCNF& propCNF) const
 {
-    for (list<PropTerm>::const_iterator pre_it = prop_terms.begin(); pre_it != prop_terms.end(); pre_it++) {
+    for (list<PropTerm>::const_iterator pre_it = prop_terms.begin(); pre_it != prop_terms.end(); ++pre_it) {
         for (list<PropClause>::const_iterator post_it = propCNF.prop_clauses.begin(); post_it != propCNF.prop_clauses.end(); post_it++) {
             if (!pre_it->entails(*post_it))
                 return false;
@@ -202,20 +202,21 @@ bool PropDNF::entails(const PropCNF& propCNF) const
 
 PropDNF PropDNF::group(const PropDNF& propDNF) const
 {
-    // 处理任意一边为空的情况
     if (! prop_terms.empty() && ! propDNF.prop_terms.empty()) {
         PropDNF result;
-        for (list<PropTerm>::const_iterator it_i = prop_terms.begin(); it_i != prop_terms.end(); it_i++) {
-            for (list<PropTerm>::const_iterator it_j = propDNF.prop_terms.begin(); it_j != propDNF.prop_terms.end(); it_j++) 
+        for (list<PropTerm>::const_iterator it_i = prop_terms.begin();
+            it_i != prop_terms.end(); ++it_i) {
+            for (list<PropTerm>::const_iterator it_j = propDNF.prop_terms.begin();
+                it_j != propDNF.prop_terms.end(); it_j++) 
                 result.prop_terms.push_back(it_i->group(*it_j));
         }
         //need to add min and PI method
         return result;
-    }
-    else if (prop_terms.empty())
+    } else if (prop_terms.empty()) {
         return propDNF;
-    else
+    } else {
         return *this;
+    }
 }
 
 PropDNF& PropDNF::minimal()
@@ -248,7 +249,7 @@ PropDNF& PropDNF::minimal()
 PropDNF PropDNF::ontic_prog(const OnticAction& ontic_action)
 {
     PropDNF result;
-    for (list<PropTerm>::iterator it = prop_terms.begin(); it != prop_terms.end(); it++) {
+    for (list<PropTerm>::iterator it = prop_terms.begin(); it != prop_terms.end(); ++it) {
         list<PropTerm> res = it->ontic_prog(ontic_action);
         result.prop_terms.insert(result.prop_terms.end(), res.begin(), res.end());
     }
@@ -342,13 +343,13 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
 
 void PropDNF::show(ofstream & out) const 
 {
-    out << "( ";
+    out << "(" << endl;
     for (list<PropTerm>::const_iterator it = prop_terms.begin();
             it != prop_terms.end(); ++ it) {
         out << " | ";
         it->show(out);
     }
-    out << " )" << endl;
+    out << ")" << endl;
 }
 
 bool EpisTerm::consistent() const
@@ -357,7 +358,7 @@ bool EpisTerm::consistent() const
         return false;
     else {
         for (list<PropDNF>::const_iterator it = neg_propDNFs.begin();
-            it != neg_propDNFs.end(); it++) {
+            it != neg_propDNFs.end(); ++it) {
             if (!it->consistent())
                 return false;
         }
@@ -412,13 +413,13 @@ bool EpisTerm::entails(const EpisClause& epis_clause) const
         return true;
     
     //case 2 of Proposition 3.2
-    for (list<PropDNF>::const_iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); it++) {
+    for (list<PropDNF>::const_iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); ++it) {
         if (!it->group(ec_neg_tmp).consistent())
             return true;
     }
     
     //case 3 of Proposition 3.2
-    for (list<PropCNF>::const_iterator it = epis_clause.pos_propCNFs.begin(); it != epis_clause.pos_propCNFs.end(); it++) {
+    for (list<PropCNF>::const_iterator it = epis_clause.pos_propCNFs.begin(); it != epis_clause.pos_propCNFs.end(); ++it) {
         if (!pos_propDNF.group(it->negation()).consistent())
             return true;
     }
@@ -446,7 +447,7 @@ EpisTerm& EpisTerm::minimal()
     
     //For an EpisTerm, we need that \psi and each \eta_i are minimal 
     pos_propDNF.minimal();
-    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); it++)
+    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); ++it)
         it->minimal();
           
     return *this;
@@ -454,7 +455,7 @@ EpisTerm& EpisTerm::minimal()
 
 EpisTerm& EpisTerm::separable()
 {
-    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); it++) {
+    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); ++it) {
         if (!it->entails(pos_propDNF)) 
             *it = it->group(pos_propDNF);
     }
@@ -467,7 +468,7 @@ void EpisTerm::show(ofstream & out) const
     pos_propDNF.show(out);
     for (list<PropDNF>::const_iterator it = neg_propDNFs.begin();
             it != neg_propDNFs.end(); ++it) {
-        out << "~K~";
+        out << "DK";
         it->show(out);
     }
 }
@@ -485,7 +486,7 @@ EpisTerm EpisTerm::ontic_prog(const OnticAction& ontic_action)
 {
     EpisTerm result;
     result.pos_propDNF = pos_propDNF.ontic_prog(ontic_action);
-    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); it++)
+    for (list<PropDNF>::iterator it = neg_propDNFs.begin(); it != neg_propDNFs.end(); ++it)
         result.neg_propDNFs.push_back(it->ontic_prog(ontic_action));
     return result;
 }
@@ -527,7 +528,7 @@ bool EpisDNF::entails(const EpisCNF& episCNF) const {
 
 EpisDNF& EpisDNF::minimal()
 {
-    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); it++)
+    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); ++it)
         it-> minimal();
     return *this;
 }
@@ -535,7 +536,7 @@ EpisDNF& EpisDNF::minimal()
 EpisDNF EpisDNF::ontic_prog(const OnticAction& ontic_action)
 {
     EpisDNF result;
-    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); it++) {
+    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); ++it) {
         result.epis_terms.push_back(it->ontic_prog(ontic_action));
     }
     result.minimal();
@@ -547,7 +548,7 @@ vector<EpisDNF> EpisDNF::epistemic_prog(const EpisAction& epis_action)
     EpisDNF p_episDNF;
     EpisDNF n_episDNF;
 
-    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); it++) {
+    for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); ++it) {
         EpisTerm p_epis_term;
         EpisTerm n_epis_term;
         

@@ -30,16 +30,17 @@ class Reader
   ~Reader() {}
 
   // intermediate structure
-  void printTree(ofstream & file, Formula & f, size_t deep);
-  void removeImply(Formula & f);
-  void removeOneof(Formula & f);
-  void inwardMoveNot(Formula & f) ;
-  void mergeK(Formula & f);
-  void mergeDK(Formula & f);
-  void inwardMoveAnd(Formula & f);
-  void inwardMoveOr(Formula & f) ;
-  void convertToDNFTree(Formula & f);
-  void convertToCNFTree(Formula & f);
+  void printTree(ofstream & file, Formula * f, size_t deep);
+  void removeImply(Formula * f);
+  void removeOneof(Formula * f);
+  void removeDoubleNot(Formula * f);
+  void inwardMoveNot(Formula * f) ;
+  void mergeK(Formula * f);
+  void mergeDK(Formula * f);
+  void inwardMoveAnd(Formula * f);
+  void inwardMoveOr(Formula * f) ;
+  void convertToDNFTree(Formula * f);
+  void convertToCNFTree(Formula * f);
 
   void printInit(ofstream & out_begin, ofstream & out_end);
   void printGoal(ofstream & out_begin, ofstream & out_end);
