@@ -5,9 +5,9 @@ extern Reader reader;
 
 Initial::Initial() {
     atomsGrounding();
-    init = getEpisDNFfromTree(reader.init);
-
-
+    init = getEpisDNFfromTree(&reader.init);
+    goal = getEpisCNFfromTree(&reader.goal);
+    
     const char* endFile = "output_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
     if(!out_end.is_open()) {
@@ -16,11 +16,12 @@ Initial::Initial() {
     }
     printAtoms(out_end);
     printInit(out_end);
-    //printGoal(out_end);
+    printGoal(out_end);
     //printSenseActions(out_end);
     //printOnticActions(out_end);  // conversion after first printActions()
 
     out_end.close();
+
 }
 
 void Initial::printInit(ofstream & out) {
@@ -191,107 +192,196 @@ void Initial::onticActionGrounding() {
 
 }
 
-EpisDNF Initial::getEpisDNFfromTree(Formula & f) {
-	EpisDNF e_dnf;
-	Formula* fml = &f;
-	stack<Formula*> s;
+EpisDNF Initial::getEpisDNFfromTree(Formula * f) {
+    EpisDNF e_dnf;
+    stack<Formula*> s;
     do {
-        while(fml->label != "NULL") {
-            if (fml->label != "|") {//cout << "200 : " << fml->label << endl;
-            	e_dnf.epis_terms.push_back(getEpisTermFromTree(*fml));
-                fml->label = "NULL";
+        while(f->label != "NULL") {
+            if (f->label != "|") {
+                e_dnf.epis_terms.push_back(getEpisTermFromTree(f));
+                f->label = "NULL";
             } else {
-            	s.push(fml);
-            	fml = fml->left;
+                s.push(f);
+                f = f->left;
             }
         }
         if(!s.empty()) {
-            fml = s.top();
+            f = s.top();
             s.pop();
-            fml = fml->right;
+            f = f->right;
         }
-    } while(fml->label != "NULL" || !s.empty());
+    } while(f->label != "NULL" || !s.empty());
     return e_dnf;
 }
 
-EpisTerm Initial::getEpisTermFromTree(Formula & f) {
-	EpisTerm e_term;
-	Formula* fml = &f;
-	stack<Formula*> s;
+EpisTerm Initial::getEpisTermFromTree(Formula * f) {
+    EpisTerm e_term;
+    stack<Formula*> s;
     do {
-        while(fml->label != "NULL") {
-            if (fml->label == "K") {
-    //cout << "226 : " << fml->label << endl;
-            	e_term.pos_propDNF = e_term.pos_propDNF.group(getPropDNFfromTree(*fml));
-                fml->label = "NULL";
-            } else if (fml->label == "DK") { //cout << "229 : " << fml->label << endl;
-                e_term.neg_propDNFs.push_back(getPropDNFfromTree(*fml));
-                fml->label = "NULL";
+        while(f->label != "NULL") {
+            if (f->label == "K") {
+                e_term.pos_propDNF = e_term.pos_propDNF.group(getPropDNFfromTree(f));
+                f->label = "NULL";
+            } else if (f->label == "DK") {
+                e_term.neg_propDNFs.push_back(getPropDNFfromTree(f));
+                f->label = "NULL";
             } else {
-            	s.push(fml);
-            	fml = fml->left;
+                s.push(f);
+                f = f->left;
             }
         }
         if(!s.empty()) {
-            fml = s.top();
+            f = s.top();
             s.pop();
-            fml = fml->right;
+            f = f->right;
         }
-    } while(fml->label != "NULL" || !s.empty());
+    } while(f->label != "NULL" || !s.empty());
     return e_term;
 }
 
-PropDNF Initial::getPropDNFfromTree(Formula & f) {
-	PropDNF p_dnf;
-	Formula* fml = &f;
-	stack<Formula*> s;
+PropDNF Initial::getPropDNFfromTree(Formula * f) {
+    PropDNF p_dnf;
+    stack<Formula*> s;
     do {
-        while(fml->label != "NULL") {
-            if (fml->label != "K" && fml->label != "DK"
-                && fml->label != "|") {
-            	p_dnf.prop_terms.push_back(getPropTermFromTree(*fml));
-                fml->label = "NULL";
+        while(f->label != "NULL") {
+            if (f->label != "K" && f->label != "DK"
+                && f->label != "|") {
+                p_dnf.prop_terms.push_back(getPropTermFromTree(f));
+                f->label = "NULL";
             } else {
-            	s.push(fml);
-            	fml = fml->left;
+                s.push(f);
+                f = f->left;
             }
         }
         if(s.size() > 1) {
-            fml = s.top();
+            f = s.top();
             s.pop();
-            fml = fml->right;
+            f = f->right;
         }
 
-    } while(fml->label != "NULL" || s.size() > 1);
-    //cout << "270 done" << endl;
+    } while(f->label != "NULL" || s.size() > 1);
     return p_dnf;
 }
 
-PropTerm Initial::getPropTermFromTree(Formula & f) {
-	PropTerm p_term(atomsByIndex.size()*2);
-	Formula* fml = &f;//cout << " 275 : " << fml->label << endl;
-    //return p_term;
-	stack<Formula*> s;
+PropTerm Initial::getPropTermFromTree(Formula * f) {
+    PropTerm p_term(atomsByIndex.size()*2);
+    stack<Formula*> s;
     do {
-        while(fml->label != "NULL") { //cout << "go3" << endl;//cout << fml->label << endl;
-            if (fml->label != "&") {
-                if (fml->label == "!") {
-                    p_term.literals[atomsByName[fml->left->label]*2+1] = 1;
-                } else {//cout << fml->label << endl;
-                    p_term.literals[atomsByName[fml->label]*2] = 1;
+        while(f->label != "NULL") {
+            if (f->label != "&") {
+                if (f->label == "!") {
+                    p_term.literals[atomsByName[f->left->label]*2+1] = 1;
+                } else {
+                    p_term.literals[atomsByName[f->label]*2] = 1;
                 }
-                //cout << "285 : " << fml->label << endl;
-                fml->label = "NULL";
+                f->label = "NULL";
             } else {
-            	s.push(fml);
-            	fml = fml->left;
+                s.push(f);
+                f = f->left;
             }
         }
         if(!s.empty()) {
-            fml = s.top();
+            f = s.top();
             s.pop();
-            fml = fml->right;
+            f = f->right;
         }
-    } while(fml->label != "NULL" || !s.empty());
+    } while(f->label != "NULL" || !s.empty());
     return p_term;
+}
+
+EpisCNF Initial::getEpisCNFfromTree(Formula * f) {
+    EpisCNF e_cnf;
+    stack<Formula*> s;
+    do {
+        while(f->label != "NULL") {
+            if (f->label != "&") {
+                e_cnf.epis_clauses.push_back(getEpisClauseFromTree(f));
+                f->label = "NULL";
+            } else {
+                s.push(f);
+                f = f->left;
+            }
+        }
+        if(!s.empty()) {
+            f = s.top();
+            s.pop();
+            f = f->right;
+        }
+    } while(f->label != "NULL" || !s.empty());
+    return e_cnf;
+}
+
+EpisClause Initial::getEpisClauseFromTree(Formula * f) {
+    EpisClause e_clause;
+    stack<Formula*> s;
+    do {
+        while(f->label != "NULL") {
+            if (f->label == "DK") {
+                e_clause.neg_propCNF = e_clause.neg_propCNF.group(getPropCNFfromTree(f));
+                f->label = "NULL";
+            } else if (f->label == "K") {
+                e_clause.pos_propCNFs.push_back(getPropCNFfromTree(f));
+                f->label = "NULL";
+            } else {
+                s.push(f);
+                f = f->left;
+            }
+        }
+        if(!s.empty()) {
+            f = s.top();
+            s.pop();
+            f = f->right;
+        }
+    } while(f->label != "NULL" || !s.empty());
+    return e_clause;
+}
+
+PropCNF Initial::getPropCNFfromTree(Formula * f) {
+    PropCNF p_cnf;
+    stack<Formula*> s;
+    do {
+        while(f->label != "NULL") {
+            if (f->label != "K" && f->label != "DK"
+                && f->label != "&") {
+                p_cnf.prop_clauses.push_back(getPropClauseFromTree(f));
+                f->label = "NULL";
+            } else {
+                s.push(f);
+                f = f->left;
+            }
+        }
+        if(s.size() > 1) {
+            f = s.top();
+            s.pop();
+            f = f->right;
+        }
+
+    } while(f->label != "NULL" || s.size() > 1);
+    return p_cnf;
+}
+
+PropClause Initial::getPropClauseFromTree(Formula * f) {
+    PropClause p_clause(atomsByIndex.size()*2);
+    stack<Formula*> s;
+    do {
+        while(f->label != "NULL") {
+            if (f->label != "|") {
+                if (f->label == "!") {
+                    p_clause.literals[atomsByName[f->left->label]*2+1] = 1;
+                } else {
+                    p_clause.literals[atomsByName[f->label]*2] = 1;
+                }
+                f->label = "NULL";
+            } else {
+                s.push(f);
+                f = f->left;
+            }
+        }
+        if(!s.empty()) {
+            f = s.top();
+            s.pop();
+            f = f->right;
+        }
+    } while(f->label != "NULL" || !s.empty());
+    return p_clause;
 }

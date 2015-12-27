@@ -395,9 +395,6 @@ void Reader::mergeDK(Formula * f) {
  *  ------------------------------------------
  */
 void Reader::inwardMoveAnd(Formula * f) {
-	ofstream out("aaaa", ios::app);
-	out << "------------ before ----------- " << endl;
-	printTree(out, f, 0);
 	// cout << "In function inwardMoveAnd, root: " << f->label << "" << endl;
 	if (f->left->label == "|") {
 		Formula* rr = copyFormula(f->right);  // "rr" meas right subtree of right subtree of f
@@ -417,9 +414,6 @@ void Reader::inwardMoveAnd(Formula * f) {
 	// cout << "left label is & : doen" << endl;
 	}
 	// cout << "In function inwardMoveAnd, root: " << f->label << " doen" << endl;
-	out << "------------ after ----------- " << endl;
-	printTree(out, f, 0);
-	out.close();
 	return;
 }
 

@@ -61,47 +61,43 @@ PropCNF PropCNF::group(const PropCNF& propCNF) const
 
 void PropClause::show(ofstream & out) const
 {
-    for (size_t i = 0; i < literals.size(); ++i)
+    for (size_t i = 0; i < length; ++i)
         out << literals[i] << " ";
     out << endl;
 }
 
 void PropCNF::show(ofstream & out) const
-{    
-    if (prop_clauses.empty())
-        return ;
-    out << "( ";
-    prop_clauses.begin()->show(out);
-    for (list<PropClause>::const_iterator it = (++prop_clauses.begin());
+{
+    out << "(" << endl;
+    for (list<PropClause>::const_iterator it = prop_clauses.begin();
             it != prop_clauses.end(); ++it) {
         out << " & ";
         it->show(out);
     }
-    out << " )" << endl;
+    out << ")" << endl;
 }
 
 void EpisClause::show(ofstream & out) const
 {
     for (list<PropCNF>::const_iterator it = pos_propCNFs.begin();
-            it != pos_propCNFs.end(); ++ it) {
+            it != pos_propCNFs.end(); ++it) {
         out << "K";
         it->show(out);
     }
+    /*
     for (list<PropCNF>::const_iterator it = neg_propCNFs.begin();
-            it != neg_propCNFs.end(); ++ it) {
+            it != neg_propCNFs.end(); ++it) {
         out << "*~K~";
         it->show(out);
-    }
-    if (! neg_propCNF.prop_clauses.empty()) {
-        out << "~K~";
-        neg_propCNF.show(out);
-    }
+    }*/
+    out << "DK";
+    neg_propCNF.show(out);
 }
 
 PropDNF PropCNF::negation() const
 {
     PropDNF result;
-    for (list<PropClause>::const_iterator it = prop_clauses.begin(); it != prop_clauses.end(); it++) {
+    for (list<PropClause>::const_iterator it = prop_clauses.begin(); it != prop_clauses.end(); ++it) {
         result.prop_terms.push_back(it->negation());
     }
     return result;	
@@ -135,8 +131,8 @@ void EpisClause::min()
     if(neg_propCNFs.size()>1){
         PropCNF p = *neg_propCNFs.begin();
         list<PropCNF>::iterator it = neg_propCNFs.begin();
-        it++;
-        while(it!=neg_propCNFs.end()){
+        ++it;
+        while(it != neg_propCNFs.end()){
             p = p.group(*it);
         }
         neg_propCNFs.clear();
@@ -146,7 +142,7 @@ void EpisClause::min()
 
 EpisClause& EpisClause::separable()
 {
-    for (list<PropCNF>::iterator it = pos_propCNFs.begin(); it != pos_propCNFs.end(); it++) {
+    for (list<PropCNF>::iterator it = pos_propCNFs.begin(); it != pos_propCNFs.end(); ++it) {
         if (!neg_propCNF.entails(*it))
             *it = it->group(neg_propCNF);
     }
@@ -173,7 +169,7 @@ EpisClause& EpisClause::minimal()
     }
     
     neg_propCNF.minimal();
-    for (list<PropCNF>::iterator it = pos_propCNFs.begin(); it != pos_propCNFs.end(); it++) 
+    for (list<PropCNF>::iterator it = pos_propCNFs.begin(); it != pos_propCNFs.end(); ++it) 
         it->minimal();
     
     return *this;
@@ -181,14 +177,14 @@ EpisClause& EpisClause::minimal()
 
 EpisCNF::EpisCNF()
 {
-    for (list<EpisClause>::iterator it = epis_clauses.begin(); it != epis_clauses.end(); it++)
+    for (list<EpisClause>::iterator it = epis_clauses.begin(); it != epis_clauses.end(); ++it)
         it->minimal();
 }
 
 void EpisCNF::show(ofstream & out) const
 {
     int i = 0;
-    for(list<EpisClause>::const_iterator it = epis_clauses.begin(); it != epis_clauses.end(); it++) {
+    for(list<EpisClause>::const_iterator it = epis_clauses.begin(); it != epis_clauses.end(); ++it) {
         out << "epis cnf " << i++ << endl;
         it->show(out);
         out << endl;

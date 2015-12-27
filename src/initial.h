@@ -18,17 +18,16 @@ public:
     void episActionGrounding();
     void onticActionGrounding();
     
-    EpisDNF getEpisDNFfromTree(Formula & f);
-    EpisTerm getEpisTermFromTree(Formula & f);
-    PropDNF getPropDNFfromTree(Formula & f);
-    PropTerm getPropTermFromTree(Formula & f);
-    /*
-    EpisCNF getEpisCNFfromTree(Formula & f);
-    EpisClause getEpisClauseFromTree(Formula & f);
-    PropCNF getPropCNFfromTree(Formula & f);
-    PropClause getPropClauseFromTree(Formula & f);
+    EpisDNF getEpisDNFfromTree(Formula * f);
+    EpisTerm getEpisTermFromTree(Formula * f);
+    PropDNF getPropDNFfromTree(Formula * f);
+    PropTerm getPropTermFromTree(Formula * f);
+    
+    EpisCNF getEpisCNFfromTree(Formula * f);
+    EpisClause getEpisClauseFromTree(Formula * f);
+    PropCNF getPropCNFfromTree(Formula * f);
+    PropClause getPropClauseFromTree(Formula * f);
 
-     */
 
     void printAtoms(ofstream & out);
     void printInit(ofstream & out);

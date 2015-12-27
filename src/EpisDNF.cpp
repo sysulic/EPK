@@ -227,13 +227,13 @@ PropDNF& PropDNF::minimal()
         if (! it->consistent())
             it = prop_terms.erase(it);
         else 
-            ++ it;
+            ++it;
     }
     // 处理蕴含关系
     for (list<PropTerm>::iterator it_1 = prop_terms.begin(); it_1 != prop_terms.end(); ) {
         bool is_delete = false;
         for (list<PropTerm>::iterator it_2 = prop_terms.begin();
-                it_2 != prop_terms.end(); ++ it_2) {
+                it_2 != prop_terms.end(); ++it_2) {
             if (it_1 != it_2 && it_1->entails(*it_2)) {
                 is_delete = true;
                 it_1 = prop_terms.erase(it_1);
@@ -241,7 +241,7 @@ PropDNF& PropDNF::minimal()
             }
         }
         if (! is_delete)
-            ++ it_1;
+            ++it_1;
     }
     return *this;
 }
@@ -262,7 +262,7 @@ void PropDNF::convert_IPIA() {
     list<PropTerm>::const_iterator it = prop_terms.begin();
     list<PropTerm> pi;
     pi.push_back(*it);
-    for (++ it; it != prop_terms.end(); ++ it) {
+    for (++it; it != prop_terms.end(); ++it) {
         // Algorithm 1: Incremental prime implicant algorithm
         PropTerm t = *it;
         list<PropTerm> segma;
@@ -279,9 +279,9 @@ void PropDNF::convert_IPIA() {
                 // 且 (l属于t') && (~l属于t'') || (~l属于t') && (l属于t'')
                 size_t _l = (l % 2 == 0) ? l + 1 : l - 1;
                 for (list<PropTerm>::iterator it_pi = pi.begin();
-                        it_pi != pi.end(); ++ it_pi) {
+                        it_pi != pi.end(); ++it_pi) {
                     for (list<PropTerm>::iterator it_segma = segma.begin();
-                            it_segma != segma.end(); ++ it_segma) {
+                            it_segma != segma.end(); ++it_segma) {
                         if ((it_pi->literals.test(l) && it_segma->literals.test(_l)) ||
                                 (it_pi->literals.test(_l) && it_segma->literals.test(l))) {
                             // t* = term(t', t'', l);
@@ -313,21 +313,21 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
     for (list<PropTerm>::iterator it = pi.begin(); it != pi.end(); ) {
         bool is_delete = false;
         for (list<PropTerm>::const_iterator it_segma = segma_tmp.begin();
-                (! is_delete) && (it_segma != segma_tmp.end()); ++ it_segma) {
+                (! is_delete) && (it_segma != segma_tmp.end()); ++it_segma) {
             if (it->entails(*it_segma)) {
                 is_delete = true;
                 it = pi.erase(it);
             }
         }
         if (! is_delete)
-            ++ it;
+            ++it;
     }
     // 处理segma
     bool is_t_delete = false;
     for (list<PropTerm>::iterator it = segma.begin(); it != segma.end(); ) {
         bool is_delete = false;
         for (list<PropTerm>::const_iterator it_pi = pi.begin();
-                (! is_delete) && (it_pi != pi.end()); ++ it_pi) {
+                (! is_delete) && (it_pi != pi.end()); ++it_pi) {
             if (it->entails(*it_pi)) {
                 is_delete = true;
                 if (it->equals(t))
@@ -336,7 +336,7 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
             }
         }
         if (! is_delete)
-            ++ it;
+            ++it;
     }
     return is_t_delete;
 }
@@ -345,7 +345,7 @@ void PropDNF::show(ofstream & out) const
 {
     out << "(" << endl;
     for (list<PropTerm>::const_iterator it = prop_terms.begin();
-            it != prop_terms.end(); ++ it) {
+            it != prop_terms.end(); ++it) {
         out << " | ";
         it->show(out);
     }
@@ -477,7 +477,7 @@ void EpisTerm::convert_IPIA() {
     if (! pos_propDNF.prop_terms.empty())
         pos_propDNF.convert_IPIA();
     for (list<PropDNF>::iterator it = neg_propDNFs.begin();
-            it != neg_propDNFs.end(); ++ it) {
+            it != neg_propDNFs.end(); ++it) {
         it->convert_IPIA();
     }
 }
@@ -587,7 +587,7 @@ void EpisDNF::show(ofstream &out) const
 
 void EpisDNF::convert_IPIA() {
     for (list<EpisTerm>::iterator it = epis_terms.begin();
-            it != epis_terms.end(); ++ it) {
+            it != epis_terms.end(); ++it) {
         it->convert_IPIA();
     }
 }
