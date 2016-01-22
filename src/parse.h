@@ -108,6 +108,7 @@ typedef union YYSTYPE
 {
   string* str;
   StringSet* str_set;
+  StringList* str_list;
   SingleTypePair* singletype_pair;
   MultiTypeSet* multitype_set;
   MultiTypePair* multitype_pair;
@@ -121,7 +122,7 @@ typedef union YYSTYPE
   Formula* tree;
 }
 /* Line 1529 of yacc.c.  */
-#line 125 "parse.h"
+#line 126 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -95,7 +95,7 @@ void Reader::printSenseActions(ofstream & out_file) {
 		for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
 			it_para != (*it_action).paras.end(); ++it_para) {
 			out_file << (*it_para).first << ":";
-			for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
+			for (StringList::const_iterator it_vrb = (*it_para).second.begin();
 				it_vrb != (*it_para).second.end(); ++it_vrb) {
 				out_file << " " << *it_vrb;
 			}
@@ -129,7 +129,7 @@ void Reader::printOnticActions(ofstream & out_file) {
 		for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
 			it_para != (*it_action).paras.end(); ++it_para) {
 			out_file << (*it_para).first << ":";
-			for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
+			for (StringList::const_iterator it_vrb = (*it_para).second.begin();
 				it_vrb != (*it_para).second.end(); ++it_vrb) {
 				out_file << " " << *it_vrb;
 			}
@@ -145,12 +145,12 @@ void Reader::printOnticActions(ofstream & out_file) {
 		for (EffectList::iterator it_ef = (*it_action).effects.begin();
 			it_ef != (*it_action).effects.end(); ++it_ef, ++counter) {
 			out_file << "--- effect --- No." << counter << " :" << endl;
-			for (StringSet::iterator str = (*it_ef).condition.begin();
+			for (StringList::iterator str = (*it_ef).condition.begin();
 				str != (*it_ef).condition.end(); ++str) {
 				out_file << *str << ", ";
 			}
 			out_file << "\n-----" << endl;
-			for (StringSet::iterator str = (*it_ef).lits.begin();
+			for (StringList::iterator str = (*it_ef).lits.begin();
 				str != (*it_ef).lits.end(); ++str) {
 				out_file << *str << ", ";
 			}

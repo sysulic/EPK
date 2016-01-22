@@ -14,12 +14,19 @@ public:
     EpisCNF goal;
 
 public:
+    // for atoms grounding
     void atomsGrounding();
+    // for epistemic action grounding
     void episActionsGrounding();
     PreSenseAction episActionParamGrouding(PreSenseAction & senseAction,
                                         const string param, const string obj);
     void replaceParamWithObj(Formula * f, const string param, const string obj);
+    // for ontic action grounding
     void onticActionsGrounding();
+    PreOnticAction onticActionParamGrouding(PreOnticAction & onticAction,
+                                        const string param, const string obj);
+    StringList getGroundedStr(StringList sl, const string param, const string obj);
+    vector<ConEffect> getOnticEffect(EffectList effects);
     
     EpisDNF getEpisDNFfromTree(Formula * f);
     EpisTerm getEpisTermFromTree(Formula * f);

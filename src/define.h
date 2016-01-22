@@ -28,7 +28,8 @@ struct Effect;
 
 typedef list<Effect> EffectList;
 typedef set<string> StringSet;
-typedef pair<string, StringSet> SingleTypePair;
+typedef list<string> StringList;
+typedef pair<string, StringList> SingleTypePair;
 typedef set<SingleTypePair> MultiTypeSet;
 typedef pair<string, MultiTypeSet> MultiTypePair;
 typedef set<MultiTypePair> PredicateSet;
@@ -77,8 +78,8 @@ struct PreSenseAction
 //物理动作中的effect（效果二元组）- for preprocessing
 struct Effect
 {
-    StringSet condition; //效果中的条件
-    StringSet lits;  
+    StringList condition; //效果中的条件
+    StringList lits;  
 };
 
 //物理动作的描述 - for preprocessing

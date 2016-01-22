@@ -165,6 +165,7 @@ typedef union YYSTYPE
 {
   string* str;
   StringSet* str_set;
+  StringList* str_list;
   SingleTypePair* singletype_pair;
   MultiTypeSet* multitype_set;
   MultiTypePair* multitype_pair;
@@ -178,7 +179,7 @@ typedef union YYSTYPE
   Formula* tree;
 }
 /* Line 193 of yacc.c.  */
-#line 182 "parse.tab.c"
+#line 183 "parse.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -191,7 +192,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 195 "parse.tab.c"
+#line 196 "parse.tab.c"
 
 #ifdef short
 # undef short
@@ -512,14 +513,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   113,   113,   113,   118,   132,   140,   144,   150,   155,
-     162,   170,   174,   180,   185,   192,   200,   206,   211,   218,
-     226,   231,   239,   240,   243,   244,   247,   264,   281,   285,
-     286,   290,   294,   295,   296,   297,   300,   309,   315,   319,
-     325,   326,   327,   328,   329,   330,   333,   342,   348,   349,
-     350,   359,   363,   367,   372,   379,   387,   392,   399,   400,
-     401,   402,   403,   411,   424,   440,   446,   450,   454,   460,
-     465,   472,   480,   485,   492,   496,   504
+       0,   114,   114,   114,   119,   133,   141,   145,   151,   156,
+     163,   171,   175,   181,   186,   193,   201,   207,   212,   219,
+     227,   232,   240,   241,   244,   245,   248,   265,   282,   286,
+     287,   291,   295,   296,   297,   298,   301,   310,   316,   320,
+     326,   327,   328,   329,   330,   331,   334,   343,   349,   350,
+     351,   362,   366,   370,   375,   382,   390,   395,   402,   403,
+     404,   405,   406,   414,   427,   443,   449,   453,   457,   463,
+     468,   475,   483,   488,   495,   499,   507
 };
 #endif
 
@@ -1546,7 +1547,7 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 124 "parse.y"
+#line 125 "parse.y"
     {
 		reader.domainName = *(yyvsp[(3) - (7)].str);
 		reader.types = *(yyvsp[(4) - (7)].str_set);
@@ -1556,28 +1557,28 @@ yyreduce:
     break;
 
   case 5:
-#line 133 "parse.y"
+#line 134 "parse.y"
     {
 		(yyval.str) = (yyvsp[(3) - (4)].str);
 	;}
     break;
 
   case 6:
-#line 141 "parse.y"
+#line 142 "parse.y"
     {
 		(yyval.str_set) = (yyvsp[(4) - (5)].str_set);
 	;}
     break;
 
   case 7:
-#line 145 "parse.y"
+#line 146 "parse.y"
     {
 		(yyval.str_set) = new StringSet;
 	;}
     break;
 
   case 8:
-#line 151 "parse.y"
+#line 152 "parse.y"
     {
 		(yyval.str_set) = (yyvsp[(1) - (2)].str_set);
 		(yyval.str_set)->insert(*(yyvsp[(2) - (2)].str));
@@ -1585,7 +1586,7 @@ yyreduce:
     break;
 
   case 9:
-#line 156 "parse.y"
+#line 157 "parse.y"
     {
 		(yyval.str_set) = new StringSet;
 		(yyval.str_set)->insert(*(yyvsp[(1) - (1)].str));
@@ -1593,28 +1594,28 @@ yyreduce:
     break;
 
   case 10:
-#line 163 "parse.y"
+#line 164 "parse.y"
     {
 		(yyval.str) =  new string(*(yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 11:
-#line 171 "parse.y"
+#line 172 "parse.y"
     {
 		(yyval.pre_set) = (yyvsp[(4) - (5)].pre_set);
 	;}
     break;
 
   case 12:
-#line 175 "parse.y"
+#line 176 "parse.y"
     {
 		(yyval.pre_set) = new PredicateSet
 	;}
     break;
 
   case 13:
-#line 181 "parse.y"
+#line 182 "parse.y"
     {
 		(yyval.pre_set) = (yyvsp[(1) - (2)].pre_set);
 		(yyval.pre_set)->insert(*(yyvsp[(2) - (2)].multitype_pair));
@@ -1622,7 +1623,7 @@ yyreduce:
     break;
 
   case 14:
-#line 186 "parse.y"
+#line 187 "parse.y"
     {
 		(yyval.pre_set) = new PredicateSet;
 		(yyval.pre_set)->insert(*(yyvsp[(1) - (1)].multitype_pair));
@@ -1630,7 +1631,7 @@ yyreduce:
     break;
 
   case 15:
-#line 193 "parse.y"
+#line 194 "parse.y"
     {
 		(yyval.multitype_pair) = new MultiTypePair;
 		(yyval.multitype_pair)->first = *(yyvsp[(2) - (4)].str);
@@ -1639,14 +1640,14 @@ yyreduce:
     break;
 
   case 16:
-#line 201 "parse.y"
+#line 202 "parse.y"
     { 
 		(yyval.str) = (yyvsp[(1) - (1)].str);
 	;}
     break;
 
   case 17:
-#line 207 "parse.y"
+#line 208 "parse.y"
     {
 		(yyval.multitype_set) = (yyvsp[(1) - (2)].multitype_set);
 		(yyval.multitype_set)->insert(*(yyvsp[(2) - (2)].singletype_pair));
@@ -1654,7 +1655,7 @@ yyreduce:
     break;
 
   case 18:
-#line 212 "parse.y"
+#line 213 "parse.y"
     {
 		(yyval.multitype_set) = new MultiTypeSet;
 		(yyval.multitype_set)->insert(*(yyvsp[(1) - (1)].singletype_pair));
@@ -1662,42 +1663,42 @@ yyreduce:
     break;
 
   case 19:
-#line 219 "parse.y"
+#line 220 "parse.y"
     {
 		(yyval.singletype_pair) = new SingleTypePair;
 		(yyval.singletype_pair)->first = *(yyvsp[(3) - (3)].str);
-		(yyval.singletype_pair)->second = *(yyvsp[(1) - (3)].str_set);
+		(yyval.singletype_pair)->second = *(yyvsp[(1) - (3)].str_list);
 	;}
     break;
 
   case 20:
-#line 227 "parse.y"
+#line 228 "parse.y"
     {
-		(yyval.str_set) = (yyvsp[(1) - (2)].str_set);
-		(yyval.str_set)->insert(*(yyvsp[(2) - (2)].str));
+		(yyval.str_list) = (yyvsp[(1) - (2)].str_list);
+		(yyval.str_list)->push_back(*(yyvsp[(2) - (2)].str));
 	;}
     break;
 
   case 21:
-#line 232 "parse.y"
+#line 233 "parse.y"
     {
-		(yyval.str_set) = new StringSet;
-		(yyval.str_set)->insert(*(yyvsp[(1) - (1)].str));
+		(yyval.str_list) = new StringList;
+		(yyval.str_list)->push_back(*(yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 24:
-#line 243 "parse.y"
+#line 244 "parse.y"
     { reader.senseActions.insert(reader.senseActions.begin(), *(yyvsp[(1) - (1)].sense_action)); ;}
     break;
 
   case 25:
-#line 244 "parse.y"
+#line 245 "parse.y"
     { reader.onticActions.insert(reader.onticActions.begin(), *(yyvsp[(1) - (1)].ontic_action)); ;}
     break;
 
   case 26:
-#line 253 "parse.y"
+#line 254 "parse.y"
     {
 		(yyval.sense_action) = new PreSenseAction;
 		(yyval.sense_action)->name = *(yyvsp[(4) - (20)].str);
@@ -1710,7 +1711,7 @@ yyreduce:
     break;
 
   case 27:
-#line 270 "parse.y"
+#line 271 "parse.y"
     {
 		(yyval.ontic_action) = new PreOnticAction;
 		(yyval.ontic_action)->name = *(yyvsp[(4) - (20)].str);
@@ -1723,47 +1724,47 @@ yyreduce:
     break;
 
   case 28:
-#line 281 "parse.y"
+#line 282 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
     break;
 
   case 29:
-#line 285 "parse.y"
+#line 286 "parse.y"
     { (yyval.multitype_set) = (yyvsp[(1) - (1)].multitype_set); ;}
     break;
 
   case 30:
-#line 286 "parse.y"
+#line 287 "parse.y"
     { (yyval.multitype_set) = new MultiTypeSet; ;}
     break;
 
   case 31:
-#line 290 "parse.y"
+#line 291 "parse.y"
     { (yyval.tree) = (yyvsp[(1) - (1)].tree); ;}
     break;
 
   case 32:
-#line 294 "parse.y"
-    { (yyval.tree) = (yyvsp[(1) - (1)].tree); ;}
-    break;
-
-  case 33:
 #line 295 "parse.y"
     { (yyval.tree) = (yyvsp[(1) - (1)].tree); ;}
     break;
 
-  case 34:
+  case 33:
 #line 296 "parse.y"
+    { (yyval.tree) = (yyvsp[(1) - (1)].tree); ;}
+    break;
+
+  case 34:
+#line 297 "parse.y"
     { (yyval.tree) = new Formula("&", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 35:
-#line 297 "parse.y"
+#line 298 "parse.y"
     { (yyval.tree) = new Formula("|", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 36:
-#line 301 "parse.y"
+#line 302 "parse.y"
     {
 		if ((yyvsp[(1) - (4)].tree)->right == NULL) {
 			(yyval.tree) = (yyvsp[(1) - (4)].tree);
@@ -1775,58 +1776,58 @@ yyreduce:
     break;
 
   case 37:
-#line 310 "parse.y"
+#line 311 "parse.y"
     {
 		(yyval.tree) = new Formula("same", (yyvsp[(2) - (3)].tree), NULL);
 	;}
     break;
 
   case 38:
-#line 316 "parse.y"
+#line 317 "parse.y"
     {
 		(yyval.tree) = new Formula("K", (yyvsp[(3) - (4)].tree), NULL);
 	;}
     break;
 
   case 39:
-#line 320 "parse.y"
+#line 321 "parse.y"
     {
 		(yyval.tree) = new Formula("DK", (yyvsp[(3) - (4)].tree), NULL);
 	;}
     break;
 
   case 40:
-#line 325 "parse.y"
+#line 326 "parse.y"
     { (yyval.tree) = new Formula("&", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 41:
-#line 326 "parse.y"
+#line 327 "parse.y"
     { (yyval.tree) = new Formula("|", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 42:
-#line 327 "parse.y"
+#line 328 "parse.y"
     { (yyval.tree) = new Formula("!", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 43:
-#line 328 "parse.y"
+#line 329 "parse.y"
     { (yyval.tree) = new Formula("->", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 44:
-#line 329 "parse.y"
+#line 330 "parse.y"
     { (yyval.tree) = new Formula("oneof", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 45:
-#line 330 "parse.y"
+#line 331 "parse.y"
     { (yyval.tree) = new Formula(*(yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 46:
-#line 334 "parse.y"
+#line 335 "parse.y"
     {
 		if ((yyvsp[(1) - (4)].tree)->right == NULL) {
 			(yyval.tree) = (yyvsp[(1) - (4)].tree);
@@ -1838,46 +1839,48 @@ yyreduce:
     break;
 
   case 47:
-#line 343 "parse.y"
+#line 344 "parse.y"
     {
 		(yyval.tree) = new Formula("same", (yyvsp[(2) - (3)].tree), NULL);
 	;}
     break;
 
   case 48:
-#line 348 "parse.y"
-    { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
-    break;
-
-  case 49:
 #line 349 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
     break;
 
+  case 49:
+#line 350 "parse.y"
+    { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
+    break;
+
   case 50:
-#line 351 "parse.y"
+#line 352 "parse.y"
     {
 		(yyval.str) = new string(*(yyvsp[(1) - (2)].str));
-		for (StringSet::iterator ssi = (*(yyvsp[(2) - (2)].str_set)).begin(); ssi != (*(yyvsp[(2) - (2)].str_set)).end(); ssi++)
+		//bool variable_exist = false;
+		for (StringList::iterator ssi = (*(yyvsp[(2) - (2)].str_list)).begin(); ssi != (*(yyvsp[(2) - (2)].str_list)).end(); ssi++)
 		{
+			//if ((*ssi)[0] == '?') variable_exist = true;
 			*(yyval.str) += " " + *ssi;
 		}
-		reader.atomicPropSet.insert(*(yyval.str));
+		//if (!variable_exist) reader.atomicPropSet.insert(*$$);
 	;}
     break;
 
   case 51:
-#line 359 "parse.y"
+#line 362 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); reader.atomicPropSet.insert(*(yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 52:
-#line 363 "parse.y"
+#line 366 "parse.y"
     { (yyval.tree) = (yyvsp[(1) - (1)].tree); ;}
     break;
 
   case 53:
-#line 368 "parse.y"
+#line 371 "parse.y"
     {
 		(yyval.eff_set) = (yyvsp[(1) - (4)].eff_set);
 		(yyval.eff_set)->insert((yyval.eff_set)->begin(), *(yyvsp[(3) - (4)].eff));
@@ -1885,7 +1888,7 @@ yyreduce:
     break;
 
   case 54:
-#line 373 "parse.y"
+#line 376 "parse.y"
     {
 		(yyval.eff_set) = new EffectList;
 		(yyval.eff_set)->insert((yyval.eff_set)->begin(), *(yyvsp[(2) - (3)].eff));
@@ -1893,55 +1896,55 @@ yyreduce:
     break;
 
   case 55:
-#line 380 "parse.y"
+#line 383 "parse.y"
     {
 		(yyval.eff) = new Effect;
-		(yyval.eff)->condition = *(yyvsp[(2) - (7)].str_set);
-		(yyval.eff)->lits = *(yyvsp[(6) - (7)].str_set);
+		(yyval.eff)->condition = *(yyvsp[(2) - (7)].str_list);
+		(yyval.eff)->lits = *(yyvsp[(6) - (7)].str_list);
 	;}
     break;
 
   case 56:
-#line 388 "parse.y"
+#line 391 "parse.y"
     {
-		(yyval.str_set) = (yyvsp[(1) - (3)].str_set);
-		(yyval.str_set)->insert(*(yyvsp[(3) - (3)].str));
+		(yyval.str_list) = (yyvsp[(1) - (3)].str_list);
+		(yyval.str_list)->push_back(*(yyvsp[(3) - (3)].str));
 	;}
     break;
 
   case 57:
-#line 393 "parse.y"
+#line 396 "parse.y"
     {
-		(yyval.str_set) = new StringSet;
-		(yyval.str_set)->insert(*(yyvsp[(1) - (1)].str));
+		(yyval.str_list) = new StringList;
+		(yyval.str_list)->push_back(*(yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 58:
-#line 399 "parse.y"
+#line 402 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
     break;
 
   case 59:
-#line 400 "parse.y"
+#line 403 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
     break;
 
   case 60:
-#line 401 "parse.y"
+#line 404 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); reader.atomicPropSet.insert(*(yyvsp[(1) - (1)].str)); ;}
     break;
 
   case 61:
-#line 402 "parse.y"
+#line 405 "parse.y"
     { (yyval.str) = new string("not(" + *(yyvsp[(3) - (4)].str) + ")");;}
     break;
 
   case 62:
-#line 404 "parse.y"
+#line 407 "parse.y"
     {
 		(yyval.str) = new string(*(yyvsp[(1) - (2)].str));
-		for (StringSet::iterator ssi = (*(yyvsp[(2) - (2)].str_set)).begin(); ssi != (*(yyvsp[(2) - (2)].str_set)).end(); ssi++)
+		for (StringList::iterator ssi = (*(yyvsp[(2) - (2)].str_list)).begin(); ssi != (*(yyvsp[(2) - (2)].str_list)).end(); ssi++)
 		{
 			*(yyval.str) += " " + *ssi;
 		}
@@ -1949,10 +1952,10 @@ yyreduce:
     break;
 
   case 63:
-#line 412 "parse.y"
+#line 415 "parse.y"
     { 
 		(yyval.str) = new string("not("+*(yyvsp[(3) - (5)].str));
-		for (StringSet::iterator ssi = (*(yyvsp[(4) - (5)].str_set)).begin(); ssi != (*(yyvsp[(4) - (5)].str_set)).end(); ssi++)
+		for (StringList::iterator ssi = (*(yyvsp[(4) - (5)].str_list)).begin(); ssi != (*(yyvsp[(4) - (5)].str_list)).end(); ssi++)
 		{
 			*(yyval.str) += " " + *ssi;
 		}
@@ -1961,7 +1964,7 @@ yyreduce:
     break;
 
   case 64:
-#line 431 "parse.y"
+#line 434 "parse.y"
     {
 		reader.problemName = *(yyvsp[(3) - (8)].str);
 		reader.objects = *(yyvsp[(5) - (8)].multitype_set);
@@ -1972,28 +1975,28 @@ yyreduce:
     break;
 
   case 65:
-#line 441 "parse.y"
+#line 444 "parse.y"
     {
 		(yyval.str) = (yyvsp[(3) - (4)].str);
 	;}
     break;
 
   case 67:
-#line 451 "parse.y"
+#line 454 "parse.y"
     {
 		(yyval.multitype_set) = (yyvsp[(4) - (5)].multitype_set);
 	;}
     break;
 
   case 68:
-#line 455 "parse.y"
+#line 458 "parse.y"
     {
 		(yyval.multitype_set) = new MultiTypeSet;
 	;}
     break;
 
   case 69:
-#line 461 "parse.y"
+#line 464 "parse.y"
     {
 		(yyval.multitype_set) = (yyvsp[(1) - (2)].multitype_set);
 		(yyval.multitype_set)->insert(*(yyvsp[(2) - (2)].singletype_pair));
@@ -2001,7 +2004,7 @@ yyreduce:
     break;
 
   case 70:
-#line 466 "parse.y"
+#line 469 "parse.y"
     {
 		(yyval.multitype_set) = new MultiTypeSet;
 		(yyval.multitype_set)->insert(*(yyvsp[(1) - (1)].singletype_pair));
@@ -2009,37 +2012,37 @@ yyreduce:
     break;
 
   case 71:
-#line 473 "parse.y"
+#line 476 "parse.y"
     {
 		(yyval.singletype_pair) = new SingleTypePair;
 		(yyval.singletype_pair)->first = *(yyvsp[(3) - (3)].str);
-		(yyval.singletype_pair)->second = *(yyvsp[(1) - (3)].str_set);
+		(yyval.singletype_pair)->second = *(yyvsp[(1) - (3)].str_list);
 	;}
     break;
 
   case 72:
-#line 481 "parse.y"
+#line 484 "parse.y"
     {
-		(yyval.str_set) = (yyvsp[(1) - (2)].str_set);
-		(yyval.str_set)->insert(*(yyvsp[(2) - (2)].str));
+		(yyval.str_list) = (yyvsp[(1) - (2)].str_list);
+		(yyval.str_list)->push_back(*(yyvsp[(2) - (2)].str));
 	;}
     break;
 
   case 73:
-#line 486 "parse.y"
+#line 489 "parse.y"
     {
-		(yyval.str_set) = new StringSet;
-		(yyval.str_set)->insert(*(yyvsp[(1) - (1)].str));
+		(yyval.str_list) = new StringList;
+		(yyval.str_list)->push_back(*(yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 74:
-#line 492 "parse.y"
+#line 495 "parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); ;}
     break;
 
   case 75:
-#line 497 "parse.y"
+#line 500 "parse.y"
     {
 		(yyval.tree) = (yyvsp[(5) - (7)].tree);
 		// cout << "init done" << endl;
@@ -2047,7 +2050,7 @@ yyreduce:
     break;
 
   case 76:
-#line 505 "parse.y"
+#line 508 "parse.y"
     {
 		(yyval.tree) = (yyvsp[(5) - (7)].tree);
 	;}
@@ -2055,7 +2058,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2059 "parse.tab.c"
+#line 2062 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2269,7 +2272,7 @@ yyreturn:
 }
 
 
-#line 510 "parse.y"
+#line 513 "parse.y"
 
 
 int yyerror(string s)

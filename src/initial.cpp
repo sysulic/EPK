@@ -5,10 +5,9 @@ Reader reader;
 
 Initial::Initial(const char* dFile, const char* pFile) {
     reader.exec(dFile, pFile);
-
     atomsGrounding();
     episActionsGrounding();
-    //onticActionsGrounding();
+    onticActionsGrounding();
 
     init = getEpisDNFfromTree(&reader.init);
     goal = getEpisCNFfromTree(&reader.goal);
@@ -24,8 +23,8 @@ Initial::Initial(const char* dFile, const char* pFile) {
     printAtoms(out_end);
     printInit(out_end);
     printGoal(out_end);
-    //printSenseActions(out_end);
-    //printOnticActions(out_end);  // conversion after first printActions()
+    printEpisActions(out_end);
+    printOnticActions(out_end);  // conversion after first printActions()
 
     out_end.close();
 
@@ -73,11 +72,13 @@ void Initial::atomsGrounding() {
 					for (size_t i = 0; i < (*sig_type_pair).second.size(); ++i) {
 						size_t tmp_atoms_size = tmp_atoms.size();
 						for (size_t i = 0; i < tmp_atoms_size; ++i) {
-							for (StringSet::const_iterator ob = (*obj).second.begin();
+							for (StringList::const_iterator ob = (*obj).second.begin();
 								ob != (*obj).second.end(); ++ob) {
+                                /*
 								if (tmp_atoms.front().find(" "+*ob) != string::npos) {
 									continue;  // avoid repeat
 								}
+                                */
 								// cout << tmp_atoms.front()+" "+*ob << " //test" << endl;
 								tmp_atoms.push(tmp_atoms.front()+" "+*ob);
 							}
@@ -115,17 +116,23 @@ void Initial::printAtoms(ofstream & out) {
 void Initial::episActionsGrounding() {
     for (PreSenseActionList::const_iterator senseAction = reader.senseActions.begin();
         senseAction != reader.senseActions.end(); ++senseAction) {
+
         queue<PreSenseAction> actions;
         actions.push(*senseAction);
         for(MultiTypeSet::const_iterator param = (*senseAction).paras.begin();
             param != (*senseAction).paras.end(); ++param) {
+
             // find objects to the specific type of a parameter
             for (MultiTypeSet::const_iterator obj = reader.objects.begin();
                     obj != reader.objects.end(); ++obj) {
+
                 if((*param).first == (*obj).first) {
-                    for (size_t i = 0; i < actions.size(); ++i) {
-                        for (StringSet::const_iterator ob = (*obj).second.begin();
+                    size_t tmp_actions_size = actions.size();  // cause size is changing!
+                    for (size_t i = 0; i < tmp_actions_size; ++i) {
+
+                        for (StringList::const_iterator ob = (*obj).second.begin();
                             ob != (*obj).second.end(); ++ob) {
+
                             actions.push(episActionParamGrouding(actions.front(),
                                     *(*param).second.begin(), *ob));
                         }
@@ -137,19 +144,22 @@ void Initial::episActionsGrounding() {
         }
 
         // PreSenseActions(reader) to EpisActions(dest structure)
-        for(queue<PreSenseAction>::const_iterator action = actions.begin();
-            action != actions.end(); ++action) {
+        while (!actions.empty()) {
             EpisAction epis_action;
-            epis_action.name = (*action).name;
-            epis_action.pre_con = getEpisCNFfromTree(&(action->preCondition));
+            epis_action.name = actions.front().name;
+            epis_action.pre_con = getEpisCNFfromTree(&(actions.front().preCondition));
+            epis_action.pos_res = getPropDNFfromTree(&(actions.front().observe));
+            epis_actions.push_back(epis_action);
+            actions.pop();
         }
+
     }
 }
 
 PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
     const string param, const string obj) {
     PreSenseAction action;
-    action.name = senseAction.name + obj;
+    action.name = senseAction.name + "_" + obj;
     action.type = senseAction.type;
     action.paras = senseAction.paras;
     action.preCondition = *copyFormula(&senseAction.preCondition);
@@ -162,7 +172,12 @@ PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
 }
 
 void Initial::replaceParamWithObj(Formula * f, const string param, const string obj) {
-    if (f->label == param) f->label = obj;
+    // cout << param << " " << obj << endl;
+    size_t found = f->label.find(param);
+    while (found != string::npos) {
+        f->label.replace(found, found+param.size(), obj);
+        found = f->label.find(param);
+    }
     if (f->left != NULL)
     {
         replaceParamWithObj(f->left, param, obj);
@@ -174,19 +189,158 @@ void Initial::replaceParamWithObj(Formula * f, const string param, const string 
 }
 
 void Initial::printEpisActions(ofstream & out) {
+    out << "---------------- Epis Actions -------------------\n";
+    for(vector<EpisAction>::const_iterator epis_action = epis_actions.begin();
+        epis_action != epis_actions.end(); ++epis_action) {
 
+        if (epis_action != epis_actions.begin())
+            out << "******************************************\n";
+        out << ":action " << (*epis_action).name << " --------------\n";
+
+        out << "\n:precondition --------------\n";
+        (*epis_action).pre_con.show(out);
+
+        out << "\n:observe -------------------\n";
+        (*epis_action).pos_res.show(out);
+
+    }
+    out << "-------------------- done -----------------------\n\n";
 }
 
 void Initial::onticActionsGrounding() {
+    for (PreOnticActionList::const_iterator onticAction = reader.onticActions.begin();
+        onticAction != reader.onticActions.end(); ++onticAction) {
 
+        // action(reader) to action_1 2 3...(reader)
+        queue<PreOnticAction> actions;
+        actions.push(*onticAction);
+        for(MultiTypeSet::const_iterator param = (*onticAction).paras.begin();
+            param != (*onticAction).paras.end(); ++param) {
+
+            // find objects to the specific type of a parameter
+            for (MultiTypeSet::const_iterator obj = reader.objects.begin();
+                    obj != reader.objects.end(); ++obj) {
+
+                if((*param).first == (*obj).first) {
+                    size_t tmp_actions_size = actions.size();  // cause size is changing!
+                    for (size_t i = 0; i < tmp_actions_size; ++i) {
+
+                        for (StringList::const_iterator ob = (*obj).second.begin();
+                            ob != (*obj).second.end(); ++ob) {
+
+                            actions.push(onticActionParamGrouding(actions.front(),
+                                    *(*param).second.begin(), *ob));
+                        }
+                        actions.pop();
+                    }
+                    break;
+                }
+            }
+        }
+
+        // PreOnticActions(reader) to OnticActions(dest structure)
+        while (!actions.empty()) {
+            OnticAction ontic_action;
+            ontic_action.name = actions.front().name;
+            ontic_action.pre_con = getEpisCNFfromTree(&(actions.front().preCondition));
+            ontic_action.con_eff = getOnticEffect(actions.front().effects);
+            ontic_actions.push_back(ontic_action);
+            actions.pop();
+        }
+
+    }
+}
+
+PreOnticAction Initial::onticActionParamGrouding(PreOnticAction & onticAction,
+    const string param, const string obj) {
+    PreOnticAction action;
+    action.name = onticAction.name + "_" + obj;
+    action.type = onticAction.type;
+    action.paras = onticAction.paras;
+    action.preCondition = *copyFormula(&onticAction.preCondition);
+    replaceParamWithObj(&action.preCondition, param, obj);
+    for (EffectList::const_iterator eff = onticAction.effects.begin();
+        eff != onticAction.effects.end(); ++eff) {
+        Effect effect;
+        effect.condition = getGroundedStr((*eff).condition, param, obj);
+        effect.lits = getGroundedStr((*eff).lits, param, obj);
+        action.effects.push_back(effect);
+    }
+    return action;
+}
+
+StringList Initial::getGroundedStr(StringList sl, const string param, const string obj) {
+    StringList ss;
+    // method replace, so no const_iterator here
+    for (StringList::iterator str = sl.begin(); str != sl.end(); ++str) {
+        size_t found = str->find(param);
+        while (found != string::npos) {
+            str->replace(found, found+param.size(), obj);
+            found = str->find(param);
+        }
+        ss.push_back(*str);
+    }
+    return ss;
+}
+
+vector<ConEffect> Initial::getOnticEffect(EffectList effects) {
+    vector<ConEffect> con_effs;
+    for (EffectList::const_iterator eff = effects.begin();
+        eff != effects.end(); ++eff) {
+        ConEffect con_eff;
+        // condition
+        for (StringList::const_iterator str = eff->condition.begin();
+            str != eff->condition.end(); ++str) {
+            con_eff.condition.push_back(atomsByName[*str]);
+        }
+        // effect
+        for (StringList::const_iterator str = eff->lits.begin();
+            str != eff->lits.end(); ++str) {
+            con_eff.lits.push_back(atomsByName[*str]);
+        }
+        con_effs.push_back(con_eff);
+    }
+    return con_effs;
 }
 
 void Initial::printOnticActions(ofstream & out) {
+    out << "---------------- Ontic Actions -------------------\n";
+    for(vector<OnticAction>::const_iterator ontic_action = ontic_actions.begin();
+        ontic_action != ontic_actions.end(); ++ontic_action) {
 
+        if (ontic_action != ontic_actions.begin())
+            out << "******************************************\n";
+        out << ":action " << (*ontic_action).name << " --------------\n";
+
+        out << "\n:precondition --------------\n";
+        (*ontic_action).pre_con.show(out);
+
+        out << "\n:effects -------------------\n";
+        size_t counter = 0;
+        for (vector<ConEffect>::const_iterator eff = (*ontic_action).con_eff.begin();
+            eff != (*ontic_action).con_eff.end(); ++eff) {
+            out << "effect " << counter++ << " --------\n";
+            // out condition
+            for (vector<int>::const_iterator con = (*eff).condition.begin();
+                con != (*eff).condition.end(); ++con) {
+                out << *con << " ";
+            }
+            out << ", ";
+            // out lits
+            for (vector<int>::const_iterator lit = (*eff).lits.begin();
+                lit != (*eff).lits.end(); ++lit) {
+                out << *lit << " ";
+            }
+            out << endl;
+        }
+
+    }
+    out << "-------------------- done -----------------------\n\n";
 }
 
 EpisDNF Initial::getEpisDNFfromTree(Formula * f) {
     EpisDNF e_dnf;
+    if (f->label == "True") return e_dnf;  // when true
     stack<Formula*> s;
     do {
         while(f->label != "NULL") {
@@ -284,6 +438,7 @@ PropTerm Initial::getPropTermFromTree(Formula * f) {
 
 EpisCNF Initial::getEpisCNFfromTree(Formula * f) {
     EpisCNF e_cnf;
+    if (f->label == "True") return e_cnf;  // when true
     stack<Formula*> s;
     do {
         while(f->label != "NULL") {

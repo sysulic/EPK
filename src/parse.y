@@ -17,6 +17,7 @@ extern Reader reader;
 %union{
   string* str;
   StringSet* str_set;
+  StringList* str_list;
   SingleTypePair* singletype_pair;
   MultiTypeSet* multitype_set;
   MultiTypePair* multitype_pair;
@@ -76,10 +77,10 @@ extern Reader reader;
 %type <str> predicate
 %type <multitype_set> typedVariableList
 %type <singletype_pair> singleTypeVarList
-%type <str_set> variables
+%type <str_list> variables
 
 %type <str> lit
-%type <str_set> litSet
+%type <str_list> litSet
 %type <eff> effect
 %type <eff_set> effects
 %type <str> actionSymbol
@@ -101,7 +102,7 @@ extern Reader reader;
 %type <multitype_set> objectDecl
 %type <multitype_set> objectTypes
 %type <singletype_pair> singleType
-%type <str_set> objects
+%type <str_list> objects
 %type <str> object
 
 %type <tree> init
@@ -226,12 +227,12 @@ variables
 	:	variables NAME
 	{
 		$$ = $1;
-		$$->insert(*$2);
+		$$->push_back(*$2);
 	}
 	|	NAME
 	{
-		$$ = new StringSet;
-		$$->insert(*$1);
+		$$ = new StringList;
+		$$->push_back(*$1);
 	}
 	;
 /****** actionsdef ******/
@@ -350,11 +351,13 @@ atomicProp
     |	predicate variables
 	{
 		$$ = new string(*$1);
-		for (StringSet::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
+		//bool variable_exist = false;
+		for (StringList::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
 		{
+			//if ((*ssi)[0] == '?') variable_exist = true;
 			*$$ += " " + *ssi;
 		}
-		reader.atomicPropSet.insert(*$$);
+		//if (!variable_exist) reader.atomicPropSet.insert(*$$);
 	}
 	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	;
@@ -387,12 +390,12 @@ litSet
 	:	litSet COMMA lit
 	{
 		$$ = $1;
-		$$->insert(*$3);
+		$$->push_back(*$3);
 	}
 	|	lit
 	{
-		$$ = new StringSet;
-		$$->insert(*$1);
+		$$ = new StringList;
+		$$->push_back(*$1);
 	}
 	;
 lit
@@ -403,7 +406,7 @@ lit
 	|	predicate variables
 	{
 		$$ = new string(*$1);
-		for (StringSet::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
+		for (StringList::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
 		{
 			*$$ += " " + *ssi;
 		}
@@ -411,7 +414,7 @@ lit
 	|	NOT LEFT_PAREN predicate variables RIGHT_PAREN
 	{ 
 		$$ = new string("not("+*$3);
-		for (StringSet::iterator ssi = (*$4).begin(); ssi != (*$4).end(); ssi++)
+		for (StringList::iterator ssi = (*$4).begin(); ssi != (*$4).end(); ssi++)
 		{
 			*$$ += " " + *ssi;
 		}
@@ -480,12 +483,12 @@ objects
 	:	objects object
 	{
 		$$ = $1;
-		$$->insert(*$2);
+		$$->push_back(*$2);
 	}
 	|	object
 	{
-		$$ = new StringSet;
-		$$->insert(*$1);
+		$$ = new StringList;
+		$$->push_back(*$1);
 	}
 	;
 object
