@@ -1862,7 +1862,7 @@ yyreduce:
 		{
 			*(yyval.str) += " " + *ssi;
 		}
-		//reader.atomicPropSet.insert(*$$);
+		reader.atomicPropSet.insert(*(yyval.str));
 	;}
     break;
 

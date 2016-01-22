@@ -1,14 +1,21 @@
 #include "initial.h"
 #include "reader.h"
 
-extern Reader reader;
+Reader reader;
 
-Initial::Initial() {
+Initial::Initial(const char* dFile, const char* pFile) {
+    reader.exec(dFile, pFile);
+
     atomsGrounding();
+    episActionsGrounding();
+    //onticActionsGrounding();
+
     init = getEpisDNFfromTree(&reader.init);
     goal = getEpisCNFfromTree(&reader.goal);
-    
-    const char* endFile = "output_initial";
+
+    string endFile = "../output/";
+    endFile += reader.domainName; endFile += "_initial";
+
     ofstream out_end(endFile);  // 打开要写入的文本文件
     if(!out_end.is_open()) {
         cout << "cannot open " << endFile << endl;
@@ -26,100 +33,19 @@ Initial::Initial() {
 
 void Initial::printInit(ofstream & out) {
     // print init
-    out << "----------------init Tree-------------------\n";
+    out << "---------------- init -------------------\n";
     init.show(out);
-    out << "----------------  done  -------------------\n\n";
+    out << "---------------- done -------------------\n\n";
 
 }
 
 void Initial::printGoal(ofstream & out) {
     // print goal
-    out << "----------------goal Tree-------------------\n";
+    out << "---------------- goal -------------------\n";
     goal.show(out);
-    out << "----------------  done  -------------------\n\n";
-}
-/*
-void Initial::printSenseActions(ofstream & out_file) {
-
-    out_file << "-------------- sense actions ----------------\n";
-    for(PreSenseActionList::iterator it_action = senseActions.begin();
-        it_action != senseActions.end(); ++it_action) {
-
-        if (it_action != senseActions.begin())
-            out_file << "******************************************\n";
-        out_file << ":action " << (*it_action).name << " --------------\n";
-
-        out_file << "\n:parameters ----------------\n";
-        for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
-            it_para != (*it_action).paras.end(); ++it_para) {
-            out_file << (*it_para).first << ":";
-            for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
-                it_vrb != (*it_para).second.end(); ++it_vrb) {
-                out_file << " " << *it_vrb;
-            }
-            out_file << endl;
-        }
-
-        out_file << "\n:precondition --------------\n";
-        printTree(out_file, (*it_action).preCondition, 0);
-        convertToCNFTree((*it_action).preCondition);
-
-        out_file << "\n:observe -------------------\n";
-        printTree(out_file, (*it_action).observe, 0);
-        convertToCNFTree((*it_action).observe);
-
-    }
-    out_file << "----------------  done  -------------------\n\n";
-
+    out << "---------------- done -------------------\n\n";
 }
 
-void Initial::printOnticActions(ofstream & out_file) {
-
-    out_file << "-------------- ontic actions ----------------\n";
-    for(PreOnticActionList::iterator it_action = onticActions.begin();
-        it_action != onticActions.end(); ++it_action) {
-
-        if (it_action != onticActions.begin())
-            out_file << "******************************************\n";
-        out_file << ":action " << (*it_action).name << " --------------\n";
-
-        out_file << "\n:parameters ----------------\n";
-        for (MultiTypeSet::iterator it_para = (*it_action).paras.begin();
-            it_para != (*it_action).paras.end(); ++it_para) {
-            out_file << (*it_para).first << ":";
-            for (StringSet::const_iterator it_vrb = (*it_para).second.begin();
-                it_vrb != (*it_para).second.end(); ++it_vrb) {
-                out_file << " " << *it_vrb;
-            }
-            out_file << endl;
-        }
-
-        out_file << "\n:precondition --------------\n";
-        printTree(out_file, (*it_action).preCondition, 0);
-        convertToCNFTree((*it_action).preCondition);
-
-        out_file << "\n:effect --------------------\n";
-        size_t counter = 0;
-        for (EffectList::iterator it_ef = (*it_action).effects.begin();
-            it_ef != (*it_action).effects.end(); ++it_ef, ++counter) {
-            out_file << "--- effect --- No." << counter << " :\n";
-            for (StringSet::iterator str = (*it_ef).condition.begin();
-                str != (*it_ef).condition.end(); ++str) {
-                out_file << *str << ", ";
-            }
-            out_file << "\n-----\n";
-            for (StringSet::iterator str = (*it_ef).lits.begin();
-                str != (*it_ef).lits.end(); ++str) {
-                out_file << *str << ", ";
-            }
-            out_file << "\n";
-        }
-
-    }
-    out_file << "----------------  done  -------------------\n\n";
-
-}
-*/
 void Initial::atomsGrounding() {
 	/* get atomic propositions from reader */
 
@@ -134,20 +60,20 @@ void Initial::atomsGrounding() {
 
 	// predicate grounding
 	vector<queue<string> > atoms_vector;
-	for (PredicateSet::iterator mul_type_pair = reader.predicates.begin();
+	for (PredicateSet::const_iterator mul_type_pair = reader.predicates.begin();
 			mul_type_pair != reader.predicates.end(); ++mul_type_pair) {
 		queue<string> tmp_atoms;
 		tmp_atoms.push((*mul_type_pair).first);  // grounding atomic proposition
-		for (MultiTypeSet::iterator sig_type_pair = (*mul_type_pair).second.begin();
+		for (MultiTypeSet::const_iterator sig_type_pair = (*mul_type_pair).second.begin();
 				sig_type_pair != (*mul_type_pair).second.end(); ++sig_type_pair) {
 			// find objects to the specific type
-			for (MultiTypeSet::iterator obj = reader.objects.begin();
+			for (MultiTypeSet::const_iterator obj = reader.objects.begin();
 					obj != reader.objects.end(); ++obj) {
 				if((*sig_type_pair).first == (*obj).first) {
 					for (size_t i = 0; i < (*sig_type_pair).second.size(); ++i) {
 						size_t tmp_atoms_size = tmp_atoms.size();
 						for (size_t i = 0; i < tmp_atoms_size; ++i) {
-							for (StringSet::iterator ob = (*obj).second.begin();
+							for (StringSet::const_iterator ob = (*obj).second.begin();
 								ob != (*obj).second.end(); ++ob) {
 								if (tmp_atoms.front().find(" "+*ob) != string::npos) {
 									continue;  // avoid repeat
@@ -158,12 +84,14 @@ void Initial::atomsGrounding() {
 							tmp_atoms.pop();
 						}
 					}
+                    break;
 				}
 			}
 		}
 		atoms_vector.push_back(tmp_atoms);
 	}
 
+    // pass atoms to map
 	for (vector<queue<string> > ::iterator atom_queue = atoms_vector.begin();
 		atom_queue != atoms_vector.end(); ++atom_queue) {
 		while (!(*atom_queue).empty()) {
@@ -184,11 +112,76 @@ void Initial::printAtoms(ofstream & out) {
 	out << "-------- end print all atoms ----------------\n\n";
 }
 
-void Initial::episActionGrounding() {
+void Initial::episActionsGrounding() {
+    for (PreSenseActionList::const_iterator senseAction = reader.senseActions.begin();
+        senseAction != reader.senseActions.end(); ++senseAction) {
+        queue<PreSenseAction> actions;
+        actions.push(*senseAction);
+        for(MultiTypeSet::const_iterator param = (*senseAction).paras.begin();
+            param != (*senseAction).paras.end(); ++param) {
+            // find objects to the specific type of a parameter
+            for (MultiTypeSet::const_iterator obj = reader.objects.begin();
+                    obj != reader.objects.end(); ++obj) {
+                if((*param).first == (*obj).first) {
+                    for (size_t i = 0; i < actions.size(); ++i) {
+                        for (StringSet::const_iterator ob = (*obj).second.begin();
+                            ob != (*obj).second.end(); ++ob) {
+                            actions.push(episActionParamGrouding(actions.front(),
+                                    *(*param).second.begin(), *ob));
+                        }
+                        actions.pop();
+                    }
+                    break;
+                }
+            }
+        }
+
+        // PreSenseActions(reader) to EpisActions(dest structure)
+        for(queue<PreSenseAction>::const_iterator action = actions.begin();
+            action != actions.end(); ++action) {
+            EpisAction epis_action;
+            epis_action.name = (*action).name;
+            epis_action.pre_con = getEpisCNFfromTree(&(action->preCondition));
+        }
+    }
+}
+
+PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
+    const string param, const string obj) {
+    PreSenseAction action;
+    action.name = senseAction.name + obj;
+    action.type = senseAction.type;
+    action.paras = senseAction.paras;
+    action.preCondition = *copyFormula(&senseAction.preCondition);
+    action.observe = *copyFormula(&senseAction.observe);
+    // precondition
+    replaceParamWithObj(&action.preCondition, param, obj);
+    // observe
+    replaceParamWithObj(&action.observe, param, obj);
+    return action;
+}
+
+void Initial::replaceParamWithObj(Formula * f, const string param, const string obj) {
+    if (f->label == param) f->label = obj;
+    if (f->left != NULL)
+    {
+        replaceParamWithObj(f->left, param, obj);
+    }
+    if (f->right != NULL)
+    {
+        replaceParamWithObj(f->right, param, obj);
+    }
+}
+
+void Initial::printEpisActions(ofstream & out) {
 
 }
 
-void Initial::onticActionGrounding() {
+void Initial::onticActionsGrounding() {
+
+}
+
+void Initial::printOnticActions(ofstream & out) {
 
 }
 

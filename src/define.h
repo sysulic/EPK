@@ -57,6 +57,13 @@ struct Formula
     }
 };
 
+static inline Formula* copyFormula(Formula* f) {
+    Formula* tmp = new Formula(*f);
+    if (f->left) tmp->left = copyFormula(f->left);
+    if (f->right) tmp->right = copyFormula(f->right);
+    return tmp;
+}
+
 //观察动作的描述 - for preprocessing
 struct PreSenseAction
 {

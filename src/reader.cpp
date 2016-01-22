@@ -2,17 +2,8 @@
 
 int yyparse();
 
-Formula* copyFormula(Formula* f) {
-	Formula* tmp = new Formula(*f);
-	if (f->left) tmp->left = copyFormula(f->left);
-	if (f->right) tmp->right = copyFormula(f->right);
-	return tmp;
-}
+void Reader::exec(const char* dFile, const char* pFile) {
 
-Reader::Reader() {
-
-	const char* dFile = "../epddl-doc/demo/demo_domain.epddl";  // 打开要读取的文本文件
-	const char* pFile = "../epddl-doc/demo/demo_p.epddl";
 	FILE* fp_d=fopen(dFile, "r");
 	FILE* fp_p=fopen(pFile, "r");
 	if(fp_d==NULL) {
@@ -33,16 +24,20 @@ Reader::Reader() {
 	fclose(fp_d);
 	fclose(fp_p);
 
-	const char* beginFile = "output_begin";
-	const char* endFile = "output_reader";
+	string beginFile = "../output/";
+	beginFile += this->domainName; beginFile += "_begin";
+	string endFile = "../output/";
+	endFile += this->domainName; endFile += "_reader";
+
 	ofstream out_begin(beginFile);  // 打开要写入的文本文件
 	ofstream out_end(endFile);  // 打开要写入的文本文件
+
 	if(!out_begin.is_open()) {
-		printf("cannot open %s\n", beginFile);
+		cout << "cannot open " << beginFile << endl;
 		return;
 	}
 	if(!out_end.is_open()) {
-		printf("cannot open %s\n", endFile);
+		cout << "cannot open " << endFile << endl;
 		return;
 	}
 

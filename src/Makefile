@@ -7,9 +7,6 @@ CFLAGS	= -g -Wall
 LEXER = flex
 PARSER = bison
 
-run:	start
-	./start 
-
 start:	$(OBJS)
 		$(CC) $(CFLAGS) $(OBJS) -o start
 

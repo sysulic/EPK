@@ -13,7 +13,7 @@ int yyerror(char *s);
 
 %}
 
-name				[a-zA-Z\?][a-zA-Z_0-9\-]*
+name				[a-zA-Z0-9\?][a-zA-Z_0-9\-]*
 
 %%
 

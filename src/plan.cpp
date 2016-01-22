@@ -1,4 +1,4 @@
-#include"plan.h"
+#include "plan.h"
 #include "atoms.h"
 
 Plan::Plan(const char *domain, const char *p, int type){

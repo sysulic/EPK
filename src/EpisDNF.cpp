@@ -52,8 +52,8 @@ PropClause PropTerm::negation()
 PropTerm PropTerm::group(const PropTerm& prop_term) const
 {
     PropTerm result(length);
-    for (int i = 0; i < length; i++) {
-        if (prop_term.literals[i])
+    for (size_t i = 0; i < length; ++i) {
+        if (literals[i] || prop_term.literals[i])
             result.literals[i] = 1;
     }
     return result;

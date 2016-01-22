@@ -7,7 +7,7 @@
 
 class Initial {
 public:
-    Initial();
+    Initial(const char* dFile, const char* pFile);
     ~Initial() {}
 	
     EpisDNF init;
@@ -15,8 +15,11 @@ public:
 
 public:
     void atomsGrounding();
-    void episActionGrounding();
-    void onticActionGrounding();
+    void episActionsGrounding();
+    PreSenseAction episActionParamGrouding(PreSenseAction & senseAction,
+                                        const string param, const string obj);
+    void replaceParamWithObj(Formula * f, const string param, const string obj);
+    void onticActionsGrounding();
     
     EpisDNF getEpisDNFfromTree(Formula * f);
     EpisTerm getEpisTermFromTree(Formula * f);
@@ -32,7 +35,7 @@ public:
     void printAtoms(ofstream & out);
     void printInit(ofstream & out);
     void printGoal(ofstream & out);
-    void printSenseActions(ofstream & out);
+    void printEpisActions(ofstream & out);
     void printOnticActions(ofstream & out);
 };
 

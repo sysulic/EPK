@@ -84,12 +84,6 @@ void EpisClause::show(ofstream & out) const
         out << "K";
         it->show(out);
     }
-    /*
-    for (list<PropCNF>::const_iterator it = neg_propCNFs.begin();
-            it != neg_propCNFs.end(); ++it) {
-        out << "*~K~";
-        it->show(out);
-    }*/
     out << "DK";
     neg_propCNF.show(out);
 }

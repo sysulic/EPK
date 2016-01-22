@@ -56,6 +56,7 @@ class EpisTerm {
 public:
     PropDNF pos_propDNF;    //认知项的K部分，注意只有一个
     list<PropDNF> neg_propDNFs; //认知项的K^部分，注意有若干个，当然也可以为空
+public:
     bool consistent() const; //判断该认知项是否一致
     bool entails(const EpisTerm &) const;    //判断该认知项能否够推出另外一个认知项
     bool equals(const EpisTerm &); //判断两个认知项是否等价
@@ -71,6 +72,7 @@ public:
 class EpisDNF {
 public:
     list<EpisTerm> epis_terms;  //存储若干个认知项
+public:
     bool consistent() const; //判断认知项的析取是否一致 
     bool entails(const EpisDNF &) const; //判断一个知识库能够推出另一个知识库
     bool equals(const EpisDNF &); //判断两个知识库是否等价

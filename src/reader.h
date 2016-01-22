@@ -26,8 +26,10 @@ class Reader
   Formula goal;
 
  public:
-  Reader();
+  Reader() {}
   ~Reader() {}
+
+  void exec(const char* dFile, const char* pFile);
 
   // intermediate structure
   void printTree(ofstream & file, Formula * f, size_t deep);

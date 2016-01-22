@@ -354,7 +354,7 @@ atomicProp
 		{
 			*$$ += " " + *ssi;
 		}
-		//reader.atomicPropSet.insert(*$$);
+		reader.atomicPropSet.insert(*$$);
 	}
 	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$1); }
 	;
