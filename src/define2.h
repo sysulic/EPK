@@ -12,11 +12,6 @@
 #include "EpisCNF.h"
 #include "EpisDNF.h"
 
-extern map<int, string> atomsByIndex;
-extern map<string, int> atomsByName;
-
-extern vector<EpisAction> epis_actions;
-extern vector<OnticAction> ontic_actions;
 
 //物理动作中的effect（效果二元组）
 struct ConEffect

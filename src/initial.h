@@ -4,10 +4,16 @@
 
 #include "define2.h"
 
+extern map<int, string> atomsByIndex;
+extern map<string, int> atomsByName;
+
+extern vector<EpisAction> epis_actions;
+extern vector<OnticAction> ontic_actions;
 
 class Initial {
 public:
-    Initial(const char* dFile, const char* pFile);
+    Initial() {}
+    void exec(const char* dFile, const char* pFile);
     ~Initial() {}
 	
     EpisDNF init;
@@ -38,6 +44,7 @@ public:
     PropCNF getPropCNFfromTree(Formula * f);
     PropClause getPropClauseFromTree(Formula * f);
 
+    void checkInitial();
 
     void printAtoms(ofstream & out);
     void printInit(ofstream & out);

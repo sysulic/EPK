@@ -1,6 +1,7 @@
 (define (domain demo)
   (:types)
   (:predicates)
+  
   (:action senseL
    :parameters ()
    :precondition (and (DK (lightOn)) 

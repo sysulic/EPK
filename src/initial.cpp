@@ -3,15 +3,17 @@
 
 Reader reader;
 
-Initial::Initial(const char* dFile, const char* pFile) {
+ void Initial::exec(const char* dFile, const char* pFile) {
     reader.exec(dFile, pFile);
     atomsGrounding();
     episActionsGrounding();
     onticActionsGrounding();
 
     init = getEpisDNFfromTree(&reader.init);
+    init.minimal();
     goal = getEpisCNFfromTree(&reader.goal);
-
+    //goal.minimal();
+    
     string endFile = "../output/";
     endFile += reader.domainName; endFile += "_initial";
 
@@ -159,7 +161,10 @@ void Initial::episActionsGrounding() {
 PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
     const string param, const string obj) {
     PreSenseAction action;
-    action.name = senseAction.name + "_" + obj;
+    if (action.name.find_first_of("_") != string::npos)
+        action.name.insert(action.name.find_first_of("_"), "_" + obj);
+    else
+        action.name += "_" + obj;
     action.type = senseAction.type;
     action.paras = senseAction.paras;
     action.preCondition = *copyFormula(&senseAction.preCondition);
@@ -254,7 +259,11 @@ void Initial::onticActionsGrounding() {
 PreOnticAction Initial::onticActionParamGrouding(PreOnticAction & onticAction,
     const string param, const string obj) {
     PreOnticAction action;
-    action.name = onticAction.name + "_" + obj;
+    action.name = onticAction.name;
+    if (action.name.find_first_of("_") != string::npos)
+        action.name.insert(action.name.find_first_of("_"), "_" + obj);
+    else
+        action.name += "_" + obj;
     action.type = onticAction.type;
     action.paras = onticAction.paras;
     action.preCondition = *copyFormula(&onticAction.preCondition);
@@ -285,18 +294,36 @@ StringList Initial::getGroundedStr(StringList sl, const string param, const stri
 
 vector<ConEffect> Initial::getOnticEffect(EffectList effects) {
     vector<ConEffect> con_effs;
-    for (EffectList::const_iterator eff = effects.begin();
+    for (EffectList::iterator eff = effects.begin();
         eff != effects.end(); ++eff) {
         ConEffect con_eff;
         // condition
-        for (StringList::const_iterator str = eff->condition.begin();
+        for (StringList::iterator str = eff->condition.begin();
             str != eff->condition.end(); ++str) {
-            con_eff.condition.push_back(atomsByName[*str]);
+            if ((*str).substr(0, 3) == "not")
+            {
+                (*str) = (*str).substr(3, (*str).size()-3);
+                size_t start = (*str).find_first_not_of("( ");
+                size_t end = (*str).find_last_not_of(") ");
+                con_eff.condition.push_back(
+                    atomsByName[(*str).substr(start, end-start+1)]*2+1);
+            }
+            else
+                con_eff.condition.push_back(atomsByName[*str]*2);
         }
         // effect
-        for (StringList::const_iterator str = eff->lits.begin();
+        for (StringList::iterator str = eff->lits.begin();
             str != eff->lits.end(); ++str) {
-            con_eff.lits.push_back(atomsByName[*str]);
+            if ((*str).substr(0, 3) == "not")
+            {
+                (*str) = (*str).substr(3, (*str).size()-3);
+                size_t start = (*str).find_first_not_of("( ");
+                size_t end = (*str).find_last_not_of(") ");
+                con_eff.lits.push_back(
+                    atomsByName[(*str).substr(start, end-start+1)]*2+1);
+            }
+            else
+                con_eff.lits.push_back(atomsByName[*str]*2);
         }
         con_effs.push_back(con_eff);
     }
@@ -315,7 +342,7 @@ void Initial::printOnticActions(ofstream & out) {
         out << "\n:precondition --------------\n";
         (*ontic_action).pre_con.show(out);
 
-        out << "\n:effects -------------------\n";
+        out << ":effects -------------------\n";
         size_t counter = 0;
         for (vector<ConEffect>::const_iterator eff = (*ontic_action).con_eff.begin();
             eff != (*ontic_action).con_eff.end(); ++eff) {

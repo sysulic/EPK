@@ -1,5 +1,4 @@
 #include "plan.h"
-#include "atoms.h"
 
 Plan::Plan(const char *domain, const char *p, int type){
     printf("================================================================\n");
@@ -18,12 +17,14 @@ Plan::Plan(const char *domain, const char *p, int type){
     preprocess_time = difftime(t_end, t_start) / 1000000.0;
 }
 
+// Algorithm 1
 void Plan::exec_plan(){
     printf("Planning...\n");
     if(in.init.entails(in.goal)) {
         printf("init entails goal!\n");
         return;
     }
+
     clock_t t_start = clock();
     Node init_node;
     init_node.flag = TOBEEXPLORED;
@@ -37,7 +38,7 @@ void Plan::exec_plan(){
             return ;
          
         explore(node_pos); 
-        if(all_nodes[0].flag == GOAL) {
+        if(all_nodes[0].flag == FINAL_GOAL) {
             clock_t t_end = clock();
             search_time = difftime(t_end, t_start) / 1000000.0;
             BuildPlan();//之后再调用BuildPlan，原算法中的Tree
@@ -45,14 +46,17 @@ void Plan::exec_plan(){
         }
         if(all_nodes[0].flag == DEAD)
             return ;
-    }  
+    }
 }
 
+// Algorithm 2
 void Plan::explore(int node_pos){
+    cout << "explore..." << endl;
     bool execed = false;//deep search find new node
     // 进行感知演进
     for(size_t i = 0; i < epis_actions.size(); i++){        
         if(all_nodes[node_pos].kb.entails(epis_actions[i].pre_con)){
+            cout << "ok" << endl;
             vector<EpisDNF> res = all_nodes[node_pos].kb.epistemic_prog(epis_actions[i]);
             if(check_zero_dead(res[0]) || check_zero_dead(res[1]))
                 continue;
@@ -100,7 +104,7 @@ void Plan::explore(int node_pos){
             tbs1.is_true = false;
             expand(tbs1);
             
-            if(all_nodes[res_pos1].flag == GOAL && all_nodes[res_pos].flag == GOAL){
+            if(all_nodes[res_pos1].flag == FINAL_GOAL && all_nodes[res_pos].flag == FINAL_GOAL){
                 PropagateGoalNode(node_pos, true, i);
                 return;
             }
@@ -136,7 +140,7 @@ void Plan::explore(int node_pos){
 
             expand(tbs);
             
-            if(all_nodes[res_pos].flag == GOAL){
+            if(all_nodes[res_pos].flag == FINAL_GOAL){
                 PropagateGoalNode(node_pos, false, i);
                 return;
             }
@@ -157,18 +161,20 @@ void Plan::explore(int node_pos){
     }
 }
 
+// Algorithm 3
 void Plan::expand(Transition ts){
     if(all_nodes[ts.next_bdd_state].flag != EXPLORED){
         if(all_nodes[ts.next_bdd_state].kb.entails(in.goal))
-            all_nodes[ts.next_bdd_state].flag = GOAL;
+            all_nodes[ts.next_bdd_state].flag = FINAL_GOAL;
         else
             all_nodes[ts.next_bdd_state].flag = TOBEEXPLORED;
     }
     all_edges.push_back(ts);
 }
 
+// Algorithm 5
 void Plan::PropagateDeadNode(int node_num){
-    for(size_t i = 0; i < all_edges.size();){
+    for(size_t i = 0; i < all_edges.size(); ){
         if(all_edges[i].next_bdd_state == node_num){
             int front = all_edges[i].front_bdd_state;
             if(!all_edges[i].is_observe_action)
@@ -258,9 +264,9 @@ int Plan::get_tobeexplored_node(){
 }
     
 
-
+// Algorithm 4
 void Plan::PropagateGoalNode(int start_node_num, bool is_observe_action, int act_num){
-    all_nodes[start_node_num].flag = GOAL;
+    all_nodes[start_node_num].flag = FINAL_GOAL;
     for(size_t i = 0; i < all_edges.size();){
         if(all_edges[i].front_bdd_state == start_node_num){
             if(all_edges[i].action_number != act_num || is_observe_action != all_edges[i].is_observe_action){
@@ -281,7 +287,7 @@ void Plan::PropagateGoalNode(int start_node_num, bool is_observe_action, int act
                 for(size_t j = 0; j < all_edges.size(); j++)
                 if(j!=i){
                     if(all_edges[j].is_observe_action && all_edges[j].front_bdd_state == all_edges[i].front_bdd_state && all_edges[j].action_number == all_edges[i].action_number){
-                        if(all_nodes[all_edges[j].next_bdd_state].flag == GOAL)
+                        if(all_nodes[all_edges[j].next_bdd_state].flag == FINAL_GOAL)
                             PropagateGoalNode(all_edges[i].front_bdd_state, true, all_edges[i].action_number);
                         break;
                     }
@@ -298,7 +304,6 @@ bool Plan::is_exist_edge_from_node(int n){
     return false;    
 }
 
-
 int Plan::checknode(EpisDNF ed){
     for(size_t i = 0; i < all_nodes.size(); i++)
         if( all_nodes[i].kb.equals(ed))
@@ -312,18 +317,18 @@ bool Plan::check_zero_dead(EpisDNF ed){
 }
 
 void Plan::BuildPlan(){
-    if(all_nodes[0].flag != GOAL){
+    if(all_nodes[0].flag != FINAL_GOAL){
         cout<<"no plan"<<endl;
         return;
     }
     vector<Transition> goal_edges;
     for(size_t i = 0; i < all_edges.size(); i++)
-        if(all_nodes[all_edges[i].front_bdd_state].flag == GOAL && all_nodes[all_edges[i].next_bdd_state].flag == GOAL)
+        if(all_nodes[all_edges[i].front_bdd_state].flag == FINAL_GOAL && all_nodes[all_edges[i].next_bdd_state].flag == FINAL_GOAL)
             goal_edges.push_back(all_edges[i]);
     set<int> nodes;//标记节点是否在树里面
     printf("Plan tree:\n");
     plan_tree_node_num = 0;
-    plan_tree_depth = show_build_result(0, goal_edges, 0, nodes, -1);
+    //plan_tree_depth = show_build_result(0, goal_edges, 0, nodes, -1);
 }
 
 void Plan::show_statistic() const {
@@ -355,6 +360,7 @@ int Plan::show_build_result(int node_num, const vector<Transition> &goal_edges, 
                 if (next_trans[i].is_true){                   
                     cout << epis_actions[next_trans[i].action_number].name;
                     cout<<" +:";
+                    /*
                     if(epis_actions[next_trans[i].action_number].para_match.size()!=0){
                         cout<<" (";
                         for(size_t j = 0; j < epis_actions[next_trans[i].action_number].para_match.size()-1; j++)
@@ -364,11 +370,13 @@ int Plan::show_build_result(int node_num, const vector<Transition> &goal_edges, 
                         cout<<")";
                     }
                     cout<<endl;
+                    */
                     depth = max(depth, show_build_result(next_trans[i].next_bdd_state, goal_edges, tab_num, nodes, node_num) + 1);
                 }
                 else{
                     cout << epis_actions[next_trans[i].action_number].name;
                     cout<<" -:";
+                    /*
                     if(epis_actions[next_trans[i].action_number].para_match.size()!=0){
                         cout<<" (";
                         for(size_t j = 0; j < epis_actions[next_trans[i].action_number].para_match.size()-1; j++)
@@ -378,12 +386,14 @@ int Plan::show_build_result(int node_num, const vector<Transition> &goal_edges, 
                         cout<<")";
                     }
                     cout<<endl;
+                    */
                     depth = max(depth, show_build_result(next_trans[i].next_bdd_state, goal_edges, tab_num, nodes, node_num) + 1);
                     
                 }
             }
             else{
-                cout << ontic_actions[next_trans[i].action_number].name;  
+                cout << ontic_actions[next_trans[i].action_number].name;
+                /*
                 if(ontic_actions[next_trans[i].action_number].para_match.size() != 0){
                     cout<<" (";
                     for(size_t j = 0; j < ontic_actions[next_trans[i].action_number].para_match.size()-1; j++)
@@ -393,11 +403,13 @@ int Plan::show_build_result(int node_num, const vector<Transition> &goal_edges, 
                     cout<<")";  
                 }
                 cout<<endl;
+                */
                 depth = max(depth, show_build_result(next_trans[i].next_bdd_state, goal_edges, tab_num, nodes, node_num) + 1);
             }   
         }
     return depth;
 }
+
 
 void Plan::add_node(const Node& node) {
     all_nodes.push_back(node);

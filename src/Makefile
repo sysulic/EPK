@@ -1,6 +1,6 @@
 # Makefile
 
-OBJS	= main.o reader.o lex.o parse.o initial.o EpisCNF.o EpisDNF.o
+OBJS	= main.o reader.o lex.o parse.o initial.o EpisCNF.o EpisDNF.o plan.o
 
 CC	= g++
 CFLAGS	= -g -Wall
@@ -13,9 +13,12 @@ start:	$(OBJS)
 main.o:  main.cpp
 		$(CC) $(CFLAGS) -c main.cpp -o main.o
 
+plan.o:  plan.cpp plan.h
+		$(CC) $(CFLAGS) -c plan.cpp -o plan.o
+
 initial.o:  initial.cpp initial.h
 		$(CC) $(CFLAGS) -c initial.cpp -o initial.o
-	
+
 EpisDNF.o:  EpisDNF.cpp EpisDNF.h
 		$(CC) $(CFLAGS) -c EpisDNF.cpp -o EpisDNF.o
 	

@@ -2,6 +2,7 @@
 
 
 bool PropClause::entails(const PropClause& prop_clause) const {
+    
     return true;
 }
 
@@ -110,6 +111,7 @@ PropCNF& PropCNF::minimal()
             if (post_it != pre_it && pre_it->entails(*post_it)) {
                 list<PropClause>::iterator delete_it = post_it;
                 post_it++;
+                cout << "haha 1" << endl;
                 prop_clauses.erase(delete_it);
             }   
             else
@@ -148,18 +150,15 @@ EpisClause& EpisClause::minimal()
     separable();
     
     for (list<PropCNF>::iterator pre_it = pos_propCNFs.begin(); pre_it != pos_propCNFs.end(); ) {
-        bool can_entail = false;
-        PropCNF tmp = *pre_it;
         for (list<PropCNF>::iterator post_it = pos_propCNFs.begin(); post_it != pos_propCNFs.end(); post_it++) {
-            if (pre_it != post_it && tmp.entails(*post_it)) {
-                can_entail = true;
-                list<PropCNF>::iterator delete_it = pre_it;
-                pre_it++;
+            if (pre_it != post_it && pre_it->entails(*post_it)) {
+                list<PropCNF>::iterator delete_it = post_it;
+                post_it++;
                 pos_propCNFs.erase(delete_it);
             }
+            else
+                post_it++;
         }
-        if (!can_entail)
-            pre_it++;
     }
     
     neg_propCNF.minimal();
@@ -169,10 +168,10 @@ EpisClause& EpisClause::minimal()
     return *this;
 }
 
-EpisCNF::EpisCNF()
-{
+EpisCNF& EpisCNF::minimal() {
     for (list<EpisClause>::iterator it = epis_clauses.begin(); it != epis_clauses.end(); ++it)
         it->minimal();
+    return *this;
 }
 
 void EpisCNF::show(ofstream & out) const

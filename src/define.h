@@ -11,6 +11,8 @@
 #include <queue>
 #include <vector>
 #include <stack>
+#include "EpisCNF.h"
+#include "EpisDNF.h"
 
 //#include <algorithm>
 //#include <sys/time.h>
@@ -92,7 +94,14 @@ struct PreOnticAction
     EffectList effects; //效果二元组
 };
 
-/*
+
+enum STATE_TYPE {
+    TOBEEXPLORED = 0,
+    EXPLORED,
+    DEAD,
+    FINAL_GOAL
+};
+
 //搜索算法中的结点
 struct Node
 {
@@ -125,6 +134,6 @@ enum SearchType {
     kDepthFirst = 1,
     kWidthFirst = 2,
 };
-*/
+
 
 #endif

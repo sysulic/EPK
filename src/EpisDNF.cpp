@@ -3,7 +3,7 @@
 
 bool PropTerm::consistent() const
 {
-    for(int i = 0; i < length; i++){
+    for(int i = 0; i < length/2; i++){
         if(literals[i * 2] && literals[i * 2 + 1] )
             return false;
     }
@@ -162,7 +162,7 @@ bool PropDNF::consistent() const
     for (list<PropTerm>::const_iterator it = prop_terms.begin(); it != prop_terms.end(); ++it) {
         if (it->consistent())
             return true;
-    }   
+    }
     return false;
 }
 
@@ -508,7 +508,6 @@ bool EpisDNF::entails(const EpisDNF& episDNF) const
     return true;
 }
 
-
 //This reasoning rule is Proposition 3.7 EDNF |= ENDF
 bool EpisDNF::equals(const EpisDNF& episDNF)
 {
@@ -523,13 +522,14 @@ bool EpisDNF::entails(const EpisCNF& episCNF) const {
                 return false;
         }
     }
+
     return true;
 }
 
 EpisDNF& EpisDNF::minimal()
 {
     for (list<EpisTerm>::iterator it = epis_terms.begin(); it != epis_terms.end(); ++it)
-        it-> minimal();
+        it->minimal();
     return *this;
 }
 

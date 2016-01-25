@@ -1953,7 +1953,7 @@ yyreduce:
 
   case 63:
 #line 415 "parse.y"
-    { 
+    {
 		(yyval.str) = new string("not("+*(yyvsp[(3) - (5)].str));
 		for (StringList::iterator ssi = (*(yyvsp[(4) - (5)].str_list)).begin(); ssi != (*(yyvsp[(4) - (5)].str_list)).end(); ssi++)
 		{

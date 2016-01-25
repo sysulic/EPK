@@ -412,7 +412,7 @@ lit
 		}
 	}
 	|	NOT LEFT_PAREN predicate variables RIGHT_PAREN
-	{ 
+	{
 		$$ = new string("not("+*$3);
 		for (StringList::iterator ssi = (*$4).begin(); ssi != (*$4).end(); ssi++)
 		{

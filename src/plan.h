@@ -1,9 +1,7 @@
 #ifndef PLAN_H
 #define	PLAN_H
 
-#include "init.h"
-#include <set>
-#include <queue>
+#include "initial.h"
 
 extern vector<OnticAction> ontic_actions;
 extern vector<EpisAction> epis_actions;
@@ -49,7 +47,7 @@ public:
     void add_node(const Node& node);
     int calculate_node_heuristic_value(const Node& node) const;
 private:
-    Init in;
+    Initial in;
     vector<Node> all_nodes;
     int explored_num;
     vector<Transition> all_edges;
