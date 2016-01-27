@@ -56,7 +56,6 @@ void Plan::explore(int node_pos){
     // 进行感知演进
     for(size_t i = 0; i < epis_actions.size(); i++){        
         if(all_nodes[node_pos].kb.entails(epis_actions[i].pre_con)){
-            cout << "ok" << endl;
             vector<EpisDNF> res = all_nodes[node_pos].kb.epistemic_prog(epis_actions[i]);
             if(check_zero_dead(res[0]) || check_zero_dead(res[1]))
                 continue;

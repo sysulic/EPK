@@ -12,8 +12,8 @@ Reader reader;
     init = getEpisDNFfromTree(&reader.init);
     init.minimal();
     goal = getEpisCNFfromTree(&reader.goal);
-    //goal.minimal();
-    
+    goal.minimal();
+
     string endFile = "../output/";
     endFile += reader.domainName; endFile += "_initial";
 
