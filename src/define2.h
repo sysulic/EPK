@@ -36,7 +36,7 @@ struct EpisAction
     EpisCNF pre_con; //动作执行的前置条件
 
     PropDNF pos_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 positive result
-    PropDNF neg_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 negative result
+    //PropDNF neg_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 negative result
 };
 
 #endif	/* DEFINE2_H */

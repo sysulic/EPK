@@ -35,7 +35,7 @@ bool PropTerm::entails(const PropClause& prop_clause) const
     return false;
 }
 
-PropClause PropTerm::negation()
+PropClause PropTerm::negation() const
 {
     PropClause result(length);
     for (size_t i = 0; i < literals.size(); i++) {
@@ -77,11 +77,8 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
         ConEffect cur_con_eff = ontic_action.con_eff[eff_i];  //current effect triple         
         //convert vector<int> to PropTerm
         PropTerm condition(length);
-        for (size_t i = 0; i < cur_con_eff.condition.size()/2; i++) { //current size of condition is 1
-            if (cur_con_eff.condition[i] > 0) 
-                condition.literals.set((cur_con_eff.condition[i] - 1) * 2, true);
-            else
-                condition.literals.set((- cur_con_eff.condition[i] - 1) * 2 + 1, true);
+        for (size_t i = 0; i < cur_con_eff.condition.size(); i++) {
+            condition.literals.set(cur_con_eff.condition[i], true);
         }
         conditions.push_back(condition);
         //check current PropTerm. Mostly, splitting is necessary 
@@ -97,6 +94,7 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
             }
         }
     }
+
     if (missing_atom.empty())
         progression.push_back(*this);
     else {
@@ -106,7 +104,7 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
         progression.insert(progression.end(), splitting_result.begin(), 
                 splitting_result.end());
     }
-    
+
     //begin ontic progression for each PropTerm (many PropTerms are split by current PropTerm)
     for (list<PropTerm>::iterator it = progression.begin(); it != progression.end(); ++it) {
         PropTerm origin = *it;//保存没做之前的状态，用作判断条件
@@ -222,6 +220,58 @@ PropDNF PropDNF::group(const PropDNF& propDNF) const
     } else {
         return *this;
     }
+}
+
+PropCNF PropDNF::negation_as_CNF() const {
+    PropCNF cnf;
+    for (list<PropTerm>::const_iterator term = prop_terms.begin();
+        term != prop_terms.end(); ++term) {
+        cnf.prop_clauses.push_back(term->negation());
+    }
+    return cnf;
+}
+
+// Algorithm: convert a CNF to a DNF
+PropDNF PropDNF::negation_as_DNF() const {
+    PropCNF cnf = negation_as_CNF();
+    PropDNF dnf;
+    
+    if (cnf.prop_clauses.size() == 0) return dnf;
+
+    // split the firtst clause
+    PropClause first_clause = *cnf.prop_clauses.begin();
+    for (size_t i = 0; i < first_clause.length; ++i) {
+        if (first_clause.literals[i]) {
+            PropTerm term(first_clause.length);
+            term.literals[i] = 1;
+            dnf.prop_terms.push_back(term);
+        }
+    }
+
+    // merge following clauses to those added terms one by one
+    if (cnf.prop_clauses.begin() != ++cnf.prop_clauses.end()) {
+        for (list<PropClause>::const_iterator clause = ++cnf.prop_clauses.begin();
+            clause != cnf.prop_clauses.end(); ++clause) {
+            // Careful! The list is increasing!
+            list<PropTerm>::iterator terms_end = dnf.prop_terms.end();
+            for (list<PropTerm>::iterator term = dnf.prop_terms.begin();
+                term != terms_end; ++term) {
+                size_t last;
+                for (size_t i = 0; i < clause->length; ++i) {
+                    if (clause->literals[i]) {
+                        last = i;
+                        PropTerm tmp_term = *term;
+                        tmp_term.literals[i] = 1;
+                        dnf.prop_terms.push_back(tmp_term);
+                    }
+                }
+                term->literals[last] = 1;
+                dnf.prop_terms.pop_back();
+            }
+        }
+    }
+
+    return dnf;
 }
 
 PropDNF& PropDNF::minimal()
@@ -532,7 +582,6 @@ bool EpisDNF::entails(const EpisCNF& episCNF) const {
                 return false;
         }
     }
-
     return true;
 }
 
@@ -550,6 +599,13 @@ EpisDNF EpisDNF::ontic_prog(const OnticAction& ontic_action)
         result.epis_terms.push_back(it->ontic_prog(ontic_action));
     }
     result.minimal();
+
+
+    ofstream out("aaaa", ios::app);
+out << "ontic progation: \n";
+result.show(out);
+
+    out.close();
     return result;
 }
 
@@ -564,23 +620,25 @@ vector<EpisDNF> EpisDNF::epistemic_prog(const EpisAction& epis_action)
         
         //For the K part of an EpisTerm
         p_epis_term.pos_propDNF = it->pos_propDNF.group(epis_action.pos_res);
-        n_epis_term.pos_propDNF = it->pos_propDNF.group(epis_action.neg_res);
+        n_epis_term.pos_propDNF = it->pos_propDNF.group(epis_action.pos_res.negation_as_DNF());
         
         //For the K^ part of an EpisTerm
-        for (list<PropDNF>::iterator propDNF_it = it->neg_propDNFs.begin(); propDNF_it != it->neg_propDNFs.end(); propDNF_it++) {
+        for (list<PropDNF>::iterator propDNF_it = it->neg_propDNFs.begin();
+            propDNF_it != it->neg_propDNFs.end(); propDNF_it++) {
             if (propDNF_it->entails(epis_action.pos_res))
                 p_epis_term.neg_propDNFs.push_back(*propDNF_it);
-            if (propDNF_it->entails(epis_action.neg_res))
+            if (propDNF_it->entails(epis_action.pos_res.negation_as_DNF()))
                 n_epis_term.neg_propDNFs.push_back(*propDNF_it);
         }
-	p_episDNF.epis_terms.push_back(p_epis_term);
-	n_episDNF.epis_terms.push_back(n_epis_term);  
-    }    
+        p_episDNF.epis_terms.push_back(p_epis_term);
+        n_episDNF.epis_terms.push_back(n_epis_term);  
+    }
     vector<EpisDNF> result;
     p_episDNF.minimal();
     result.push_back(p_episDNF);
     n_episDNF.minimal();
     result.push_back(n_episDNF);
+
     return result;
 }
 

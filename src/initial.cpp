@@ -10,9 +10,7 @@ Reader reader;
     onticActionsGrounding();
 
     init = getEpisDNFfromTree(&reader.init);
-    init.minimal();
     goal = getEpisCNFfromTree(&reader.goal);
-    goal.minimal();
 
     string endFile = "../output/";
     endFile += reader.domainName; endFile += "_initial";
@@ -205,7 +203,7 @@ void Initial::printEpisActions(ofstream & out) {
         out << "\n:precondition --------------\n";
         (*epis_action).pre_con.show(out);
 
-        out << "\n:observe -------------------\n";
+        out << ":observe -------------------\n";
         (*epis_action).pos_res.show(out);
 
     }
@@ -385,6 +383,7 @@ EpisDNF Initial::getEpisDNFfromTree(Formula * f) {
             f = f->right;
         }
     } while(f->label != "NULL" || !s.empty());
+    e_dnf.minimal();
     return e_dnf;
 }
 
@@ -434,6 +433,7 @@ PropDNF Initial::getPropDNFfromTree(Formula * f) {
         }
 
     } while(f->label != "NULL" || s.size() > 1);
+    p_dnf.minimal();
     return p_dnf;
 }
 
@@ -483,6 +483,7 @@ EpisCNF Initial::getEpisCNFfromTree(Formula * f) {
             f = f->right;
         }
     } while(f->label != "NULL" || !s.empty());
+    e_cnf.minimal();
     return e_cnf;
 }
 
@@ -532,6 +533,7 @@ PropCNF Initial::getPropCNFfromTree(Formula * f) {
         }
 
     } while(f->label != "NULL" || s.size() > 1);
+    p_cnf.minimal();
     return p_cnf;
 }
 

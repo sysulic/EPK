@@ -14,13 +14,13 @@ void Reader::exec(const char* dFile, const char* pFile) {
 		printf("cannot open %s\n", pFile);
 		return;
 	}
-	puts("-----begin parsing");
+	cout << "\n-----begin parsing" << endl;
 	extern FILE* yyin;  // yyin和yyout都是FILE*类型
 	yyin = fp_d;  // yacc会从yyin读取输入，yyin默认是标准输入，这里改为磁盘文件。yacc默认向yyout输出，可修改yyout改变输出目的
 	yyparse();
 	yyin = fp_p;
 	yyparse();
-	puts("-----end parsing");
+	cout << "\n-----end parsing" << endl;
 	fclose(fp_d);
 	fclose(fp_p);
 

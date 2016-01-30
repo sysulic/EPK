@@ -30,7 +30,7 @@ public:
     bool entails(const PropClause &) const; //judge whether a PropTerm entails a PropClause or not
     bool equals(const PropTerm &);  //判断两个命题项是否等价
     PropTerm group(const PropTerm &) const; //merge two PropTerms
-    PropClause negation(); //this function is used to judge ontic progression
+    PropClause negation() const; //this function is used to judge ontic progression
     PropTerm& minimal(); //化简命题项，在这里其实就是若该命题项中同时出现一个原子的正负文字两个方面，那么该命题项就是False
     void show(ofstream & out) const;
     list<PropTerm> ontic_prog(const OnticAction &ontic_action); //在当前PropTerm上做物理动作的演进，并且返回演进结果
@@ -49,6 +49,8 @@ public:
     bool entails(const PropCNF &) const; //judge whether a PropDNF entails a PropDNF or not
     PropDNF& minimal(); //化简命题DNF，即若PropTerm1能够推出PropTerm2， 则从prop_terms中把PropTerm1删除
     PropDNF group(const PropDNF &) const; //merge two PropDNF
+    PropCNF negation_as_CNF() const;
+    PropDNF negation_as_DNF() const;
     void show(ofstream & out) const;
     PropDNF ontic_prog(const OnticAction &ontic_action); //在当前PropDNF上做物理动作的演进，并且返回演进结果
     void convert_IPIA(); //将DNF转为质蕴含形式
