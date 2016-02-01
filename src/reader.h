@@ -21,7 +21,7 @@ class Reader
 
   /****** problem part ******/
   string problemName;
-  MultiTypeSet objects;
+  MultiTypeList objects;
   Formula init;
   Formula goal;
 
@@ -44,10 +44,10 @@ class Reader
   void convertToDNFTree(Formula * f);
   void convertToCNFTree(Formula * f);
 
-  void printInit(ofstream & out_begin, ofstream & out_end);
-  void printGoal(ofstream & out_begin, ofstream & out_end);
-  void printSenseActions(ofstream & out_file);
-  void printOnticActions(ofstream & out_file);
+  void printInit(ofstream &);
+  void printGoal(ofstream &);
+  void printSenseActions(ofstream &);
+  void printOnticActions(ofstream &);
 };
 
 #endif

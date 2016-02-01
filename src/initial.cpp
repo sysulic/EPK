@@ -3,18 +3,16 @@
 
 Reader reader;
 
- void Initial::exec(const char* dFile, const char* pFile) {
+void Initial::exec(const char* dFile, const char* pFile) {
     reader.exec(dFile, pFile);
     atomsGrounding();
+    init = getEpisDNFfromTree(&reader.init);
+    goal = getEpisCNFfromTree(&reader.goal);
     episActionsGrounding();
     onticActionsGrounding();
 
-    init = getEpisDNFfromTree(&reader.init);
-    goal = getEpisCNFfromTree(&reader.goal);
-
     string endFile = "../output/";
-    endFile += reader.domainName; endFile += "_initial";
-
+    endFile += reader.domainName + "+" + reader.problemName; endFile += "_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
     if(!out_end.is_open()) {
         cout << "cannot open " << endFile << endl;
@@ -25,7 +23,6 @@ Reader reader;
     printGoal(out_end);
     printEpisActions(out_end);
     printOnticActions(out_end);  // conversion after first printActions()
-
     out_end.close();
 
 }
@@ -63,10 +60,10 @@ void Initial::atomsGrounding() {
 			mul_type_pair != reader.predicates.end(); ++mul_type_pair) {
 		queue<string> tmp_atoms;
 		tmp_atoms.push((*mul_type_pair).first);  // grounding atomic proposition
-		for (MultiTypeSet::const_iterator sig_type_pair = (*mul_type_pair).second.begin();
+		for (MultiTypeList::const_iterator sig_type_pair = (*mul_type_pair).second.begin();
 				sig_type_pair != (*mul_type_pair).second.end(); ++sig_type_pair) {
 			// find objects to the specific type
-			for (MultiTypeSet::const_iterator obj = reader.objects.begin();
+			for (MultiTypeList::const_iterator obj = reader.objects.begin();
 					obj != reader.objects.end(); ++obj) {
 				if((*sig_type_pair).first == (*obj).first) {
 					for (size_t i = 0; i < (*sig_type_pair).second.size(); ++i) {
@@ -119,11 +116,11 @@ void Initial::episActionsGrounding() {
 
         queue<PreSenseAction> actions;
         actions.push(*senseAction);
-        for(MultiTypeSet::const_iterator param = (*senseAction).paras.begin();
+        for(MultiTypeList::const_iterator param = (*senseAction).paras.begin();
             param != (*senseAction).paras.end(); ++param) {
 
             // find objects to the specific type of a parameter
-            for (MultiTypeSet::const_iterator obj = reader.objects.begin();
+            for (MultiTypeList::const_iterator obj = reader.objects.begin();
                     obj != reader.objects.end(); ++obj) {
 
                 if((*param).first == (*obj).first) {
@@ -159,10 +156,12 @@ void Initial::episActionsGrounding() {
 PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
     const string param, const string obj) {
     PreSenseAction action;
+    /*
     if (action.name.find_first_of("_") != string::npos)
         action.name.insert(action.name.find_first_of("_"), "_" + obj);
     else
-        action.name += "_" + obj;
+    */
+    action.name += "_" + obj;
     action.type = senseAction.type;
     action.paras = senseAction.paras;
     action.preCondition = *copyFormula(&senseAction.preCondition);
@@ -178,7 +177,7 @@ void Initial::replaceParamWithObj(Formula * f, const string param, const string 
     // cout << param << " " << obj << endl;
     size_t found = f->label.find(param);
     while (found != string::npos) {
-        f->label.replace(found, found+param.size(), obj);
+        f->label.replace(found, param.size(), obj);
         found = f->label.find(param);
     }
     if (f->left != NULL)
@@ -217,15 +216,15 @@ void Initial::onticActionsGrounding() {
         // action(reader) to action_1 2 3...(reader)
         queue<PreOnticAction> actions;
         actions.push(*onticAction);
-        for(MultiTypeSet::const_iterator param = (*onticAction).paras.begin();
+        for(MultiTypeList::const_iterator param = (*onticAction).paras.begin();
             param != (*onticAction).paras.end(); ++param) {
 
             // find objects to the specific type of a parameter
-            for (MultiTypeSet::const_iterator obj = reader.objects.begin();
+            for (MultiTypeList::const_iterator obj = reader.objects.begin();
                     obj != reader.objects.end(); ++obj) {
 
                 if((*param).first == (*obj).first) {
-                    size_t tmp_actions_size = actions.size();  // cause size is changing!
+                    size_t tmp_actions_size = actions.size();  // cause size is increasing!
                     for (size_t i = 0; i < tmp_actions_size; ++i) {
 
                         for (StringList::const_iterator ob = (*obj).second.begin();
@@ -258,10 +257,7 @@ PreOnticAction Initial::onticActionParamGrouding(PreOnticAction & onticAction,
     const string param, const string obj) {
     PreOnticAction action;
     action.name = onticAction.name;
-    if (action.name.find_first_of("_") != string::npos)
-        action.name.insert(action.name.find_first_of("_"), "_" + obj);
-    else
-        action.name += "_" + obj;
+    action.name += "_" + obj;
     action.type = onticAction.type;
     action.paras = onticAction.paras;
     action.preCondition = *copyFormula(&onticAction.preCondition);
@@ -278,7 +274,7 @@ PreOnticAction Initial::onticActionParamGrouding(PreOnticAction & onticAction,
 
 StringList Initial::getGroundedStr(StringList sl, const string param, const string obj) {
     StringList ss;
-    // method replace, so no const_iterator here
+    // for method replace, so no const_iterator here
     for (StringList::iterator str = sl.begin(); str != sl.end(); ++str) {
         size_t found = str->find(param);
         while (found != string::npos) {
@@ -298,16 +294,21 @@ vector<ConEffect> Initial::getOnticEffect(EffectList effects) {
         // condition
         for (StringList::iterator str = eff->condition.begin();
             str != eff->condition.end(); ++str) {
+            if (*str == "True") continue;
             if ((*str).substr(0, 3) == "not")
             {
                 (*str) = (*str).substr(3, (*str).size()-3);
                 size_t start = (*str).find_first_not_of("( ");
                 size_t end = (*str).find_last_not_of(") ");
-                con_eff.condition.push_back(
-                    atomsByName[(*str).substr(start, end-start+1)]*2+1);
+                // check if the name exists!
+                if (atomsByName.find((*str).substr(start, end-start+1))
+                    != atomsByName.end())
+                    con_eff.condition.push_back(
+                        atomsByName[(*str).substr(start, end-start+1)]*2+1);
             }
             else
-                con_eff.condition.push_back(atomsByName[*str]*2);
+                if (atomsByName.find(*str) != atomsByName.end())
+                    con_eff.condition.push_back(atomsByName[*str]*2);
         }
         // effect
         for (StringList::iterator str = eff->lits.begin();
@@ -317,11 +318,15 @@ vector<ConEffect> Initial::getOnticEffect(EffectList effects) {
                 (*str) = (*str).substr(3, (*str).size()-3);
                 size_t start = (*str).find_first_not_of("( ");
                 size_t end = (*str).find_last_not_of(") ");
-                con_eff.lits.push_back(
-                    atomsByName[(*str).substr(start, end-start+1)]*2+1);
+                // check if the name exists!
+                if (atomsByName.find((*str).substr(start, end-start+1))
+                    != atomsByName.end())
+                    con_eff.lits.push_back(
+                        atomsByName[(*str).substr(start, end-start+1)]*2+1);
             }
             else
-                con_eff.lits.push_back(atomsByName[*str]*2);
+                if (atomsByName.find(*str) != atomsByName.end())
+                    con_eff.lits.push_back(atomsByName[*str]*2);
         }
         con_effs.push_back(con_eff);
     }
@@ -348,13 +353,13 @@ void Initial::printOnticActions(ofstream & out) {
             // out condition
             for (vector<int>::const_iterator con = (*eff).condition.begin();
                 con != (*eff).condition.end(); ++con) {
-                out << *con << " ";
+                out << (*con % 2 ? "~" : "") << atomsByIndex[*con / 2] << ", ";
             }
-            out << ", ";
+            out << "; ";
             // out lits
             for (vector<int>::const_iterator lit = (*eff).lits.begin();
                 lit != (*eff).lits.end(); ++lit) {
-                out << *lit << " ";
+                out << (*lit % 2 ? "~" : "") << atomsByIndex[*lit / 2] << ", ";
             }
             out << endl;
         }
@@ -443,10 +448,13 @@ PropTerm Initial::getPropTermFromTree(Formula * f) {
     do {
         while(f->label != "NULL") {
             if (f->label != "&") {
-                if (f->label == "!") {
-                    p_term.literals[atomsByName[f->left->label]*2+1] = 1;
+                if (f->label == "True") return p_term;
+                if (f->label == "~") {
+                    if (atomsByName.find(f->left->label) != atomsByName.end())
+                        p_term.literals[atomsByName[f->left->label]*2+1] = 1;
                 } else {
-                    p_term.literals[atomsByName[f->label]*2] = 1;
+                    if (atomsByName.find(f->label) != atomsByName.end())
+                        p_term.literals[atomsByName[f->label]*2] = 1;
                 }
                 f->label = "NULL";
             } else {
@@ -543,10 +551,13 @@ PropClause Initial::getPropClauseFromTree(Formula * f) {
     do {
         while(f->label != "NULL") {
             if (f->label != "|") {
-                if (f->label == "!") {
-                    p_clause.literals[atomsByName[f->left->label]*2+1] = 1;
+                if (f->label == "True") return p_clause;
+                if (f->label == "~") {
+                    if (atomsByName.find(f->left->label) != atomsByName.end())
+                        p_clause.literals[atomsByName[f->left->label]*2+1] = 1;
                 } else {
-                    p_clause.literals[atomsByName[f->label]*2] = 1;
+                    if (atomsByName.find(f->label) != atomsByName.end())
+                        p_clause.literals[atomsByName[f->label]*2] = 1;
                 }
                 f->label = "NULL";
             } else {

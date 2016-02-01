@@ -32,8 +32,8 @@ typedef list<Effect> EffectList;
 typedef set<string> StringSet;
 typedef list<string> StringList;
 typedef pair<string, StringList> SingleTypePair;
-typedef set<SingleTypePair> MultiTypeSet;
-typedef pair<string, MultiTypeSet> MultiTypePair;
+typedef list<SingleTypePair> MultiTypeList;
+typedef pair<string, MultiTypeList> MultiTypePair;
 typedef set<MultiTypePair> PredicateSet;
 typedef list<PreSenseAction> PreSenseActionList;
 typedef list<PreOnticAction> PreOnticActionList;
@@ -72,7 +72,7 @@ struct PreSenseAction
 {
     string name; // action name
     string type; // sense or ontic
-    MultiTypeSet paras; // parameters
+    MultiTypeList paras; // parameters
     Formula preCondition;
     Formula observe; //需要观察的“公式”
 };
@@ -89,7 +89,7 @@ struct PreOnticAction
 {
     string name; //动作的名称
     string type; // sense or ontic
-    MultiTypeSet paras;
+    MultiTypeList paras;
     Formula preCondition;
     EffectList effects; //效果二元组
 };

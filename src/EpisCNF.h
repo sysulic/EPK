@@ -26,7 +26,7 @@ public:
     PropClause group(const PropClause &) const;
     bool is_true() const;
     PropClause& minimal(); //对于PropClause的化简，就是如果出现一个原子的正负文字，则为True
-    void show(ofstream & out) const;
+    void show(ofstream &, bool print_new_line = true) const;
 };
   
 
@@ -38,7 +38,7 @@ public:
     PropDNF negation() const;
     PropCNF& minimal();
     bool entails(PropCNF& propCNF);
-    void show(ofstream & out) const;
+    void show(ofstream &, bool print_new_line = true) const;
 };
 
 
@@ -46,14 +46,12 @@ public:
 class EpisClause {
 public:
     list<PropCNF> pos_propCNFs; //认知子句的K部分，有若干个，当然可以一个都没有
-    list<PropCNF> neg_propCNFs; //认知子句的K^部分，注意只有一个
-    PropCNF neg_propCNF; //认知子句的K^部分，注意只有一个
+    PropCNF neg_propCNF; //认知子句的K^部分，只有一个
 public:
-    void min();//把neg后面合成一个
     EpisClause& minimal();
     EpisClause& separable();
     bool entails(const EpisClause&); //Doctor Fang has not given this reasoning rule
-    void show(ofstream & out) const;
+    void show(ofstream &) const;
 };
 
 
@@ -63,7 +61,7 @@ public:
     list<EpisClause> epis_clauses;
 public:
     EpisCNF& minimal();
-    void show(ofstream & out) const;
+    void show(ofstream &) const;
 };
 
 #endif	/* EPISCNF_H */

@@ -69,22 +69,38 @@ PropCNF PropCNF::group(const PropCNF& propCNF) const
     }
 }
 
-void PropClause::show(ofstream & out) const
+void PropClause::show(ofstream & out, bool print_new_line) const
 {
-    for (size_t i = 0; i < length; ++i)
-        out << literals[i] << " ";
-    out << endl;
+    vector<int> id_atoms;
+    // 提取原子
+    for (size_t i = 0; i < literals.size(); ++ i)
+        if (literals[i])
+            id_atoms.push_back(i);
+    if (id_atoms.empty())
+        return ;
+    // 注意奇数为非
+    out << "(" << (id_atoms[0] % 2 ? "~" : "") << atomsByIndex[id_atoms[0] / 2];
+    for (size_t i = 1; i < id_atoms.size(); ++ i)
+        out << " | " << (id_atoms[i] % 2 ? "~" : "") << atomsByIndex[id_atoms[i] / 2];
+    out << ")";
+    if (print_new_line)
+        out << endl;
 }
 
-void PropCNF::show(ofstream & out) const
+void PropCNF::show(ofstream & out, bool print_new_line) const
 {
-    out << "(" << endl;
-    for (list<PropClause>::const_iterator it = prop_clauses.begin();
-            it != prop_clauses.end(); ++it) {
+    if (prop_clauses.empty())
+        return ;
+    out << "( ";
+    prop_clauses.begin()->show(out, false);
+    for (list<PropClause>::const_iterator it = (++ prop_clauses.begin());
+            it != prop_clauses.end(); ++ it) {
         out << " & ";
-        it->show(out);
+        it->show(out, false);
     }
-    out << ")" << endl;
+    out << " )";
+    if (print_new_line)
+        out << endl;
 }
 
 void EpisClause::show(ofstream & out) const
@@ -94,8 +110,10 @@ void EpisClause::show(ofstream & out) const
         out << "K";
         it->show(out);
     }
-    out << "DK";
-    neg_propCNF.show(out);
+    if (! neg_propCNF.prop_clauses.empty()) {
+        out << "~K~";
+        neg_propCNF.show(out);
+    }
 }
 
 PropDNF PropCNF::negation() const
@@ -131,20 +149,6 @@ PropCNF& PropCNF::minimal()
     }
     
     return *this;
-}
-
-void EpisClause::min()
-{
-    if(neg_propCNFs.size()>1){
-        PropCNF p = *neg_propCNFs.begin();
-        list<PropCNF>::iterator it = neg_propCNFs.begin();
-        ++it;
-        while(it != neg_propCNFs.end()){
-            p = p.group(*it);
-        }
-        neg_propCNFs.clear();
-        neg_propCNFs.push_back(p);
-    }
 }
 
 EpisClause& EpisClause::separable()

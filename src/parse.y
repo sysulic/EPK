@@ -19,7 +19,7 @@ extern Reader reader;
   StringSet* str_set;
   StringList* str_list;
   SingleTypePair* singletype_pair;
-  MultiTypeSet* multitype_set;
+  MultiTypeList* multitype_list;
   MultiTypePair* multitype_pair;
   PredicateSet* pre_set;
   Effect* eff;
@@ -75,7 +75,7 @@ extern Reader reader;
 %type <pre_set> atomicFormulaSkeletons
 %type <multitype_pair> atomicFormulaSkeleton
 %type <str> predicate
-%type <multitype_set> typedVariableList
+%type <multitype_list> typedVariableList
 %type <singletype_pair> singleTypeVarList
 %type <str_list> variables
 
@@ -84,7 +84,7 @@ extern Reader reader;
 %type <eff> effect
 %type <eff_set> effects
 %type <str> actionSymbol
-%type <multitype_set> parameters
+%type <multitype_list> parameters
 %type <tree> observe
 %type <sense_action> senseAction
 %type <ontic_action> onticAction
@@ -99,8 +99,8 @@ extern Reader reader;
 %type <str> problemDecl
 %type <str> atomicProp
 
-%type <multitype_set> objectDecl
-%type <multitype_set> objectTypes
+%type <multitype_list> objectDecl
+%type <multitype_list> objectTypes
 %type <singletype_pair> singleType
 %type <str_list> objects
 %type <str> object
@@ -207,12 +207,12 @@ typedVariableList
 	:	typedVariableList singleTypeVarList
 	{
 		$$ = $1;
-		$$->insert(*$2);
+		$$->push_back(*$2);
 	}
 	|	singleTypeVarList
 	{
-		$$ = new MultiTypeSet;
-		$$->insert(*$1);
+		$$ = new MultiTypeList;
+		$$->push_back(*$1);
 	}
 	;
 singleTypeVarList
@@ -241,8 +241,8 @@ actionsDef
 	|	action
 	;
 action
-	:	senseAction { reader.senseActions.insert(reader.senseActions.begin(), *$1); }
-	|	onticAction { reader.onticActions.insert(reader.onticActions.begin(), *$1); }
+	:	senseAction { reader.senseActions.push_back(*$1); }
+	|	onticAction { reader.onticActions.push_back(*$1); }
 	;
 senseAction
 	:	LEFT_PAREN
@@ -284,7 +284,7 @@ actionSymbol
 /** parameters **/
 parameters
 	:	typedVariableList { $$ = $1; }
-	|	{ $$ = new MultiTypeSet; }
+	|	{ $$ = new MultiTypeList; }
 	;
 /** precondition **/
 precondition
@@ -325,8 +325,8 @@ episFormula
 objFormula
 	:	AND objFormulas		{ $$ = new Formula("&", $2->left, $2->right); }
 	|	OR objFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
-	|	NOT objFormulas		{ $$ = new Formula("!", $2->left, $2->right); }
-	|	IMPLY objFormulas	{ $$ = new Formula("->", $2->left, $2->right); }
+	|	NOT objFormulas		{ $$ = new Formula("~", $2->left, $2->right); }
+	|	IMPLY objFormulas	{ $$ = new Formula("=>", $2->left, $2->right); }
 	|	ONEOF objFormulas	{ $$ = new Formula("oneof", $2->left, $2->right); }
 	|	atomicProp			{ $$ = new Formula(*$1); }
 	;
@@ -370,12 +370,12 @@ effects
 	:	effects LEFT_PAREN effect RIGHT_PAREN
 	{
 		$$ = $1;
-		$$->insert($$->begin(), *$3);
+		$$->push_back(*$3);
 	}
 	|	LEFT_PAREN effect RIGHT_PAREN
 	{
 		$$ = new EffectList;
-		$$->insert($$->begin(), *$2);
+		$$->push_back(*$2);
 	}
 	;
 effect
@@ -456,19 +456,19 @@ objectDecl
 	}
 	|	LEFT_PAREN COLON OBJECTS RIGHT_PAREN
 	{
-		$$ = new MultiTypeSet;
+		$$ = new MultiTypeList;
 	}
 	;
 objectTypes
 	:	objectTypes singleType
 	{
 		$$ = $1;
-		$$->insert(*$2);
+		$$->push_back(*$2);
 	}
 	|	singleType
 	{
-		$$ = new MultiTypeSet;
-		$$->insert(*$1);
+		$$ = new MultiTypeList;
+		$$->push_back(*$1);
 	}
 	;
 singleType

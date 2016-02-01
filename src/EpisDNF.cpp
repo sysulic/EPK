@@ -130,15 +130,26 @@ list<PropTerm> PropTerm::ontic_prog(const OnticAction& ontic_action)
     return progression;
 }
 
-void PropTerm::show(ofstream & out) const
+void PropTerm::show(ofstream & out, bool print_new_line) const
 {
-    for (size_t i = 0; i < length; ++i)
-        out << literals[i] << " ";
-    out << endl;
+    vector<int> id_atoms;
+    // 提取原子
+    for (size_t i = 0; i < literals.size(); ++ i)
+        if (literals[i])
+            id_atoms.push_back(i);
+    if (id_atoms.empty())
+        return ;
+    // 注意奇数为非
+    out << "(" << (id_atoms[0] % 2 ? "~" : "") << atomsByIndex[id_atoms[0] / 2];
+    for (size_t i = 1; i < id_atoms.size(); ++ i)
+        out << " & " << (id_atoms[i] % 2 ? "~" : "") << atomsByIndex[id_atoms[i] / 2];
+    out << ")";
+    if (print_new_line) 
+        out << endl;
 }
 
-void PropTerm::split(const vector<int>& missing_atom, const int index, PropTerm& cur_propTerm,
-        list<PropTerm>& result) const {
+void PropTerm::split(const vector<int>& missing_atom, const int index,
+    PropTerm& cur_propTerm, list<PropTerm>& result) const {
     if (index >= static_cast<int>(missing_atom.size())) {
         result.push_back(cur_propTerm);
         return ;
@@ -397,15 +408,20 @@ bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi,
     return is_t_delete;
 }
 
-void PropDNF::show(ofstream & out) const 
+void PropDNF::show(ofstream & out, bool print_new_line) const 
 {
-    out << "(" << endl;
-    for (list<PropTerm>::const_iterator it = prop_terms.begin();
-            it != prop_terms.end(); ++it) {
+    if (prop_terms.empty())
+        return ;
+    out << "( ";
+    prop_terms.begin()->show(out, false);
+    for (list<PropTerm>::const_iterator it = (++ prop_terms.begin());
+            it != prop_terms.end(); ++ it) {
         out << " | ";
-        it->show(out);
+        it->show(out, false);
     }
-    out << ")" << endl;
+    out << " )";
+    if (print_new_line)
+        out << endl;
 }
 
 bool EpisTerm::consistent() const
@@ -527,7 +543,7 @@ void EpisTerm::show(ofstream & out) const
     pos_propDNF.show(out);
     for (list<PropDNF>::const_iterator it = neg_propDNFs.begin();
             it != neg_propDNFs.end(); ++it) {
-        out << "DK";
+        out << "~K~";
         it->show(out);
     }
 }
@@ -599,13 +615,6 @@ EpisDNF EpisDNF::ontic_prog(const OnticAction& ontic_action)
         result.epis_terms.push_back(it->ontic_prog(ontic_action));
     }
     result.minimal();
-
-
-    ofstream out("aaaa", ios::app);
-out << "ontic progation: \n";
-result.show(out);
-
-    out.close();
     return result;
 }
 

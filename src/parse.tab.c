@@ -167,7 +167,7 @@ typedef union YYSTYPE
   StringSet* str_set;
   StringList* str_list;
   SingleTypePair* singletype_pair;
-  MultiTypeSet* multitype_set;
+  MultiTypeList* multitype_list;
   MultiTypePair* multitype_pair;
   PredicateSet* pre_set;
   Effect* eff;
@@ -1635,7 +1635,7 @@ yyreduce:
     {
 		(yyval.multitype_pair) = new MultiTypePair;
 		(yyval.multitype_pair)->first = *(yyvsp[(2) - (4)].str);
-		(yyval.multitype_pair)->second = *(yyvsp[(3) - (4)].multitype_set);
+		(yyval.multitype_pair)->second = *(yyvsp[(3) - (4)].multitype_list);
 	;}
     break;
 
@@ -1649,16 +1649,16 @@ yyreduce:
   case 17:
 #line 208 "parse.y"
     {
-		(yyval.multitype_set) = (yyvsp[(1) - (2)].multitype_set);
-		(yyval.multitype_set)->insert(*(yyvsp[(2) - (2)].singletype_pair));
+		(yyval.multitype_list) = (yyvsp[(1) - (2)].multitype_list);
+		(yyval.multitype_list)->push_back(*(yyvsp[(2) - (2)].singletype_pair));
 	;}
     break;
 
   case 18:
 #line 213 "parse.y"
     {
-		(yyval.multitype_set) = new MultiTypeSet;
-		(yyval.multitype_set)->insert(*(yyvsp[(1) - (1)].singletype_pair));
+		(yyval.multitype_list) = new MultiTypeList;
+		(yyval.multitype_list)->push_back(*(yyvsp[(1) - (1)].singletype_pair));
 	;}
     break;
 
@@ -1689,12 +1689,12 @@ yyreduce:
 
   case 24:
 #line 244 "parse.y"
-    { reader.senseActions.insert(reader.senseActions.begin(), *(yyvsp[(1) - (1)].sense_action)); ;}
+    { reader.senseActions.push_back(*(yyvsp[(1) - (1)].sense_action)); ;}
     break;
 
   case 25:
 #line 245 "parse.y"
-    { reader.onticActions.insert(reader.onticActions.begin(), *(yyvsp[(1) - (1)].ontic_action)); ;}
+    { reader.onticActions.push_back(*(yyvsp[(1) - (1)].ontic_action)); ;}
     break;
 
   case 26:
@@ -1703,7 +1703,7 @@ yyreduce:
 		(yyval.sense_action) = new PreSenseAction;
 		(yyval.sense_action)->name = *(yyvsp[(4) - (20)].str);
 		(yyval.sense_action)->type = *(yyvsp[(16) - (20)].str);
-		(yyval.sense_action)->paras = *(yyvsp[(8) - (20)].multitype_set);
+		(yyval.sense_action)->paras = *(yyvsp[(8) - (20)].multitype_list);
 		(yyval.sense_action)->preCondition = *(yyvsp[(13) - (20)].tree);
 		(yyval.sense_action)->observe = *(yyvsp[(18) - (20)].tree);
 		// cout << "senseActions done" << endl;
@@ -1716,7 +1716,7 @@ yyreduce:
 		(yyval.ontic_action) = new PreOnticAction;
 		(yyval.ontic_action)->name = *(yyvsp[(4) - (20)].str);
 		(yyval.ontic_action)->type = *(yyvsp[(16) - (20)].str);
-		(yyval.ontic_action)->paras = *(yyvsp[(8) - (20)].multitype_set);
+		(yyval.ontic_action)->paras = *(yyvsp[(8) - (20)].multitype_list);
 		(yyval.ontic_action)->preCondition = *(yyvsp[(13) - (20)].tree);
 		(yyval.ontic_action)->effects = *(yyvsp[(18) - (20)].eff_set);	
 		// cout << "onticAction done" << endl;
@@ -1730,12 +1730,12 @@ yyreduce:
 
   case 29:
 #line 286 "parse.y"
-    { (yyval.multitype_set) = (yyvsp[(1) - (1)].multitype_set); ;}
+    { (yyval.multitype_list) = (yyvsp[(1) - (1)].multitype_list); ;}
     break;
 
   case 30:
 #line 287 "parse.y"
-    { (yyval.multitype_set) = new MultiTypeSet; ;}
+    { (yyval.multitype_list) = new MultiTypeList; ;}
     break;
 
   case 31:
@@ -1808,12 +1808,12 @@ yyreduce:
 
   case 42:
 #line 328 "parse.y"
-    { (yyval.tree) = new Formula("!", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
+    { (yyval.tree) = new Formula("~", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 43:
 #line 329 "parse.y"
-    { (yyval.tree) = new Formula("->", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
+    { (yyval.tree) = new Formula("=>", (yyvsp[(2) - (2)].tree)->left, (yyvsp[(2) - (2)].tree)->right); ;}
     break;
 
   case 44:
@@ -1883,7 +1883,7 @@ yyreduce:
 #line 371 "parse.y"
     {
 		(yyval.eff_set) = (yyvsp[(1) - (4)].eff_set);
-		(yyval.eff_set)->insert((yyval.eff_set)->begin(), *(yyvsp[(3) - (4)].eff));
+		(yyval.eff_set)->push_back(*(yyvsp[(3) - (4)].eff));
 	;}
     break;
 
@@ -1891,7 +1891,7 @@ yyreduce:
 #line 376 "parse.y"
     {
 		(yyval.eff_set) = new EffectList;
-		(yyval.eff_set)->insert((yyval.eff_set)->begin(), *(yyvsp[(2) - (3)].eff));
+		(yyval.eff_set)->push_back(*(yyvsp[(2) - (3)].eff));
 	;}
     break;
 
@@ -1967,7 +1967,7 @@ yyreduce:
 #line 434 "parse.y"
     {
 		reader.problemName = *(yyvsp[(3) - (8)].str);
-		reader.objects = *(yyvsp[(5) - (8)].multitype_set);
+		reader.objects = *(yyvsp[(5) - (8)].multitype_list);
 		reader.init = *(yyvsp[(6) - (8)].tree);
 		reader.goal = *(yyvsp[(7) - (8)].tree);
 		// cout << "problem done" << endl;
@@ -1984,30 +1984,30 @@ yyreduce:
   case 67:
 #line 454 "parse.y"
     {
-		(yyval.multitype_set) = (yyvsp[(4) - (5)].multitype_set);
+		(yyval.multitype_list) = (yyvsp[(4) - (5)].multitype_list);
 	;}
     break;
 
   case 68:
 #line 458 "parse.y"
     {
-		(yyval.multitype_set) = new MultiTypeSet;
+		(yyval.multitype_list) = new MultiTypeList;
 	;}
     break;
 
   case 69:
 #line 464 "parse.y"
     {
-		(yyval.multitype_set) = (yyvsp[(1) - (2)].multitype_set);
-		(yyval.multitype_set)->insert(*(yyvsp[(2) - (2)].singletype_pair));
+		(yyval.multitype_list) = (yyvsp[(1) - (2)].multitype_list);
+		(yyval.multitype_list)->push_back(*(yyvsp[(2) - (2)].singletype_pair));
 	;}
     break;
 
   case 70:
 #line 469 "parse.y"
     {
-		(yyval.multitype_set) = new MultiTypeSet;
-		(yyval.multitype_set)->insert(*(yyvsp[(1) - (1)].singletype_pair));
+		(yyval.multitype_list) = new MultiTypeList;
+		(yyval.multitype_list)->push_back(*(yyvsp[(1) - (1)].singletype_pair));
 	;}
     break;
 

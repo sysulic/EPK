@@ -110,7 +110,7 @@ typedef union YYSTYPE
   StringSet* str_set;
   StringList* str_list;
   SingleTypePair* singletype_pair;
-  MultiTypeSet* multitype_set;
+  MultiTypeList* multitype_list;
   MultiTypePair* multitype_pair;
   PredicateSet* pre_set;
   Effect* eff;

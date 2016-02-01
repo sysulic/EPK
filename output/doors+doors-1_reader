@@ -1,0 +1,101 @@
+----------------init Tree-------------------
+K
+ |
+  &
+   &
+    &
+     &
+      &
+       &
+        &
+         &
+          &
+           &
+            &
+             at p12
+             adj p11 p21
+            adj p21 p11
+           adj p12 p22
+          adj p22 p12
+         adj p11 p12
+        adj p12 p11
+       adj p21 p22
+      adj p22 p21
+     opened p11
+    opened p12
+   ~
+    opened p21
+  &
+   &
+    &
+     &
+      &
+       &
+        &
+         &
+          &
+           &
+            &
+             at p12
+             adj p11 p21
+            adj p21 p11
+           adj p12 p22
+          adj p22 p12
+         adj p11 p12
+        adj p12 p11
+       adj p21 p22
+      adj p22 p21
+     opened p11
+    ~
+     opened p12
+   opened p21
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+K
+ at p22
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action openDoor --------------
+
+:parameters ----------------
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  at ?i
+  adj ?i ?j
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+opened ?j, 
+******************************************
+:action move --------------
+
+:parameters ----------------
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  &
+   adj ?i ?j
+   at ?i
+  opened ?j
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+at ?j, not(at ?i), 
+----------------  done  -------------------
+

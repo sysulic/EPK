@@ -1,0 +1,247 @@
+----------------init Tree-------------------
+K
+ &
+  same
+   same
+    same
+     same
+      same
+       same
+        same
+         same
+          same
+           same
+            same
+             same
+              same
+               same
+                same
+                 same
+                  same
+                   same
+                    same
+                     same
+                      same
+                       same
+                        same
+                         same
+                          same
+                           same
+                            same
+                             same
+                              same
+                               same
+                                same
+                                 same
+                                  same
+                                   same
+                                    same
+                                     same
+                                      same
+                                       same
+                                        same
+                                         same
+                                          same
+                                           same
+                                            same
+                                             same
+                                              same
+                                               same
+                                                same
+                                                 same
+                                                  same
+                                                   same
+                                                    same
+                                                     same
+                                                      same
+                                                       same
+                                                        same
+                                                         same
+                                                          same
+                                                           same
+                                                            same
+                                                             same
+                                                              same
+                                                               same
+                                                                same
+                                                                 same
+                                                                  same
+                                                                   same
+                                                                    same
+                                                                     same
+                                                                      same
+                                                                       same
+                                                                        same
+                                                                         same
+                                                                          same
+                                                                           same
+                                                                            same
+                                                                             same
+                                                                              same
+                                                                               same
+                                                                                same
+                                                                                 same
+                                                                                  same
+                                                                                   same
+                                                                                    same
+                                                                                     same
+                                                                                      same
+                                                                                       same
+                                                                                        same
+                                                                                         same
+                                                                                          same
+                                                                                           same
+                                                                                            same
+                                                                                             same
+                                                                                              same
+                                                                                               same
+                                                                                                same
+                                                                                                 same
+                                                                                                  at p13
+                                                                                                  adj p11 p21
+                                                                                                 adj p21 p11
+                                                                                                adj p12 p22
+                                                                                               adj p22 p12
+                                                                                              adj p13 p23
+                                                                                             adj p23 p13
+                                                                                            adj p14 p24
+                                                                                           adj p24 p14
+                                                                                          adj p15 p25
+                                                                                         adj p25 p15
+                                                                                        adj p21 p31
+                                                                                       adj p31 p21
+                                                                                      adj p22 p32
+                                                                                     adj p32 p22
+                                                                                    adj p23 p33
+                                                                                   adj p33 p23
+                                                                                  adj p24 p34
+                                                                                 adj p34 p24
+                                                                                adj p25 p35
+                                                                               adj p35 p25
+                                                                              adj p31 p41
+                                                                             adj p41 p31
+                                                                            adj p32 p42
+                                                                           adj p42 p32
+                                                                          adj p33 p43
+                                                                         adj p43 p33
+                                                                        adj p34 p44
+                                                                       adj p44 p34
+                                                                      adj p35 p45
+                                                                     adj p45 p35
+                                                                    adj p41 p51
+                                                                   adj p51 p41
+                                                                  adj p42 p52
+                                                                 adj p52 p42
+                                                                adj p43 p53
+                                                               adj p53 p43
+                                                              adj p44 p54
+                                                             adj p54 p44
+                                                            adj p45 p55
+                                                           adj p55 p45
+                                                          adj p11 p12
+                                                         adj p12 p11
+                                                        adj p21 p22
+                                                       adj p22 p21
+                                                      adj p31 p32
+                                                     adj p32 p31
+                                                    adj p41 p42
+                                                   adj p42 p41
+                                                  adj p51 p52
+                                                 adj p52 p51
+                                                adj p12 p13
+                                               adj p13 p12
+                                              adj p22 p23
+                                             adj p23 p22
+                                            adj p32 p33
+                                           adj p33 p32
+                                          adj p42 p43
+                                         adj p43 p42
+                                        adj p52 p53
+                                       adj p53 p52
+                                      adj p13 p14
+                                     adj p14 p13
+                                    adj p23 p24
+                                   adj p24 p23
+                                  adj p33 p34
+                                 adj p34 p33
+                                adj p43 p44
+                               adj p44 p43
+                              adj p53 p54
+                             adj p54 p53
+                            adj p14 p15
+                           adj p15 p14
+                          adj p24 p25
+                         adj p25 p24
+                        adj p34 p35
+                       adj p35 p34
+                      adj p44 p45
+                     adj p45 p44
+                    adj p54 p55
+                   adj p55 p54
+                  opened p11
+                 opened p12
+                opened p13
+               opened p14
+              opened p15
+             opened p21
+            opened p31
+           opened p32
+          opened p33
+         opened p34
+        opened p35
+       opened p41
+      opened p51
+     opened p52
+    opened p53
+   opened p54
+  opened p55
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+K
+ at p53
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action openDoor --------------
+
+:parameters ----------------
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  at ?i
+  adj ?i ?j
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+opened ?j, 
+******************************************
+:action move --------------
+
+:parameters ----------------
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  same
+   adj ?i ?j
+   at ?i
+  opened ?j
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+at ?j, not(at ?i), 
+----------------  done  -------------------
+
