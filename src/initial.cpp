@@ -156,6 +156,7 @@ void Initial::episActionsGrounding() {
 PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
     const string param, const string obj) {
     PreSenseAction action;
+    action.name = senseAction.name;
     /*
     if (action.name.find_first_of("_") != string::npos)
         action.name.insert(action.name.find_first_of("_"), "_" + obj);

@@ -1,0 +1,1615 @@
+------------ print all atoms ----------------
+0 : file_in_dir my_file root
+1 : file_in_dir my_file sub1
+2 : file_in_dir my_file sub2
+3 : file_in_dir my_file sub11
+4 : file_in_dir my_file sub12
+5 : file_in_dir my_file sub21
+6 : file_in_dir my_file sub22
+7 : is_cur_dir root
+8 : is_cur_dir sub1
+9 : is_cur_dir sub2
+10 : is_cur_dir sub11
+11 : is_cur_dir sub12
+12 : is_cur_dir sub21
+13 : is_cur_dir sub22
+14 : sub_dir root root
+15 : sub_dir root sub1
+16 : sub_dir root sub2
+17 : sub_dir root sub11
+18 : sub_dir root sub12
+19 : sub_dir root sub21
+20 : sub_dir root sub22
+21 : sub_dir sub1 root
+22 : sub_dir sub1 sub1
+23 : sub_dir sub1 sub2
+24 : sub_dir sub1 sub11
+25 : sub_dir sub1 sub12
+26 : sub_dir sub1 sub21
+27 : sub_dir sub1 sub22
+28 : sub_dir sub2 root
+29 : sub_dir sub2 sub1
+30 : sub_dir sub2 sub2
+31 : sub_dir sub2 sub11
+32 : sub_dir sub2 sub12
+33 : sub_dir sub2 sub21
+34 : sub_dir sub2 sub22
+35 : sub_dir sub11 root
+36 : sub_dir sub11 sub1
+37 : sub_dir sub11 sub2
+38 : sub_dir sub11 sub11
+39 : sub_dir sub11 sub12
+40 : sub_dir sub11 sub21
+41 : sub_dir sub11 sub22
+42 : sub_dir sub12 root
+43 : sub_dir sub12 sub1
+44 : sub_dir sub12 sub2
+45 : sub_dir sub12 sub11
+46 : sub_dir sub12 sub12
+47 : sub_dir sub12 sub21
+48 : sub_dir sub12 sub22
+49 : sub_dir sub21 root
+50 : sub_dir sub21 sub1
+51 : sub_dir sub21 sub2
+52 : sub_dir sub21 sub11
+53 : sub_dir sub21 sub12
+54 : sub_dir sub21 sub21
+55 : sub_dir sub21 sub22
+56 : sub_dir sub22 root
+57 : sub_dir sub22 sub1
+58 : sub_dir sub22 sub2
+59 : sub_dir sub22 sub11
+60 : sub_dir sub22 sub12
+61 : sub_dir sub22 sub21
+62 : sub_dir sub22 sub22
+-------- end print all atoms ----------------
+
+---------------- init -------------------
+epis term 0
+K( (file_in_dir my_file sub11 & is_cur_dir root & sub_dir root sub1 & sub_dir root sub2 & sub_dir sub1 sub11 & sub_dir sub1 sub12 & sub_dir sub2 sub21 & sub_dir sub2 sub22) )
+
+---------------- done -------------------
+
+---------------- goal -------------------
+epis cnf 0
+K( (file_in_dir my_file root) )
+
+---------------- done -------------------
+
+---------------- Epis Actions -------------------
+:action ls_root_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) )
+
+:observe -------------------
+( (file_in_dir my_file root) )
+******************************************
+:action ls_sub1_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) )
+
+:observe -------------------
+( (file_in_dir my_file sub1) )
+******************************************
+:action ls_sub2_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) )
+
+:observe -------------------
+( (file_in_dir my_file sub2) )
+******************************************
+:action ls_sub11_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) )
+
+:observe -------------------
+( (file_in_dir my_file sub11) )
+******************************************
+:action ls_sub12_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) )
+
+:observe -------------------
+( (file_in_dir my_file sub12) )
+******************************************
+:action ls_sub21_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) )
+
+:observe -------------------
+( (file_in_dir my_file sub21) )
+******************************************
+:action ls_sub22_my_file --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) )
+
+:observe -------------------
+( (file_in_dir my_file sub22) )
+-------------------- done -----------------------
+
+---------------- Ontic Actions -------------------
+:action cd_down_root_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir root, 
+******************************************
+:action cd_down_root_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir root, 
+******************************************
+:action cd_down_sub1_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub1_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub1, 
+******************************************
+:action cd_down_sub2_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub2_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub2, 
+******************************************
+:action cd_down_sub11_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub11_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub11, 
+******************************************
+:action cd_down_sub12_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub12_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub12, 
+******************************************
+:action cd_down_sub21_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub21_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub21, 
+******************************************
+:action cd_down_sub22_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, ~is_cur_dir sub22, 
+******************************************
+:action cd_down_sub22_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, ~is_cur_dir sub22, 
+******************************************
+:action cd_up_root_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir root root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub1 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub2 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub11 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub12 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub21 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir root, 
+******************************************
+:action cd_up_root_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (sub_dir sub22 root) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir root, 
+******************************************
+:action cd_up_sub1_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir root sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub1 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub2 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub11 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub12 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub21 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub1_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (sub_dir sub22 sub1) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub1, 
+******************************************
+:action cd_up_sub2_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir root sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub1 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub2 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub11 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub12 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub21 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub2_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (sub_dir sub22 sub2) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub2, 
+******************************************
+:action cd_up_sub11_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir root sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub1 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub2 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub11 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub12 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub21 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub11_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (sub_dir sub22 sub11) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub11, 
+******************************************
+:action cd_up_sub12_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir root sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub1 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub2 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub11 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub12 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub21 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub12_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (sub_dir sub22 sub12) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub12, 
+******************************************
+:action cd_up_sub21_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir root sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub1 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub2 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub11 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub12 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub21 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub21_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (sub_dir sub22 sub21) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub21, 
+******************************************
+:action cd_up_sub22_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir root sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir root, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub1 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub1, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub2 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub2, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub11 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub11, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub12 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub12, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub21 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub21, is_cur_dir sub22, 
+******************************************
+:action cd_up_sub22_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (sub_dir sub22 sub22) )
+
+:effects -------------------
+effect 0 --------
+; is_cur_dir sub22, is_cur_dir sub22, 
+******************************************
+:action mv_my_file_root_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_root_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir root) & (file_in_dir my_file root) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub1_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub2_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub11_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub12_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub21_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_root --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub2 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+******************************************
+:action mv_my_file_sub22_sub22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
+
+:effects -------------------
+effect 0 --------
+; 
+-------------------- done -----------------------
+

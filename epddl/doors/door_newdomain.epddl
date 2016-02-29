@@ -20,9 +20,6 @@
    (:action move
     :parameters (?i - pos ?j - pos )
     :precondition (K (and (adj ?i ?j) (at ?i) (opened ?j)))
-    :effect (
-              ( (True),(at ?j, not (at ?i)) )
-              
-            )
+    :effect (((True),(at ?j, not (at ?i))))
    )
 )
