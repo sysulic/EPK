@@ -640,7 +640,7 @@ K( (is_cur_dir root) & (sub_dir root root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir root, 
+; is_cur_dir root, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub1 --------------
 
@@ -650,7 +650,7 @@ K( (is_cur_dir root) & (sub_dir sub1 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir root, 
+; is_cur_dir sub1, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub2 --------------
 
@@ -660,7 +660,7 @@ K( (is_cur_dir root) & (sub_dir sub2 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir root, 
+; is_cur_dir sub2, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub11 --------------
 
@@ -670,7 +670,7 @@ K( (is_cur_dir root) & (sub_dir sub11 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir root, 
+; is_cur_dir sub11, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub12 --------------
 
@@ -680,7 +680,7 @@ K( (is_cur_dir root) & (sub_dir sub12 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir root, 
+; is_cur_dir sub12, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub21 --------------
 
@@ -690,7 +690,7 @@ K( (is_cur_dir root) & (sub_dir sub21 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir root, 
+; is_cur_dir sub21, ~is_cur_dir root, 
 ******************************************
 :action cd_up_root_sub22 --------------
 
@@ -700,7 +700,7 @@ K( (is_cur_dir root) & (sub_dir sub22 root) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir root, 
+; is_cur_dir sub22, ~is_cur_dir root, 
 ******************************************
 :action cd_up_sub1_root --------------
 
@@ -710,7 +710,7 @@ K( (is_cur_dir sub1) & (sub_dir root sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub1, 
+; is_cur_dir root, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub1 --------------
 
@@ -720,7 +720,7 @@ K( (is_cur_dir sub1) & (sub_dir sub1 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub1, 
+; is_cur_dir sub1, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub2 --------------
 
@@ -730,7 +730,7 @@ K( (is_cur_dir sub1) & (sub_dir sub2 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub1, 
+; is_cur_dir sub2, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub11 --------------
 
@@ -740,7 +740,7 @@ K( (is_cur_dir sub1) & (sub_dir sub11 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub1, 
+; is_cur_dir sub11, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub12 --------------
 
@@ -750,7 +750,7 @@ K( (is_cur_dir sub1) & (sub_dir sub12 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub1, 
+; is_cur_dir sub12, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub21 --------------
 
@@ -760,7 +760,7 @@ K( (is_cur_dir sub1) & (sub_dir sub21 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub1, 
+; is_cur_dir sub21, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub1_sub22 --------------
 
@@ -770,7 +770,7 @@ K( (is_cur_dir sub1) & (sub_dir sub22 sub1) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub1, 
+; is_cur_dir sub22, ~is_cur_dir sub1, 
 ******************************************
 :action cd_up_sub2_root --------------
 
@@ -780,7 +780,7 @@ K( (is_cur_dir sub2) & (sub_dir root sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub2, 
+; is_cur_dir root, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub1 --------------
 
@@ -790,7 +790,7 @@ K( (is_cur_dir sub2) & (sub_dir sub1 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub2, 
+; is_cur_dir sub1, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub2 --------------
 
@@ -800,7 +800,7 @@ K( (is_cur_dir sub2) & (sub_dir sub2 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub2, 
+; is_cur_dir sub2, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub11 --------------
 
@@ -810,7 +810,7 @@ K( (is_cur_dir sub2) & (sub_dir sub11 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub2, 
+; is_cur_dir sub11, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub12 --------------
 
@@ -820,7 +820,7 @@ K( (is_cur_dir sub2) & (sub_dir sub12 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub2, 
+; is_cur_dir sub12, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub21 --------------
 
@@ -830,7 +830,7 @@ K( (is_cur_dir sub2) & (sub_dir sub21 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub2, 
+; is_cur_dir sub21, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub2_sub22 --------------
 
@@ -840,7 +840,7 @@ K( (is_cur_dir sub2) & (sub_dir sub22 sub2) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub2, 
+; is_cur_dir sub22, ~is_cur_dir sub2, 
 ******************************************
 :action cd_up_sub11_root --------------
 
@@ -850,7 +850,7 @@ K( (is_cur_dir sub11) & (sub_dir root sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub11, 
+; is_cur_dir root, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub1 --------------
 
@@ -860,7 +860,7 @@ K( (is_cur_dir sub11) & (sub_dir sub1 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub11, 
+; is_cur_dir sub1, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub2 --------------
 
@@ -870,7 +870,7 @@ K( (is_cur_dir sub11) & (sub_dir sub2 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub11, 
+; is_cur_dir sub2, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub11 --------------
 
@@ -880,7 +880,7 @@ K( (is_cur_dir sub11) & (sub_dir sub11 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub11, 
+; is_cur_dir sub11, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub12 --------------
 
@@ -890,7 +890,7 @@ K( (is_cur_dir sub11) & (sub_dir sub12 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub11, 
+; is_cur_dir sub12, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub21 --------------
 
@@ -900,7 +900,7 @@ K( (is_cur_dir sub11) & (sub_dir sub21 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub11, 
+; is_cur_dir sub21, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub11_sub22 --------------
 
@@ -910,7 +910,7 @@ K( (is_cur_dir sub11) & (sub_dir sub22 sub11) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub11, 
+; is_cur_dir sub22, ~is_cur_dir sub11, 
 ******************************************
 :action cd_up_sub12_root --------------
 
@@ -920,7 +920,7 @@ K( (is_cur_dir sub12) & (sub_dir root sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub12, 
+; is_cur_dir root, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub1 --------------
 
@@ -930,7 +930,7 @@ K( (is_cur_dir sub12) & (sub_dir sub1 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub12, 
+; is_cur_dir sub1, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub2 --------------
 
@@ -940,7 +940,7 @@ K( (is_cur_dir sub12) & (sub_dir sub2 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub12, 
+; is_cur_dir sub2, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub11 --------------
 
@@ -950,7 +950,7 @@ K( (is_cur_dir sub12) & (sub_dir sub11 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub12, 
+; is_cur_dir sub11, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub12 --------------
 
@@ -960,7 +960,7 @@ K( (is_cur_dir sub12) & (sub_dir sub12 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub12, 
+; is_cur_dir sub12, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub21 --------------
 
@@ -970,7 +970,7 @@ K( (is_cur_dir sub12) & (sub_dir sub21 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub12, 
+; is_cur_dir sub21, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub12_sub22 --------------
 
@@ -980,7 +980,7 @@ K( (is_cur_dir sub12) & (sub_dir sub22 sub12) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub12, 
+; is_cur_dir sub22, ~is_cur_dir sub12, 
 ******************************************
 :action cd_up_sub21_root --------------
 
@@ -990,7 +990,7 @@ K( (is_cur_dir sub21) & (sub_dir root sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub21, 
+; is_cur_dir root, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub1 --------------
 
@@ -1000,7 +1000,7 @@ K( (is_cur_dir sub21) & (sub_dir sub1 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub21, 
+; is_cur_dir sub1, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub2 --------------
 
@@ -1010,7 +1010,7 @@ K( (is_cur_dir sub21) & (sub_dir sub2 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub21, 
+; is_cur_dir sub2, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub11 --------------
 
@@ -1020,7 +1020,7 @@ K( (is_cur_dir sub21) & (sub_dir sub11 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub21, 
+; is_cur_dir sub11, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub12 --------------
 
@@ -1030,7 +1030,7 @@ K( (is_cur_dir sub21) & (sub_dir sub12 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub21, 
+; is_cur_dir sub12, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub21 --------------
 
@@ -1040,7 +1040,7 @@ K( (is_cur_dir sub21) & (sub_dir sub21 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub21, 
+; is_cur_dir sub21, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub21_sub22 --------------
 
@@ -1050,7 +1050,7 @@ K( (is_cur_dir sub21) & (sub_dir sub22 sub21) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub21, 
+; is_cur_dir sub22, ~is_cur_dir sub21, 
 ******************************************
 :action cd_up_sub22_root --------------
 
@@ -1060,7 +1060,7 @@ K( (is_cur_dir sub22) & (sub_dir root sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir root, is_cur_dir sub22, 
+; is_cur_dir root, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub1 --------------
 
@@ -1070,7 +1070,7 @@ K( (is_cur_dir sub22) & (sub_dir sub1 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub1, is_cur_dir sub22, 
+; is_cur_dir sub1, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub2 --------------
 
@@ -1080,7 +1080,7 @@ K( (is_cur_dir sub22) & (sub_dir sub2 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub2, is_cur_dir sub22, 
+; is_cur_dir sub2, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub11 --------------
 
@@ -1090,7 +1090,7 @@ K( (is_cur_dir sub22) & (sub_dir sub11 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub11, is_cur_dir sub22, 
+; is_cur_dir sub11, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub12 --------------
 
@@ -1100,7 +1100,7 @@ K( (is_cur_dir sub22) & (sub_dir sub12 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub12, is_cur_dir sub22, 
+; is_cur_dir sub12, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub21 --------------
 
@@ -1110,7 +1110,7 @@ K( (is_cur_dir sub22) & (sub_dir sub21 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub21, is_cur_dir sub22, 
+; is_cur_dir sub21, ~is_cur_dir sub22, 
 ******************************************
 :action cd_up_sub22_sub22 --------------
 
@@ -1120,7 +1120,7 @@ K( (is_cur_dir sub22) & (sub_dir sub22 sub22) )
 
 :effects -------------------
 effect 0 --------
-; is_cur_dir sub22, is_cur_dir sub22, 
+; is_cur_dir sub22, ~is_cur_dir sub22, 
 ******************************************
 :action mv_my_file_root_root --------------
 

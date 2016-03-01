@@ -72,7 +72,7 @@ K
 --- effect --- No.0 :
 True, 
 -----
-is_cur_dir ?par_dir, is_cur_dir ?cur_dir, 
+is_cur_dir ?par_dir, not(is_cur_dir ?cur_dir), 
 ******************************************
 :action mv --------------
 
@@ -91,6 +91,6 @@ K
 --- effect --- No.0 :
 True, 
 -----
-file_in_dir ?file ?target_dir, file_in_dir ?file ?cur_dir, 
+file_in_dir ?file ?target_dir, not(file_in_dir ?file ?cur_dir), 
 ----------------  done  -------------------
 

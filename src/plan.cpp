@@ -51,7 +51,7 @@ void Plan::exec_plan(){
 
 // Algorithm 7
 void Plan::explore(int node_pos){
-    //cout << "explore..." << endl;
+    cout << "explore..." << endl;
     bool execed = false;//deep search find new node
     // 进行感知演进
     for(size_t i = 0; i < epis_actions.size(); i++){        
@@ -165,7 +165,7 @@ void Plan::explore(int node_pos){
 
 // Algorithm 8
 void Plan::expand(Transition ts){
-    //cout << "expand..." << endl;
+    cout << "expand..." << endl;
     if(all_nodes[ts.next_bdd_state].flag != EXPLORED){
         if(all_nodes[ts.next_bdd_state].kb.entails(in.goal))
             all_nodes[ts.next_bdd_state].flag = FINAL_GOAL;
@@ -177,7 +177,7 @@ void Plan::expand(Transition ts){
 
 // Algorithm 12
 void Plan::PropagateDeadNode(int node_num){
-    //cout << "dead propagation..." << endl;
+    cout << "dead propagation..." << endl;
     for(size_t i = 0; i < all_edges.size(); ){
         if(all_edges[i].next_bdd_state == node_num){
             int front = all_edges[i].front_bdd_state;
@@ -218,7 +218,7 @@ void Plan::PropagateDeadNode(int node_num){
 
 // Algorithm 11
 void Plan::isolation_propagation(int node_num){
-    //cout << "isolation_propagation..." << endl;
+    cout << "isolation_propagation..." << endl;
     if(!all_nodes[node_num].isolated){
         all_nodes[node_num].isolated = true;
         for(size_t i = 0; i < all_edges.size(); i++)
@@ -229,7 +229,7 @@ void Plan::isolation_propagation(int node_num){
 
 // Algorithm 9
 void Plan::reconnection_propagation(int node_num){
-    //cout << "reconnection_propagation..." << endl;
+    cout << "reconnection_propagation..." << endl;
     if(all_nodes[node_num].isolated){
         all_nodes[node_num].isolated = false;
         for(size_t i = 0; i < all_edges.size(); i++)
@@ -274,7 +274,7 @@ int Plan::get_tobeexplored_node(){
 
 // Algorithm 10
 void Plan::PropagateGoalNode(int start_node_num, bool is_observe_action, int act_num){
-    //cout << "goal_propagation..." << endl;
+    cout << "goal_propagation..." << endl;
     all_nodes[start_node_num].flag = FINAL_GOAL;
     for(size_t i = 0; i < all_edges.size();){
         if(all_edges[i].front_bdd_state == start_node_num){
