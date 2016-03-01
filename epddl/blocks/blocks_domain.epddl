@@ -1,7 +1,8 @@
 (define (domain blocksworld)
-  (:predicates (clear ?x)
-               (on-table ?x)
-               (on ?x ?y)
+  (:types )
+  (:predicates (clear ?x - BLOCK)
+               (on-table ?x - BLOCK)
+               (on ?x ?y - BLOCK)
   )
 
   (:action senseON

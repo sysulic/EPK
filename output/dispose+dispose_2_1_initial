@@ -250,7 +250,7 @@ K( (at p11) & (objat o1 p11) )
 
 :effects -------------------
 effect 0 --------
-; holding o1, 
+; holding o1, ~objat o1 p11, 
 ******************************************
 :action pickup_o1_p12 --------------
 
@@ -260,7 +260,7 @@ K( (at p12) & (objat o1 p12) )
 
 :effects -------------------
 effect 0 --------
-; holding o1, 
+; holding o1, ~objat o1 p12, 
 ******************************************
 :action pickup_o1_p21 --------------
 
@@ -270,7 +270,7 @@ K( (at p21) & (objat o1 p21) )
 
 :effects -------------------
 effect 0 --------
-; holding o1, 
+; holding o1, ~objat o1 p21, 
 ******************************************
 :action pickup_o1_p22 --------------
 
@@ -280,7 +280,7 @@ K( (at p22) & (objat o1 p22) )
 
 :effects -------------------
 effect 0 --------
-; holding o1, 
+; holding o1, ~objat o1 p22, 
 ******************************************
 :action drop_o1_p11 --------------
 

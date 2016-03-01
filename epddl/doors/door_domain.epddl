@@ -1,8 +1,8 @@
 (define (domain doors) 
    (:types pos)
-   (:predicates (adj ?i ?j) 
-                (at ?i)  
-                (opened ?i) 
+   (:predicates (adj ?i ?j - pos) 
+                (at ?i - pos)
+                (opened ?i - pos)
    )
                 
    (:action openDoor

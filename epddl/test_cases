@@ -1,22 +1,4 @@
-../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl
-../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl
-
-../epddl/demo/demo_domain.epddl ../epddl/demo/demo_p.epddl
-../epddl/doors/door_newdomain.epddl ../epddl/doors/door_p2.epddl
-
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p20.epddl
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p30.epddl
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p50.epddl
-
-../epddl/doors/door_domain.epddl ../epddl/doors/door_p2.epddl
-../epddl/doors/door_domain.epddl ../epddl/doors/door_p5.epddl
 ../epddl/doors/new_door_domain.epddl ../epddl/doors/new_door_p2.epddl
-
-../epddl/push/push_domain.epddl ../epddl/push/push.epddl
-
-../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-1.epddl
-../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-2.epddl
-../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p3-1.epddl
 
 ../epddl/blocks/blocks_domain.epddl ../epddl/blocks/blocks_p3.epddl
 
@@ -27,7 +9,21 @@
 ../epddl/cube/cube_domain40-20.epddl ../epddl/cube/cube_p40-20.epddl
 
 
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl
 
+../epddl/demo/demo_domain.epddl ../epddl/demo/demo_p.epddl
 
+../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p20.epddl
+../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p30.epddl
+../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p50.epddl
 
+../epddl/doors/door_domain.epddl ../epddl/doors/door_p2.epddl
+../epddl/doors/door_domain.epddl ../epddl/doors/door_p5.epddl
+../epddl/doors/door_newdomain.epddl ../epddl/doors/door_p2.epddl
 
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-1.epddl
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-2.epddl
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p3-1.epddl
+
+../epddl/push/push_domain.epddl ../epddl/push/push.epddl

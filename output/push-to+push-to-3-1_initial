@@ -1,0 +1,1919 @@
+------------ print all atoms ----------------
+0 : adj p11 p11
+1 : adj p11 p12
+2 : adj p11 p13
+3 : adj p11 p21
+4 : adj p11 p22
+5 : adj p11 p23
+6 : adj p11 p31
+7 : adj p11 p32
+8 : adj p11 p33
+9 : adj p12 p11
+10 : adj p12 p12
+11 : adj p12 p13
+12 : adj p12 p21
+13 : adj p12 p22
+14 : adj p12 p23
+15 : adj p12 p31
+16 : adj p12 p32
+17 : adj p12 p33
+18 : adj p13 p11
+19 : adj p13 p12
+20 : adj p13 p13
+21 : adj p13 p21
+22 : adj p13 p22
+23 : adj p13 p23
+24 : adj p13 p31
+25 : adj p13 p32
+26 : adj p13 p33
+27 : adj p21 p11
+28 : adj p21 p12
+29 : adj p21 p13
+30 : adj p21 p21
+31 : adj p21 p22
+32 : adj p21 p23
+33 : adj p21 p31
+34 : adj p21 p32
+35 : adj p21 p33
+36 : adj p22 p11
+37 : adj p22 p12
+38 : adj p22 p13
+39 : adj p22 p21
+40 : adj p22 p22
+41 : adj p22 p23
+42 : adj p22 p31
+43 : adj p22 p32
+44 : adj p22 p33
+45 : adj p23 p11
+46 : adj p23 p12
+47 : adj p23 p13
+48 : adj p23 p21
+49 : adj p23 p22
+50 : adj p23 p23
+51 : adj p23 p31
+52 : adj p23 p32
+53 : adj p23 p33
+54 : adj p31 p11
+55 : adj p31 p12
+56 : adj p31 p13
+57 : adj p31 p21
+58 : adj p31 p22
+59 : adj p31 p23
+60 : adj p31 p31
+61 : adj p31 p32
+62 : adj p31 p33
+63 : adj p32 p11
+64 : adj p32 p12
+65 : adj p32 p13
+66 : adj p32 p21
+67 : adj p32 p22
+68 : adj p32 p23
+69 : adj p32 p31
+70 : adj p32 p32
+71 : adj p32 p33
+72 : adj p33 p11
+73 : adj p33 p12
+74 : adj p33 p13
+75 : adj p33 p21
+76 : adj p33 p22
+77 : adj p33 p23
+78 : adj p33 p31
+79 : adj p33 p32
+80 : adj p33 p33
+81 : at p11
+82 : at p12
+83 : at p13
+84 : at p21
+85 : at p22
+86 : at p23
+87 : at p31
+88 : at p32
+89 : at p33
+90 : holding o1
+91 : obj-at o1 p11
+92 : obj-at o1 p12
+93 : obj-at o1 p13
+94 : obj-at o1 p21
+95 : obj-at o1 p22
+96 : obj-at o1 p23
+97 : obj-at o1 p31
+98 : obj-at o1 p32
+99 : obj-at o1 p33
+100 : pick-loc p11
+101 : pick-loc p12
+102 : pick-loc p13
+103 : pick-loc p21
+104 : pick-loc p22
+105 : pick-loc p23
+106 : pick-loc p31
+107 : pick-loc p32
+108 : pick-loc p33
+-------- end print all atoms ----------------
+
+---------------- init -------------------
+epis term 0
+K( (adj p11 p12 & adj p11 p21 & adj p12 p11 & adj p12 p13 & adj p12 p22 & adj p13 p12 & adj p13 p23 & adj p21 p11 & adj p21 p22 & adj p21 p31 & adj p22 p12 & adj p22 p21 & adj p22 p23 & adj p22 p32 & adj p23 p13 & adj p23 p22 & adj p23 p33 & adj p31 p21 & adj p31 p32 & adj p32 p22 & adj p32 p31 & adj p32 p33 & adj p33 p23 & adj p33 p32 & at p22 & obj-at o1 p11 & pick-loc p11 & pick-loc p33) )
+
+---------------- done -------------------
+
+---------------- goal -------------------
+epis cnf 0
+K( (holding o1) )
+
+---------------- done -------------------
+
+---------------- Epis Actions -------------------
+:action senseObject_p11_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p11) )
+
+:observe -------------------
+( (obj-at o1 p11) )
+******************************************
+:action senseObject_p12_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p12) )
+
+:observe -------------------
+( (obj-at o1 p12) )
+******************************************
+:action senseObject_p13_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p13) )
+
+:observe -------------------
+( (obj-at o1 p13) )
+******************************************
+:action senseObject_p21_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p21) )
+
+:observe -------------------
+( (obj-at o1 p21) )
+******************************************
+:action senseObject_p22_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p22) )
+
+:observe -------------------
+( (obj-at o1 p22) )
+******************************************
+:action senseObject_p23_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p23) )
+
+:observe -------------------
+( (obj-at o1 p23) )
+******************************************
+:action senseObject_p31_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p31) )
+
+:observe -------------------
+( (obj-at o1 p31) )
+******************************************
+:action senseObject_p32_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p32) )
+
+:observe -------------------
+( (obj-at o1 p32) )
+******************************************
+:action senseObject_p33_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p33) )
+
+:observe -------------------
+( (obj-at o1 p33) )
+-------------------- done -----------------------
+
+---------------- Ontic Actions -------------------
+:action move_p11_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p11) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p11, 
+******************************************
+:action move_p11_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p12) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p11, 
+******************************************
+:action move_p11_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p13) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p11, 
+******************************************
+:action move_p11_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p21) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p11, 
+******************************************
+:action move_p11_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p22) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p11, 
+******************************************
+:action move_p11_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p23) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p11, 
+******************************************
+:action move_p11_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p31) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p11, 
+******************************************
+:action move_p11_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p32) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p11, 
+******************************************
+:action move_p11_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p33) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p11, 
+******************************************
+:action move_p12_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p11) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p12, 
+******************************************
+:action move_p12_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p12) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p12, 
+******************************************
+:action move_p12_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p13) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p12, 
+******************************************
+:action move_p12_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p21) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p12, 
+******************************************
+:action move_p12_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p22) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p12, 
+******************************************
+:action move_p12_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p23) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p12, 
+******************************************
+:action move_p12_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p31) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p12, 
+******************************************
+:action move_p12_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p32) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p12, 
+******************************************
+:action move_p12_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p33) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p12, 
+******************************************
+:action move_p13_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p11) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p13, 
+******************************************
+:action move_p13_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p12) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p13, 
+******************************************
+:action move_p13_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p13) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p13, 
+******************************************
+:action move_p13_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p21) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p13, 
+******************************************
+:action move_p13_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p22) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p13, 
+******************************************
+:action move_p13_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p23) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p13, 
+******************************************
+:action move_p13_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p31) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p13, 
+******************************************
+:action move_p13_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p32) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p13, 
+******************************************
+:action move_p13_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p33) & (at p13) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p13, 
+******************************************
+:action move_p21_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p11) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p21, 
+******************************************
+:action move_p21_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p12) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p21, 
+******************************************
+:action move_p21_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p13) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p21, 
+******************************************
+:action move_p21_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p21) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p21, 
+******************************************
+:action move_p21_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p22) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p21, 
+******************************************
+:action move_p21_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p23) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p21, 
+******************************************
+:action move_p21_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p31) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p21, 
+******************************************
+:action move_p21_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p32) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p21, 
+******************************************
+:action move_p21_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p33) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p21, 
+******************************************
+:action move_p22_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p11) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p22, 
+******************************************
+:action move_p22_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p12) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p22, 
+******************************************
+:action move_p22_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p13) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p22, 
+******************************************
+:action move_p22_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p21) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p22, 
+******************************************
+:action move_p22_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p22) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p22, 
+******************************************
+:action move_p22_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p23) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p22, 
+******************************************
+:action move_p22_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p31) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p22, 
+******************************************
+:action move_p22_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p32) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p22, 
+******************************************
+:action move_p22_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p33) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p22, 
+******************************************
+:action move_p23_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p11) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p23, 
+******************************************
+:action move_p23_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p12) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p23, 
+******************************************
+:action move_p23_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p13) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p23, 
+******************************************
+:action move_p23_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p21) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p23, 
+******************************************
+:action move_p23_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p22) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p23, 
+******************************************
+:action move_p23_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p23) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p23, 
+******************************************
+:action move_p23_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p31) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p23, 
+******************************************
+:action move_p23_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p32) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p23, 
+******************************************
+:action move_p23_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p33) & (at p23) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p23, 
+******************************************
+:action move_p31_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p11) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p31, 
+******************************************
+:action move_p31_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p12) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p31, 
+******************************************
+:action move_p31_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p13) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p31, 
+******************************************
+:action move_p31_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p21) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p31, 
+******************************************
+:action move_p31_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p22) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p31, 
+******************************************
+:action move_p31_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p23) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p31, 
+******************************************
+:action move_p31_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p31) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p31, 
+******************************************
+:action move_p31_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p32) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p31, 
+******************************************
+:action move_p31_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p33) & (at p31) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p31, 
+******************************************
+:action move_p32_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p11) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p32, 
+******************************************
+:action move_p32_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p12) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p32, 
+******************************************
+:action move_p32_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p13) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p32, 
+******************************************
+:action move_p32_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p21) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p32, 
+******************************************
+:action move_p32_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p22) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p32, 
+******************************************
+:action move_p32_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p23) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p32, 
+******************************************
+:action move_p32_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p31) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p32, 
+******************************************
+:action move_p32_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p32) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p32, 
+******************************************
+:action move_p32_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p33) & (at p32) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p32, 
+******************************************
+:action move_p33_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p11) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p33, 
+******************************************
+:action move_p33_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p12) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p33, 
+******************************************
+:action move_p33_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p13) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p13, ~at p33, 
+******************************************
+:action move_p33_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p21) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p33, 
+******************************************
+:action move_p33_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p22) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p33, 
+******************************************
+:action move_p33_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p23) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p23, ~at p33, 
+******************************************
+:action move_p33_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p31) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p31, ~at p33, 
+******************************************
+:action move_p33_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p32) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p32, ~at p33, 
+******************************************
+:action move_p33_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p33) & (at p33) )
+
+:effects -------------------
+effect 0 --------
+; at p33, ~at p33, 
+******************************************
+:action pickup_o1_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p11) & (pick-loc p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p11, 
+******************************************
+:action pickup_o1_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p12) & (pick-loc p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p12, 
+******************************************
+:action pickup_o1_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p13) & (pick-loc p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p13, 
+******************************************
+:action pickup_o1_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p21) & (pick-loc p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p21, 
+******************************************
+:action pickup_o1_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p22) & (pick-loc p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p22, 
+******************************************
+:action pickup_o1_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p23) & (pick-loc p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p23, 
+******************************************
+:action pickup_o1_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p31) & (pick-loc p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p31, 
+******************************************
+:action pickup_o1_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p32) & (pick-loc p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p32, 
+******************************************
+:action pickup_o1_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p33) & (pick-loc p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p11_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p11) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p12) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p13) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p21) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p22) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p23) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p31) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p32) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p11_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p33) & (at p11) & (obj-at o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p11, 
+******************************************
+:action push_o1_p12_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p11) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p12) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p13) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p21) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p22) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p23) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p31) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p32) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p12_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p33) & (at p12) & (obj-at o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p12, 
+******************************************
+:action push_o1_p13_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p11) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p12) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p13) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p21) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p22) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p23) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p31) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p32) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p13_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p13 p33) & (at p13) & (obj-at o1 p13) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p13, 
+******************************************
+:action push_o1_p21_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p11) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p12) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p13) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p21) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p22) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p23) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p31) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p32) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p21_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p33) & (at p21) & (obj-at o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p21, 
+******************************************
+:action push_o1_p22_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p11) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p12) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p13) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p21) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p22) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p23) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p31) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p32) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p22_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p33) & (at p22) & (obj-at o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p22, 
+******************************************
+:action push_o1_p23_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p11) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p12) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p13) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p21) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p22) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p23) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p31) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p32) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p23_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p23 p33) & (at p23) & (obj-at o1 p23) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p23, 
+******************************************
+:action push_o1_p31_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p11) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p12) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p13) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p21) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p22) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p23) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p31) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p32) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p31_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p31 p33) & (at p31) & (obj-at o1 p31) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p31, 
+******************************************
+:action push_o1_p32_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p11) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p12) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p13) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p21) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p22) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p23) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p31) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p32) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p32_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p32 p33) & (at p32) & (obj-at o1 p32) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p32, 
+******************************************
+:action push_o1_p33_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p11) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p11, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p12) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p12, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p13 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p13) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p13, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p21) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p21, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p22) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p22, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p23 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p23) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p23, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p31 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p31) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p31, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p32 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p32) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p32, ~obj-at o1 p33, 
+******************************************
+:action push_o1_p33_p33 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p33 p33) & (at p33) & (obj-at o1 p33) )
+
+:effects -------------------
+effect 0 --------
+; obj-at o1 p33, ~obj-at o1 p33, 
+-------------------- done -----------------------
+

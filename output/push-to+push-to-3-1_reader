@@ -1,0 +1,140 @@
+----------------init Tree-------------------
+K
+ &
+  &
+   &
+    &
+     &
+      &
+       &
+        &
+         &
+          &
+           &
+            &
+             &
+              &
+               &
+                &
+                 &
+                  &
+                   &
+                    &
+                     &
+                      &
+                       &
+                        &
+                         &
+                          &
+                           &
+                            at p22
+                            pick-loc p11
+                           pick-loc p33
+                          adj p11 p21
+                         adj p21 p11
+                        adj p12 p22
+                       adj p22 p12
+                      adj p13 p23
+                     adj p23 p13
+                    adj p21 p31
+                   adj p31 p21
+                  adj p22 p32
+                 adj p32 p22
+                adj p23 p33
+               adj p33 p23
+              adj p11 p12
+             adj p12 p11
+            adj p21 p22
+           adj p22 p21
+          adj p31 p32
+         adj p32 p31
+        adj p12 p13
+       adj p13 p12
+      adj p22 p23
+     adj p23 p22
+    adj p32 p33
+   adj p33 p32
+  obj-at o1 p11
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+K
+ holding o1
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+:action senseObject --------------
+
+:parameters ----------------
+pos: ?p
+obj: ?o
+
+:precondition --------------
+K
+ at ?p
+
+:observe -------------------
+obj-at ?o ?p
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action move --------------
+
+:parameters ----------------
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  adj ?i ?j
+  at ?i
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+at ?j, not(at ?i), 
+******************************************
+:action pickup --------------
+
+:parameters ----------------
+obj: ?o
+pos: ?i
+
+:precondition --------------
+K
+ &
+  &
+   at ?i
+   pick-loc ?i
+  obj-at ?o ?i
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+holding ?o, not(obj-at ?o ?i), 
+******************************************
+:action push --------------
+
+:parameters ----------------
+obj: ?o
+pos: ?i
+pos: ?j
+
+:precondition --------------
+K
+ &
+  &
+   adj ?i ?j
+   at ?i
+  obj-at ?o ?i
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+obj-at ?o ?j, not(obj-at ?o ?i), 
+----------------  done  -------------------
+
