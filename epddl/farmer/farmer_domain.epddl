@@ -1,5 +1,6 @@
 (define (domain farmer)
-    
+    (:types)
+    (:predicates)
 
     (:action double
      :parameters ()
@@ -16,9 +17,9 @@
 	(:action wleft
 	 :parameters()
 	 :precondition (and (K (not (fl))) (DK (not (d))))
-	 :effect (((True), (fl)),
-	          ((wa, not (wl)), (wl)),
-			  ((sa, re, sl, rl), (not (re))),
+	 :effect (((True), (fl))
+	          ((wa, not (wl)), (wl))
+			  ((sa, re, sl, rl), (not (re)))
 			  ((sa, re, not (sl), not (rl)), (not (re)))
 			  )
 	)
@@ -26,7 +27,7 @@
 	(:action sleft
 	 :parameters()
 	 :precondition (and (K (not (fl))) (DK (not (d))))
-	 :effect (((True), (fl)),
+	 :effect (((True), (fl))
 	          ((sa, not (sl)), (sl))
 			  )	
 	)
@@ -34,9 +35,9 @@
 	(:action rleft
 	 :parameters()
 	 :precondition (and (K (not (fl))) (DK (not (d))))
-	 :effect (((True), (fl)),
-	          ((re, not (rl)), (rl)),
-			  ((wa, sa, wl, sl), (not (sa))),
+	 :effect (((True), (fl))
+	          ((re, not (rl)), (rl))
+			  ((wa, sa, wl, sl), (not (sa)))
 			  ((wa, sa, not (wl), not (sl)), (not (sa)))
 	         )
 	)
@@ -44,8 +45,8 @@
 	(:action wsleft
 	 :parameters()
 	 :precondition (K (and (not (fl)) (d)))
-	 :effect (((True), (fl)),
-	          ((wa, not (wl)), (wl)),
+	 :effect (((True), (fl))
+	          ((wa, not (wl)), (wl))
 			  ((sa, not (sl)), (sl))
 			 )
 	 )
@@ -53,8 +54,8 @@
 	(:action rsleft
 	 :parameters()
 	 :precondition (K (and (not (fl)) (d)))
-	 :effect (((True), (fl)),
-	          ((sa, not (sl)), (sl)),
+	 :effect (((True), (fl))
+	          ((sa, not (sl)), (sl))
 			  ((re, not (rl)), (rl))
 	         ) 
 	 )
@@ -62,8 +63,8 @@
 	(:action rwleft
 	 :parameters()
 	 :precondition (K (and (not (fl)) (d)))
-	 :effect (((True), (fl)),
-	          ((wa, not (wl)), (wl)),
+	 :effect (((True), (fl))
+	          ((wa, not (wl)), (wl))
 			  ((re, not (rl)), (rl))
 	         )
 	)
@@ -78,9 +79,9 @@
 	(:action wright
 	 :parameters()
 	 :precondition (and (K (fl)) (DK (not (d))))
-	 :effect (((True), (not (fl))),
-	          ((wa, wl), (not (wl))),
-			  ((sa, re, not (sl), not (rl)), (not (re))),
+	 :effect (((True), (not (fl)))
+	          ((wa, wl), (not (wl)))
+			  ((sa, re, not (sl), not (rl)), (not (re)))
 			  ((sa, re, sl, rl), (not (re)))
 			 )
 	)
@@ -88,7 +89,7 @@
 	(:action sright
 	 :parameters()
 	 :precondition (and (K (fl)) (DK (not (d))))
-	 :effect (((True), (not (fl))),
+	 :effect (((True), (not (fl)))
 	          ((sa, sl), (not (sl)))
 			 )
 	)
@@ -96,9 +97,9 @@
 	(:action rright
 	 :parameters()
 	 :precondition (and (K (fl)) (DK (not (d))))
-	 :effect (((True), (not (fl))),
-	          ((re, rl), (not (rl))),
-			  ((wa, sa, wl, sl), (not (sa))),
+	 :effect (((True), (not (fl)))
+	          ((re, rl), (not (rl)))
+			  ((wa, sa, wl, sl), (not (sa)))
 			  ((wa, sa, not (wl), not (sl)), (not (sa)))
 			 )
 	)
@@ -106,8 +107,8 @@
 	(:action wsright
 	 :parameters()
 	 :precondition (K (and (fl) (d)))
-	 :effect (((True), (not (fl))),
-	          ((wa, wl), (not (wl))),
+	 :effect (((True), (not (fl)))
+	          ((wa, wl), (not (wl)))
 			  ((sa, sl), (not (sl)))
 			 ) 
 	)
@@ -115,8 +116,8 @@
 	(:action rsright
 	 :parameters()
 	 :precondition (K (and (fl) (d)))
-	 :effect (((True), (not (fl))),
-	          ((sa, sl), (not (sl))),
+	 :effect (((True), (not (fl)))
+	          ((sa, sl), (not (sl)))
 			  ((re, rl), (not (rl)))
 			 )
 	)
@@ -124,8 +125,8 @@
 	(:action rwright
 	 :parameters()
 	 :precondition (K (and (fl) (d)))
-	 :effect (((True), (not (fl))),
-	          ((wa, wl), (not (wl))),
+	 :effect (((True), (not (fl)))
+	          ((wa, wl), (not (wl)))
 			  ((re, rl), (not (rl)))
 			 )
 	)

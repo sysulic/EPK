@@ -1,0 +1,325 @@
+------------ print all atoms ----------------
+0 : adj p11 p11
+1 : adj p11 p12
+2 : adj p11 p21
+3 : adj p11 p22
+4 : adj p12 p11
+5 : adj p12 p12
+6 : adj p12 p21
+7 : adj p12 p22
+8 : adj p21 p11
+9 : adj p21 p12
+10 : adj p21 p21
+11 : adj p21 p22
+12 : adj p22 p11
+13 : adj p22 p12
+14 : adj p22 p21
+15 : adj p22 p22
+16 : at p11
+17 : at p12
+18 : at p21
+19 : at p22
+20 : disposed o1
+21 : holding o1
+22 : objat o1 p11
+23 : objat o1 p12
+24 : objat o1 p21
+25 : objat o1 p22
+26 : trashat p11
+27 : trashat p12
+28 : trashat p21
+29 : trashat p22
+-------- end print all atoms ----------------
+
+---------------- init -------------------
+epis term 0
+K( (adj p11 p12 & adj p11 p21 & adj p12 p11 & adj p12 p22 & adj p21 p11 & adj p21 p22 & adj p22 p12 & adj p22 p21 & at p11 & trashat p11) )
+
+---------------- done -------------------
+
+---------------- goal -------------------
+epis cnf 0
+K( (disposed o1) )
+
+---------------- done -------------------
+
+---------------- Epis Actions -------------------
+:action sense_object_p11_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p11) )
+
+:observe -------------------
+( (objat o1 p11) )
+******************************************
+:action sense_object_p12_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p12) )
+
+:observe -------------------
+( (objat o1 p12) )
+******************************************
+:action sense_object_p21_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p21) )
+
+:observe -------------------
+( (objat o1 p21) )
+******************************************
+:action sense_object_p22_o1 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p22) )
+
+:observe -------------------
+( (objat o1 p22) )
+-------------------- done -----------------------
+
+---------------- Ontic Actions -------------------
+:action move_p11_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p11) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p11, 
+******************************************
+:action move_p11_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p12) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p11, 
+******************************************
+:action move_p11_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p21) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p11, 
+******************************************
+:action move_p11_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p11 p22) & (at p11) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p11, 
+******************************************
+:action move_p12_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p11) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p12, 
+******************************************
+:action move_p12_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p12) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p12, 
+******************************************
+:action move_p12_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p21) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p12, 
+******************************************
+:action move_p12_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p12 p22) & (at p12) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p12, 
+******************************************
+:action move_p21_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p11) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p21, 
+******************************************
+:action move_p21_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p12) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p21, 
+******************************************
+:action move_p21_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p21) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p21, 
+******************************************
+:action move_p21_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p21 p22) & (at p21) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p21, 
+******************************************
+:action move_p22_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p11) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p11, ~at p22, 
+******************************************
+:action move_p22_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p12) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p12, ~at p22, 
+******************************************
+:action move_p22_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p21) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p21, ~at p22, 
+******************************************
+:action move_p22_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (adj p22 p22) & (at p22) )
+
+:effects -------------------
+effect 0 --------
+; at p22, ~at p22, 
+******************************************
+:action pickup_o1_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p11) & (objat o1 p11) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, 
+******************************************
+:action pickup_o1_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p12) & (objat o1 p12) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, 
+******************************************
+:action pickup_o1_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p21) & (objat o1 p21) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, 
+******************************************
+:action pickup_o1_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p22) & (objat o1 p22) )
+
+:effects -------------------
+effect 0 --------
+; holding o1, 
+******************************************
+:action drop_o1_p11 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p11) & (trashat p11) )
+
+:effects -------------------
+effect 0 --------
+holding o1, ; disposed o1, ~holding o1, 
+******************************************
+:action drop_o1_p12 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p12) & (trashat p12) )
+
+:effects -------------------
+effect 0 --------
+holding o1, ; disposed o1, ~holding o1, 
+******************************************
+:action drop_o1_p21 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p21) & (trashat p21) )
+
+:effects -------------------
+effect 0 --------
+holding o1, ; disposed o1, ~holding o1, 
+******************************************
+:action drop_o1_p22 --------------
+
+:precondition --------------
+epis cnf 0
+K( (at p22) & (trashat p22) )
+
+:effects -------------------
+effect 0 --------
+holding o1, ; disposed o1, ~holding o1, 
+-------------------- done -----------------------
+

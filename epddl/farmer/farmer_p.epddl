@@ -1,6 +1,7 @@
 (define (problem farmer)
 	(:domain farmer)
-	
+	(:objects)
+
 	(:init (and 
         	   (or (K (and (ri) (si)))
 		           (K (and (wi) (si)))

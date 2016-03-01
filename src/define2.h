@@ -39,5 +39,39 @@ struct EpisAction
     //PropDNF neg_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 negative result
 };
 
+//搜索算法中的结点
+struct Node
+{
+    EpisDNF kb; //结点的知识库
+    //下面两个变量分别是在搜索过程中所需要的两中标记
+    STATE_TYPE flag;
+    bool isolated;
+    Node(){};
+    Node(STATE_TYPE s, bool b, EpisDNF ed, int n){flag = s; isolated = b; kb = ed; }; //num = n;
+    ~Node(){};
+};
+
+struct Transition
+{
+    int front_state; //前一个结点
+    int next_state;  //后一个结点
+    bool is_observe_action; //是否为观察动作
+    bool is_true; //是否为感知动作的+
+    int action_number;  //动作的编号
+};
+
+
+struct pre {
+    vector<int> k;
+    vector<vector<int> > dk; 
+};
+
+enum SearchType {
+    kHeuristic = 0,
+    kDepthFirst = 1,
+    kWidthFirst = 2,
+};
+
+
 #endif	/* DEFINE2_H */
 

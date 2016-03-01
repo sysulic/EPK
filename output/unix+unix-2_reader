@@ -1,0 +1,112 @@
+----------------init Tree-------------------
+K
+ &
+  &
+   &
+    &
+     &
+      &
+       &
+        &
+         &
+          &
+           &
+            &
+             &
+              &
+               &
+                sub_dir root sub1
+                sub_dir root sub2
+               sub_dir sub1 sub11
+              sub_dir sub1 sub12
+             sub_dir sub2 sub21
+            sub_dir sub2 sub22
+           sub_dir sub11 sub111
+          sub_dir sub11 sub112
+         sub_dir sub21 sub211
+        sub_dir sub21 sub212
+       sub_dir sub12 sub121
+      sub_dir sub12 sub122
+     sub_dir sub22 sub221
+    sub_dir sub22 sub222
+   is_cur_dir root
+  file_in_dir my_file sub11
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+K
+ file_in_dir my_file root
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+:action ls --------------
+
+:parameters ----------------
+DIR: ?cur_dir
+FILE: ?file
+
+:precondition --------------
+K
+ is_cur_dir ?cur_dir
+
+:observe -------------------
+file_in_dir ?file ?cur_dir
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action cd_down --------------
+
+:parameters ----------------
+DIR: ?cur_dir
+DIR: ?child_dir
+
+:precondition --------------
+K
+ &
+  is_cur_dir ?cur_dir
+  sub_dir ?cur_dir ?child_dir
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+is_cur_dir ?child_dir, not(is_cur_dir ?cur_dir), 
+******************************************
+:action cd_up --------------
+
+:parameters ----------------
+DIR: ?cur_dir
+DIR: ?par_dir
+
+:precondition --------------
+K
+ &
+  is_cur_dir ?cur_dir
+  sub_dir ?par_dir ?cur_dir
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+is_cur_dir ?par_dir, not(is_cur_dir ?cur_dir), 
+******************************************
+:action mv --------------
+
+:parameters ----------------
+FILE: ?file
+DIR: ?cur_dir
+DIR: ?target_dir
+
+:precondition --------------
+K
+ &
+  is_cur_dir ?cur_dir
+  file_in_dir ?file ?cur_dir
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+file_in_dir ?file ?target_dir, not(file_in_dir ?file ?cur_dir), 
+----------------  done  -------------------
+

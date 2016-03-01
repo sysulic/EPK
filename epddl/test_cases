@@ -1,12 +1,12 @@
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl
+
 ../epddl/demo/demo_domain.epddl ../epddl/demo/demo_p.epddl
 ../epddl/doors/door_newdomain.epddl ../epddl/doors/door_p2.epddl
 
 ../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p20.epddl
 ../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p30.epddl
 ../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p50.epddl
-
-../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl
-../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl
 
 ../epddl/doors/door_domain.epddl ../epddl/doors/door_p2.epddl
 ../epddl/doors/door_domain.epddl ../epddl/doors/door_p5.epddl

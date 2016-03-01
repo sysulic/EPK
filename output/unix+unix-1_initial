@@ -1130,7 +1130,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub1 --------------
 
@@ -1140,7 +1140,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub2 --------------
 
@@ -1150,7 +1150,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub11 --------------
 
@@ -1160,7 +1160,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub12 --------------
 
@@ -1170,7 +1170,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub21 --------------
 
@@ -1180,7 +1180,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_root_sub22 --------------
 
@@ -1190,7 +1190,7 @@ K( (is_cur_dir root) & (file_in_dir my_file root) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file root, 
 ******************************************
 :action mv_my_file_sub1_root --------------
 
@@ -1200,7 +1200,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub1 --------------
 
@@ -1210,7 +1210,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub2 --------------
 
@@ -1220,7 +1220,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub11 --------------
 
@@ -1230,7 +1230,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub12 --------------
 
@@ -1240,7 +1240,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub21 --------------
 
@@ -1250,7 +1250,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub1_sub22 --------------
 
@@ -1260,7 +1260,7 @@ K( (is_cur_dir sub1) & (file_in_dir my_file sub1) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub1, 
 ******************************************
 :action mv_my_file_sub2_root --------------
 
@@ -1270,7 +1270,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub1 --------------
 
@@ -1280,7 +1280,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub2 --------------
 
@@ -1290,7 +1290,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub11 --------------
 
@@ -1300,7 +1300,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub12 --------------
 
@@ -1310,7 +1310,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub21 --------------
 
@@ -1320,7 +1320,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub2_sub22 --------------
 
@@ -1330,7 +1330,7 @@ K( (is_cur_dir sub2) & (file_in_dir my_file sub2) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub2, 
 ******************************************
 :action mv_my_file_sub11_root --------------
 
@@ -1340,7 +1340,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub1 --------------
 
@@ -1350,7 +1350,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub2 --------------
 
@@ -1360,7 +1360,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub11 --------------
 
@@ -1370,7 +1370,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub12 --------------
 
@@ -1380,7 +1380,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub21 --------------
 
@@ -1390,7 +1390,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub11_sub22 --------------
 
@@ -1400,7 +1400,7 @@ K( (is_cur_dir sub11) & (file_in_dir my_file sub11) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub11, 
 ******************************************
 :action mv_my_file_sub12_root --------------
 
@@ -1410,7 +1410,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub1 --------------
 
@@ -1420,7 +1420,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub2 --------------
 
@@ -1430,7 +1430,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub11 --------------
 
@@ -1440,7 +1440,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub12 --------------
 
@@ -1450,7 +1450,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub21 --------------
 
@@ -1460,7 +1460,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub12_sub22 --------------
 
@@ -1470,7 +1470,7 @@ K( (is_cur_dir sub12) & (file_in_dir my_file sub12) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub12, 
 ******************************************
 :action mv_my_file_sub21_root --------------
 
@@ -1480,7 +1480,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub1 --------------
 
@@ -1490,7 +1490,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub2 --------------
 
@@ -1500,7 +1500,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub11 --------------
 
@@ -1510,7 +1510,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub12 --------------
 
@@ -1520,7 +1520,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub21 --------------
 
@@ -1530,7 +1530,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub21_sub22 --------------
 
@@ -1540,7 +1540,7 @@ K( (is_cur_dir sub21) & (file_in_dir my_file sub21) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub21, 
 ******************************************
 :action mv_my_file_sub22_root --------------
 
@@ -1550,7 +1550,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file root, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub1 --------------
 
@@ -1560,7 +1560,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub1, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub2 --------------
 
@@ -1570,7 +1570,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub2, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub11 --------------
 
@@ -1580,7 +1580,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub11, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub12 --------------
 
@@ -1590,7 +1590,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub12, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub21 --------------
 
@@ -1600,7 +1600,7 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub21, ~file_in_dir my_file sub22, 
 ******************************************
 :action mv_my_file_sub22_sub22 --------------
 
@@ -1610,6 +1610,6 @@ K( (is_cur_dir sub22) & (file_in_dir my_file sub22) )
 
 :effects -------------------
 effect 0 --------
-; 
+; file_in_dir my_file sub22, ~file_in_dir my_file sub22, 
 -------------------- done -----------------------
 

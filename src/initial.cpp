@@ -224,7 +224,7 @@ void Initial::onticActionsGrounding() {
             for (MultiTypeList::const_iterator obj = reader.objects.begin();
                     obj != reader.objects.end(); ++obj) {
 
-                if((*param).first == (*obj).first) {
+                if((*param).first == (*obj).first) {  // type is same
                     size_t tmp_actions_size = actions.size();  // cause size is increasing!
                     for (size_t i = 0; i < tmp_actions_size; ++i) {
 
@@ -279,7 +279,7 @@ StringList Initial::getGroundedStr(StringList sl, const string param, const stri
     for (StringList::iterator str = sl.begin(); str != sl.end(); ++str) {
         size_t found = str->find(param);
         while (found != string::npos) {
-            str->replace(found, found+param.size(), obj);
+            str->replace(found, param.size(), obj);
             found = str->find(param);
         }
         ss.push_back(*str);
