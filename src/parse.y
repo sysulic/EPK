@@ -91,10 +91,9 @@ extern Reader reader;
 
 %type <tree> precondition
 %type <tree> formula
-%type <tree> episFormulas
 %type <tree> episFormula
 %type <tree> objFormula
-%type <tree> objFormulas
+%type <tree> formulas
 
 %type <str> problemDecl
 %type <str> atomicProp
@@ -294,11 +293,9 @@ precondition
 formula
 	:	episFormula 		{ $$ = $1; }
 	|	objFormula 			{ $$ = $1; }
-	|	AND episFormulas	{ $$ = new Formula("&", $2->left, $2->right); }
-	|	OR episFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
 	;
-episFormulas
-	:	episFormulas LEFT_PAREN episFormula RIGHT_PAREN
+formulas
+	:	formulas LEFT_PAREN formula RIGHT_PAREN
 	{
 		if ($1->right == NULL) {
 			$$ = $1;
@@ -307,43 +304,28 @@ episFormulas
 		}
 		$$->right = $3;
 	}
-	|	LEFT_PAREN episFormula RIGHT_PAREN
+	|	LEFT_PAREN formula RIGHT_PAREN
 	{
 		$$ = new Formula("same", $2, NULL);
 	}
 	;
 episFormula
-	:	K LEFT_PAREN objFormula RIGHT_PAREN
+	:	K LEFT_PAREN formula RIGHT_PAREN
 	{
 		$$ = new Formula("K", $3, NULL);
 	}
-	|	DK LEFT_PAREN objFormula RIGHT_PAREN
+	|	DK LEFT_PAREN formula RIGHT_PAREN
 	{
 		$$ = new Formula("DK", $3, NULL);
 	}
 	;
 objFormula
-	:	AND objFormulas		{ $$ = new Formula("&", $2->left, $2->right); }
-	|	OR objFormulas		{ $$ = new Formula("|", $2->left, $2->right); }
-	|	NOT objFormulas		{ $$ = new Formula("~", $2->left, $2->right); }
-	|	IMPLY objFormulas	{ $$ = new Formula("=>", $2->left, $2->right); }
-	|	ONEOF objFormulas	{ $$ = new Formula("oneof", $2->left, $2->right); }
-	|	atomicProp			{ $$ = new Formula(*$1); }
-	;
-objFormulas
-	:	objFormulas LEFT_PAREN objFormula RIGHT_PAREN
-	{
-		if ($1->right == NULL) {
-			$$ = $1;
-		} else {
-			$$ = new Formula("same", $1, NULL);
-		}
-		$$->right = $3;
-	}
-	|	LEFT_PAREN objFormula RIGHT_PAREN
-	{
-		$$ = new Formula("same", $2, NULL);
-	}
+	:	AND formulas	{ $$ = new Formula("&", $2->left, $2->right); }
+	|	OR formulas		{ $$ = new Formula("|", $2->left, $2->right); }
+	|	NOT formulas	{ $$ = new Formula("~", $2->left, $2->right); }
+	|	IMPLY formulas	{ $$ = new Formula("=>", $2->left, $2->right); }
+	|	ONEOF formulas	{ $$ = new Formula("oneof", $2->left, $2->right); }
+	|	atomicProp		{ $$ = new Formula(*$1); }
 	;
 atomicProp
 	:   TRUE	{ $$ = $1; }

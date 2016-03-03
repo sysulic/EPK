@@ -1,14 +1,3 @@
-../epddl/doors/new_door_domain.epddl ../epddl/doors/new_door_p2.epddl
-
-../epddl/blocks/blocks_domain.epddl ../epddl/blocks/blocks_p3.epddl
-
-../epddl/farmer/farmer_domain.epddl ../epddl/farmer/farmer_p.epddl
-
-../epddl/medpks/medpks_domain.epddl ../epddl/medpks/medpks_p50.epddl
-
-../epddl/cube/cube_domain40-20.epddl ../epddl/cube/cube_p40-20.epddl
-
-
 ../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl
 ../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl
 
@@ -27,3 +16,17 @@
 ../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p3-1.epddl
 
 ../epddl/push/push_domain.epddl ../epddl/push/push.epddl
+
+
+../epddl/farmer/farmer_domain.epddl ../epddl/farmer/farmer_p.epddl
+
+../epddl/doors/new_door_domain.epddl ../epddl/doors/new_door_p2.epddl
+
+../epddl/blocks/blocks_domain.epddl ../epddl/blocks/blocks_p3.epddl
+
+../epddl/medpks/medpks_domain.epddl ../epddl/medpks/medpks_p50.epddl
+
+../epddl/cube/cube_domain40-20.epddl ../epddl/cube/cube_p40-20.epddl
+
+
+

@@ -43,11 +43,13 @@ void Reader::exec(const char* dFile, const char* pFile) {
 	// conversion
 	convertToDNFTree(&this->init);
 	convertToCNFTree(&this->goal);
+
 	for (PreSenseActionList::iterator it_action = senseActions.begin();
   		it_action != senseActions.end(); ++it_action) {
 		convertToCNFTree(&(*it_action).preCondition);
 		convertToCNFTree(&(*it_action).observe);
   	}
+
 	for (PreOnticActionList::iterator it_action = onticActions.begin();
   		it_action != onticActions.end(); ++it_action) {
 		convertToCNFTree(&(*it_action).preCondition);
@@ -327,7 +329,7 @@ void Reader::inwardMoveNot(Formula * f) {
  */
 void Reader::mergeK(Formula * f) {
 	// cout << "In function mergeK, root: " << f->label << "" << endl;
-	f->left = f->right->left;
+	f->left->right = f->right->left;
 	delete f->right; f->right = NULL;
 	f->label = "K";
 	f->left->label = "&";
@@ -352,7 +354,7 @@ void Reader::mergeK(Formula * f) {
  */
 void Reader::mergeDK(Formula * f) {
 	// cout << "In function mergeDK, root: " << f->label << "" << endl;
-	f->left = f->right->left;
+	f->left->right = f->right->left;
 	delete f->right; f->right = NULL;
 	f->label = "DK";
 	f->left->label = "|";
@@ -492,7 +494,7 @@ void Reader::removeDoubleNot(Formula * f) {
 }
 
 void Reader::convertToDNFTree(Formula * f) {
-	//cout << f->label << endl;
+	// cout << f->label << endl;
 	if (f->left && f->left->label == "same")
 		f->left->label = f->label;
 	if (f->right && f->right->label == "same")
@@ -519,10 +521,10 @@ void Reader::convertToDNFTree(Formula * f) {
 		}
 		if (f->left->label == "K" &&
 			f->right && f->right->label == "K")
-			mergeK(f);
+			mergeK(f);  // mergeK method convert label "&" to "K"!
 		if (f->left->label == "=>")
 			removeImply(f->left);
-		if (f->right->label == "=>")
+		if (f->right && f->right->label == "=>")
 			removeImply(f->right);
 		if (f->left->label == "~" &&
 			(f->left->left->label == "&" || f->left->left->label == "|"))

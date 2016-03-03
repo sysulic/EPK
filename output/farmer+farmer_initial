@@ -1,0 +1,257 @@
+------------ print all atoms ----------------
+0 : d
+1 : fl
+2 : re
+3 : ri
+4 : rl
+5 : sa
+6 : si
+7 : sl
+8 : wa
+9 : wi
+10 : wl
+-------- end print all atoms ----------------
+
+---------------- init -------------------
+epis term 0
+K( (ri & si & wi) )
+~K~( (d & ri & si & wi) )
+~K~( (~d & ri & si & wi) )
+
+epis term 1
+K( (ri & wi) )
+~K~( (d & ri & wi) )
+~K~( (~d & ri & wi) )
+
+---------------- done -------------------
+
+---------------- goal -------------------
+epis cnf 0
+K( (~ri | ~si | ~sl) )
+K( (~si | ~wi | ~wl) )
+
+---------------- done -------------------
+
+---------------- Epis Actions -------------------
+:action double --------------
+
+:precondition --------------
+epis cnf 0
+K(  )
+
+:observe -------------------
+( (d) )
+-------------------- done -----------------------
+
+---------------- Ontic Actions -------------------
+:action left --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+******************************************
+:action wleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+wa, ~wl, ; wl, 
+effect 2 --------
+sa, re, sl, rl, ; ~re, 
+effect 3 --------
+sa, re, ~sl, ~rl, ; ~re, 
+******************************************
+:action sleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+sa, ~sl, ; sl, 
+******************************************
+:action rleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+re, ~rl, ; rl, 
+effect 2 --------
+wa, sa, wl, sl, ; ~sa, 
+effect 3 --------
+wa, sa, ~wl, ~sl, ; ~sa, 
+******************************************
+:action wsleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+wa, ~wl, ; wl, 
+effect 2 --------
+sa, ~sl, ; sl, 
+******************************************
+:action rsleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+sa, ~sl, ; sl, 
+effect 2 --------
+re, ~rl, ; rl, 
+******************************************
+:action rwleft --------------
+
+:precondition --------------
+epis cnf 0
+K( (~fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; fl, 
+effect 1 --------
+wa, ~wl, ; wl, 
+effect 2 --------
+re, ~rl, ; rl, 
+******************************************
+:action right --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+******************************************
+:action wright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+wa, wl, ; ~wl, 
+effect 2 --------
+sa, re, ~sl, ~rl, ; ~re, 
+effect 3 --------
+sa, re, sl, rl, ; ~re, 
+******************************************
+:action sright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+sa, sl, ; ~sl, 
+******************************************
+:action rright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) )
+
+epis cnf 1
+~K~( (~d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+re, rl, ; ~rl, 
+effect 2 --------
+wa, sa, wl, sl, ; ~sa, 
+effect 3 --------
+wa, sa, ~wl, ~sl, ; ~sa, 
+******************************************
+:action wsright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+wa, wl, ; ~wl, 
+effect 2 --------
+sa, sl, ; ~sl, 
+******************************************
+:action rsright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+sa, sl, ; ~sl, 
+effect 2 --------
+re, rl, ; ~rl, 
+******************************************
+:action rwright --------------
+
+:precondition --------------
+epis cnf 0
+K( (fl) & (d) )
+
+:effects -------------------
+effect 0 --------
+; ~fl, 
+effect 1 --------
+wa, wl, ; ~wl, 
+effect 2 --------
+re, rl, ; ~rl, 
+-------------------- done -----------------------
+

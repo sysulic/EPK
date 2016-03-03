@@ -1,0 +1,467 @@
+----------------init Tree-------------------
+&
+ same
+  same
+   |
+    same
+     K
+      &
+       ri
+       si
+     K
+      &
+       wi
+       si
+    K
+     &
+      ri
+      wi
+   K
+    &
+     same
+      same
+       fl
+       |
+        ~
+         ri
+        &
+         re
+         rl
+      |
+       ~
+        si
+       &
+        sa
+        sl
+     |
+      ~
+       wi
+      &
+       wa
+       wl
+  DK
+   d
+ DK
+  ~
+   d
+----------------  done  -------------------
+
+----------------goal Tree-------------------
+|
+ same
+  K
+   |
+    same
+     ~
+      ri
+     ~
+      si
+    &
+     same
+      same
+       re
+       ~
+        rl
+      sa
+     ~
+      sl
+  K
+   |
+    same
+     ~
+      si
+     ~
+      wi
+    &
+     same
+      same
+       sa
+       ~
+        sl
+      wa
+     ~
+      wl
+ K
+  |
+   same
+    same
+     ~
+      ri
+     ~
+      si
+    ~
+     wi
+   &
+    same
+     same
+      same
+       same
+        re
+        ~
+         rl
+       sa
+      ~
+       sl
+     wa
+    ~
+     wl
+----------------  done  -------------------
+
+-------------- sense actions ----------------
+:action double --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ True
+
+:observe -------------------
+d
+----------------  done  -------------------
+
+-------------- ontic actions ----------------
+:action left --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ ~
+  fl
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+******************************************
+:action wleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  ~
+   fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+wa, not(wl), 
+-----
+wl, 
+--- effect --- No.2 :
+sa, re, sl, rl, 
+-----
+not(re), 
+--- effect --- No.3 :
+sa, re, not(sl), not(rl), 
+-----
+not(re), 
+******************************************
+:action sleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  ~
+   fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+sa, not(sl), 
+-----
+sl, 
+******************************************
+:action rleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  ~
+   fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+re, not(rl), 
+-----
+rl, 
+--- effect --- No.2 :
+wa, sa, wl, sl, 
+-----
+not(sa), 
+--- effect --- No.3 :
+wa, sa, not(wl), not(sl), 
+-----
+not(sa), 
+******************************************
+:action wsleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  ~
+   fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+wa, not(wl), 
+-----
+wl, 
+--- effect --- No.2 :
+sa, not(sl), 
+-----
+sl, 
+******************************************
+:action rsleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  ~
+   fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+sa, not(sl), 
+-----
+sl, 
+--- effect --- No.2 :
+re, not(rl), 
+-----
+rl, 
+******************************************
+:action rwleft --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  ~
+   fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+fl, 
+--- effect --- No.1 :
+wa, not(wl), 
+-----
+wl, 
+--- effect --- No.2 :
+re, not(rl), 
+-----
+rl, 
+******************************************
+:action right --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ fl
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+******************************************
+:action wright --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+wa, wl, 
+-----
+not(wl), 
+--- effect --- No.2 :
+sa, re, not(sl), not(rl), 
+-----
+not(re), 
+--- effect --- No.3 :
+sa, re, sl, rl, 
+-----
+not(re), 
+******************************************
+:action sright --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+sa, sl, 
+-----
+not(sl), 
+******************************************
+:action rright --------------
+
+:parameters ----------------
+
+:precondition --------------
+&
+ K
+  fl
+ DK
+  ~
+   d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+re, rl, 
+-----
+not(rl), 
+--- effect --- No.2 :
+wa, sa, wl, sl, 
+-----
+not(sa), 
+--- effect --- No.3 :
+wa, sa, not(wl), not(sl), 
+-----
+not(sa), 
+******************************************
+:action wsright --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+wa, wl, 
+-----
+not(wl), 
+--- effect --- No.2 :
+sa, sl, 
+-----
+not(sl), 
+******************************************
+:action rsright --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+sa, sl, 
+-----
+not(sl), 
+--- effect --- No.2 :
+re, rl, 
+-----
+not(rl), 
+******************************************
+:action rwright --------------
+
+:parameters ----------------
+
+:precondition --------------
+K
+ &
+  fl
+  d
+
+:effect --------------------
+--- effect --- No.0 :
+True, 
+-----
+not(fl), 
+--- effect --- No.1 :
+wa, wl, 
+-----
+not(wl), 
+--- effect --- No.2 :
+re, rl, 
+-----
+not(rl), 
+----------------  done  -------------------
+

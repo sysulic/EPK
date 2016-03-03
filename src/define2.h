@@ -39,6 +39,14 @@ struct EpisAction
     //PropDNF neg_res; //将所需要观察的“公式”化为DNF形式， 为了好做演进 negative result
 };
 
+
+enum STATE_TYPE {
+    TOBEEXPLORED = 0,
+    EXPLORED,
+    DEAD,
+    FINAL_GOAL
+};
+
 //搜索算法中的结点
 struct Node
 {

@@ -95,12 +95,4 @@ struct PreOnticAction
 };
 
 
-enum STATE_TYPE {
-    TOBEEXPLORED = 0,
-    EXPLORED,
-    DEAD,
-    FINAL_GOAL
-};
-
-
 #endif

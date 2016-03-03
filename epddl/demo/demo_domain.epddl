@@ -4,7 +4,9 @@
   (:action senseL
    :parameters ()
    :precondition (and (DK (lightOn)) 
-   					  (DK (not (lightOn)))
+   					  (DK 
+                (not 
+                  (lightOn)))
    				 )
    :observe (lightOn)
   )

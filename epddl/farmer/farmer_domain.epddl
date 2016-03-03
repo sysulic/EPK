@@ -4,7 +4,7 @@
 
     (:action double
      :parameters ()
-     :precondition (True)
+     :precondition (K(True))
      :observe (d)
      )
      
