@@ -10,7 +10,7 @@ void Initial::exec(const char* dFile, const char* pFile) {
     goal = getEpisCNFfromTree(&reader.goal);
     episActionsGrounding();
     onticActionsGrounding();
-
+///*
     string endFile = "../output/";
     endFile += reader.domainName + "+" + reader.problemName; endFile += "_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
@@ -24,7 +24,7 @@ void Initial::exec(const char* dFile, const char* pFile) {
     printEpisActions(out_end);
     printOnticActions(out_end);  // conversion after first printActions()
     out_end.close();
-
+//*/
 }
 
 void Initial::printInit(ofstream & out) {
@@ -116,6 +116,9 @@ void Initial::episActionsGrounding() {
 
         queue<PreSenseAction> actions;
         actions.push(*senseAction);
+        if ((*senseAction).paras.size() != 0) 
+            actions.front().name += " ()";
+
         for(MultiTypeList::const_iterator param = (*senseAction).paras.begin();
             param != (*senseAction).paras.end(); ++param) {
 
@@ -157,12 +160,7 @@ PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
     const string param, const string obj) {
     PreSenseAction action;
     action.name = senseAction.name;
-    /*
-    if (action.name.find_first_of("_") != string::npos)
-        action.name.insert(action.name.find_first_of("_"), "_" + obj);
-    else
-    */
-    action.name += "_" + obj;
+    action.name.insert(action.name.length()-1, obj + ", ");
     action.type = senseAction.type;
     action.paras = senseAction.paras;
     action.preCondition = *copyFormula(&senseAction.preCondition);
@@ -217,6 +215,9 @@ void Initial::onticActionsGrounding() {
         // action(reader) to action_1 2 3...(reader)
         queue<PreOnticAction> actions;
         actions.push(*onticAction);
+        if ((*onticAction).paras.size() != 0) 
+            actions.front().name += " ()";
+
         for(MultiTypeList::const_iterator param = (*onticAction).paras.begin();
             param != (*onticAction).paras.end(); ++param) {
 
@@ -258,7 +259,7 @@ PreOnticAction Initial::onticActionParamGrouding(PreOnticAction & onticAction,
     const string param, const string obj) {
     PreOnticAction action;
     action.name = onticAction.name;
-    action.name += "_" + obj;
+    action.name.insert(action.name.length()-1, obj + ", ");
     action.type = onticAction.type;
     action.paras = onticAction.paras;
     action.preCondition = *copyFormula(&onticAction.preCondition);
@@ -549,6 +550,10 @@ PropCNF Initial::getPropCNFfromTree(Formula * f) {
 PropClause Initial::getPropClauseFromTree(Formula * f) {
     PropClause p_clause(atomsByIndex.size()*2);
     stack<Formula*> s;
+    if (f->label == "True") {
+        p_clause.literals.set();
+        return p_clause;  // when true
+    }
     do {
         while(f->label != "NULL") {
             if (f->label != "|") {

@@ -1,44 +1,44 @@
 (define (domain blocksworld)
-  (:types )
-  (:predicates (clear ?x - BLOCK)
-               (on-table ?x - BLOCK)
-               (on ?x ?y - BLOCK)
-  )
+	  (:types BLOCK)
+	  (:predicates (clear ?x - BLOCK)
+				   (on-table ?x - BLOCK)
+				   (on ?x ?y - BLOCK)
+	  )
 
-  (:action senseON
-   :parameters (?b1 - BLOCK ?b2 - BLOCK)
-   :precondition (True)
-   :observe (on ?b1 ?b2)
-  )
+	  (:action senseON
+	   :parameters (?b1 - BLOCK ?b2 - BLOCK)
+	   :precondition (K (True))
+	   :observe (on ?b1 ?b2)
+	  )
 
-  (:action senseCLEAR
-   :parameters (?b1 - BLOCK)
-   :precondition (True)
-   :observe (clear ?b1)
-  )
+	  (:action senseCLEAR
+	   :parameters (?b1 - BLOCK)
+	   :precondition (K (True))
+	   :observe (clear ?b1)
+	  )
 
-  (:action senseONTABLE	
-   :parameters (?b1 - BLOCK)
-   :precondition (True)
-   :observe (on-table ?b1)
-  )
+	  (:action senseONTABLE	
+	   :parameters (?b1 - BLOCK)
+	   :precondition (K (True))
+	   :observe (on-table ?b1)
+	  )
 
- (:action move-b-to-b
-  :parameters (?bm - BLOCK ?bf - BLOCK ?bt - BLOCK)
-  :precondition (K (and (clear ?bm) (clear ?bt) (on ?bm ?bf)))
-  :effect (((True), (on ?bm ?bt, clear ?bf, not (clear ?bt), not (on ?bm ?bf))))
-  )
+	 (:action move-b-to-b
+	  :parameters (?bm - BLOCK ?bf - BLOCK ?bt - BLOCK)
+	  :precondition (K (and (clear ?bm) (clear ?bt) (on ?bm ?bf)))
+	  :effect (((True), (on ?bm ?bt, clear ?bf, not (clear ?bt), not (on ?bm ?bf))))
+	  )
 
- (:action move-to-t
-  :parameters (?b - BLOCK ?bf - BLOCK)
-  :precondition (K (and (clear ?b) (on ?b ?bf)))
-  :effect (((True), (on-table ?b, clear ?bf, not (on ?b ?bf))))
-  )
+	 (:action move-to-t
+	  :parameters (?b - BLOCK ?bf - BLOCK)
+	  :precondition (K (and (clear ?b) (on ?b ?bf)))
+	  :effect (((True), (on-table ?b, clear ?bf, not (on ?b ?bf))))
+	  )
 
- (:action move-t-to-b
-  :parameters (?bm - BLOCK ?bt - BLOCK)
-  :precondition (K (and (clear ?bm) (clear ?bt) (on-table ?bm)))
-  :effect (((True), (on ?bm ?bt, not (clear ?bt), not (on-table ?bm))))
-  )
+	 (:action move-t-to-b
+	  :parameters (?bm - BLOCK ?bt - BLOCK)
+	  :precondition (K (and (clear ?bm) (clear ?bt) (on-table ?bm)))
+	  :effect (((True), (on ?bm ?bt, not (clear ?bt), not (on-table ?bm))))
+	  )
 )
 

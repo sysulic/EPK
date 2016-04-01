@@ -1,4 +1,4 @@
-(define (domain push-to) 
+(define (domain push) 
    (:types pos obj)
    (:predicates (adj ?i - pos ?j - pos) 
                 (at ?i -pos) 

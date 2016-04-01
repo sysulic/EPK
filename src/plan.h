@@ -8,6 +8,8 @@ extern vector<EpisAction> epis_actions;
 extern EpisDNF ontic_prog(EpisDNF episDNF, const OnticAction &ontic_action);
 
 extern vector<EpisDNF> epistemic_prog(EpisDNF episDNF, const EpisAction &epis_action);
+
+
 // 启发式所用的优先队列存放的元素
 class PlanHelper {
 public:
@@ -16,6 +18,8 @@ public:
     int node_id_;//节点下标，对应plan类里面的all_nodes
     int heuristic_value_;//该节点的评估值
 };
+
+
 // 为PlanHelper类提供比较功能
 class PlanHelperComp {
 public:
@@ -46,9 +50,10 @@ public:
     void show_statistic() const;
     void add_node(const Node& node);
     int calculate_node_heuristic_value(const Node& node) const;
+    
+    vector<Node> all_nodes;
 private:
     Initial in;
-    vector<Node> all_nodes;
     int explored_num;
     vector<Transition> all_edges;
     int hert_nodes;

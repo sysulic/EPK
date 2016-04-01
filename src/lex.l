@@ -13,7 +13,8 @@ int yyerror(char *s);
 
 %}
 
-name				[a-zA-Z0-9\?][a-zA-Z_0-9\-]*
+name				[a-zA-Z0-9][a-zA-Z_0-9\-]*
+variable			\?[a-zA-Z_0-9\-]*
 
 %%
 
@@ -48,6 +49,7 @@ name				[a-zA-Z0-9\?][a-zA-Z_0-9\-]*
 "True"				{ yylval.str = new string(yytext); return TRUE; }
 "False"				{ yylval.str = new string(yytext); return FALSE; }
 
+{variable}			{ yylval.str = new string(yytext); return VARIABLE; }
 {name}				{ yylval.str = new string(yytext); return NAME; }
 \n 					{ yylineno++; }
 %%

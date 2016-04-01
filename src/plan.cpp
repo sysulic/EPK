@@ -2,8 +2,13 @@
 
 Plan::Plan(const char *domain, const char *p, int type){
     printf("================================================================\n");
-    printf("domain_file(%s) p_file(%s) search_type(%s)\n", domain, p, 
-            (type == 1) ? "deap first" : "normal");
+    printf("domain_file(%s) p_file(%s) ", domain, p);
+    if(type == 0)
+        cout << "search_type(Heur first)" << endl;
+    if(type == 1)
+        cout << "search_type(Deap first)" << endl;
+    if(type == 2)
+        cout << "search_type(Bread first)" << endl;
     all_nodes.clear();
     all_edges.clear();
     explored_num = -1;
@@ -13,12 +18,28 @@ Plan::Plan(const char *domain, const char *p, int type){
     clock_t t_start = clock();
     printf("Preprocessing...\n");
     in.exec(domain, p);
+
+    //print actions
+    int i = 0;
+    cout << "======= epis actions : ============" << endl;
+    for (std::vector<EpisAction>::const_iterator v = epis_actions.begin();
+        v != epis_actions.end(); ++v) {
+        cout << i++ << ": " << (*v).name << endl;
+    }
+    cout << "======= ontic actions : ===========" << endl;
+    i = 0;
+    for (std::vector<OnticAction>::const_iterator v = ontic_actions.begin();
+        v != ontic_actions.end(); ++v) {
+        cout << i++ << ": " << (*v).name << endl;
+    }
+    cout << "===================================" << endl;
+
     clock_t t_end = clock();
     preprocess_time = difftime(t_end, t_start) / 1000000.0;
 }
 
 // Algorithm 6
-void Plan::exec_plan(){
+void Plan::exec_plan() {
     printf("Planning...\n");
     if(in.init.entails(in.goal)) {
         printf("init entails goal!\n");
@@ -51,6 +72,28 @@ void Plan::exec_plan(){
 
 // Algorithm 7
 void Plan::explore(int node_pos){
+
+    // print edges
+    cout << "======== edges ================" << endl;
+    for (size_t i = 0; i < all_edges.size(); ++i) {
+        cout << "edge " << i << ": " << all_edges[i].front_state
+            << " -- " << (all_edges[i].is_observe_action ? "epis " : "ontic ") << all_edges[i].action_number
+            << " --> " << all_edges[i].next_state << endl;
+    }
+    if (all_nodes.size() >  150) {
+    ofstream out("aaaa", ios::app);
+        out << "~~~~~~~~~~~~~~ " << endl;
+    all_nodes[0].kb.show(out);
+    all_nodes[12].kb.show(out);
+    all_nodes[145].kb.show(out);
+    out << endl << endl;
+    out.close();
+        out << "~~~~~~~~~~~~~~~" << endl;
+    }
+    cout << "===============================" << endl;
+
+    
+
     //cout << "explore..." << endl;
     bool execed = false;//deep search find new node
     // 进行感知演进
@@ -241,8 +284,29 @@ void Plan::reconnection_propagation(int node_num){
 
 int Plan::get_tobeexplored_node(){
     if (searchtype == kWidthFirst || searchtype == kDepthFirst) {
-        if(searchtype == kDepthFirst && all_nodes[hert_nodes].flag == TOBEEXPLORED && !all_nodes[hert_nodes].isolated)
-            return hert_nodes;
+        if(searchtype == kDepthFirst) {
+            if(all_nodes[hert_nodes].flag == TOBEEXPLORED && !all_nodes[hert_nodes].isolated)
+                return hert_nodes;
+            else {
+                /*
+                // find available father node
+                int father_node = hert_nodes;
+                for (size_t i = 0; i < all_edges.size() && father_node != 0; ++i) {
+                    if (all_edges[i].next_state == father_node) {
+                        for (size_t j = 0; j < all_edges.size(); ++j) {
+                            if (all_edges[j].front_state == all_edges[i].front_state
+                                && all_nodes[all_edges[j].next_state].flag == TOBEEXPLORED
+                                && !all_nodes[all_edges[j].next_state].isolated) {
+                                return all_edges[j].next_state;
+                            }
+                        }
+                    }
+                    father_node = all_edges[i].next_state;
+                    i = 0;
+                }
+                //*/
+            }
+        }
         for(size_t i = explored_num + 1; i < all_nodes.size(); i++)
             if(all_nodes[i].flag == TOBEEXPLORED && !all_nodes[i].isolated)
                 return i;

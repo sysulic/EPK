@@ -53,9 +53,6 @@ public:
     PropDNF negation_as_DNF() const;
     void show(ofstream &, bool print_new_line = true) const;
     PropDNF ontic_prog(const OnticAction &ontic_action); //在当前PropDNF上做物理动作的演进，并且返回演进结果
-    void convert_IPIA(); //将DNF转为质蕴含形式
-    bool delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi, 
-                list<PropTerm> &segma);
 };
 
 
@@ -73,7 +70,6 @@ public:
     EpisTerm& separable();
     void show(ofstream &) const;
     EpisTerm ontic_prog(const OnticAction &ontic_action); //在当前EpisTerm上做物理动作的演进，并且返回演进结果
-    void convert_IPIA();
 };
 
 
@@ -90,7 +86,6 @@ public:
     void show(ofstream &) const;
     EpisDNF ontic_prog(const OnticAction &ontic_action); //在当前知识库上做物理动作的演进，并且返回演进结果
     vector<EpisDNF> epistemic_prog(const EpisAction &epis_action); //在当前知识库上做观察动作的演进，并且返回结果
-    void convert_IPIA();
 };
 
 

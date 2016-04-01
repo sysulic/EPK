@@ -25,7 +25,7 @@ void Reader::exec(const char* dFile, const char* pFile) {
 	cout << "\n-----end parsing" << endl;
 	fclose(fp_d);
 	fclose(fp_p);
-
+/*
 	// print what Reader reads (before conversion)
 	string begin_file = "../output/";
 	begin_file += domainName + "+" + problemName; begin_file += "_begin";
@@ -39,9 +39,11 @@ void Reader::exec(const char* dFile, const char* pFile) {
 	printSenseActions(begin_out);
 	printOnticActions(begin_out);
 	begin_out.close();
-
+*/
 	// conversion
 	convertToDNFTree(&this->init);
+	for (size_t i = 0; i < 30; i++)
+		convertToDNFTree2(&this->init);
 	convertToCNFTree(&this->goal);
 
 	for (PreSenseActionList::iterator it_action = senseActions.begin();
@@ -54,7 +56,7 @@ void Reader::exec(const char* dFile, const char* pFile) {
   		it_action != onticActions.end(); ++it_action) {
 		convertToCNFTree(&(*it_action).preCondition);
   	}
-
+///*
 	// print what Reader reads
 	string out_file = "../output/";
 	out_file += domainName + "+" + problemName; out_file += "_reader";
@@ -68,6 +70,7 @@ void Reader::exec(const char* dFile, const char* pFile) {
 	printSenseActions(out);
 	printOnticActions(out);
 	out.close();
+//	*/
 }
 
 void Reader::printInit(ofstream & out_file) {
@@ -506,43 +509,74 @@ void Reader::convertToDNFTree(Formula * f) {
 			inwardMoveNot(f);
 	if (f->label == "=>")
 		removeImply(f);
-	if (f->label == "oneof")
-		removeOneof(f);
+
+	if (f->left && f->left->label == "oneof")
+		removeOneof(f->left);
+	if (f->right && f->right->label == "oneof")
+		removeOneof(f->right);
+
 	if (f->label == "|" &&
 		f->left->label == "DK" && f->right && f->right->label == "DK")
 			mergeDK(f);
 
-	bool left_ok = false;
+	bool left_ok = false, right_ok = false;
 	if (f->label == "&") {
 		// several cases to make algorithm complete
 		if (f->left->label == "&") {
 			convertToDNFTree(f->left);
 			left_ok = true;
 		}
+		if (f->right->label == "&") {
+			convertToDNFTree(f->right);
+			right_ok = true;
+		}
+
 		if (f->left->label == "K" &&
-			f->right && f->right->label == "K")
+			f->right && f->right->label == "K") {
 			mergeK(f);  // mergeK method convert label "&" to "K"!
-		if (f->left->label == "=>")
-			removeImply(f->left);
-		if (f->right && f->right->label == "=>")
-			removeImply(f->right);
-		if (f->left->label == "~" &&
-			(f->left->left->label == "&" || f->left->left->label == "|"))
-			inwardMoveNot(f->left);
-		if (f->right && f->right->label == "~" &&
-			(f->right->left->label == "&" || f->right->left->label == "|"))
-			inwardMoveNot(f->right);
-		if (f->left->label == "|" || (f->right && f->right->label == "|"))
-			inwardMoveAnd(f);
+			convertToDNFTree(f->left);
+			left_ok = true;
+		} else {
+			if (f->left->label == "=>")
+				removeImply(f->left);
+			if (f->right && f->right->label == "=>")
+				removeImply(f->right);
+			if (f->left->label == "~" &&
+				(f->left->left->label == "&" || f->left->left->label == "|"))
+				inwardMoveNot(f->left);
+			if (f->right && f->right->label == "~" &&
+				(f->right->left->label == "&" || f->right->left->label == "|"))
+				inwardMoveNot(f->right);
+			if (f->left->label == "|" || (f->right && f->right->label == "|"))
+				inwardMoveAnd(f);
+		}
 	}
     
 	if (!left_ok && f->left != NULL)
 	{
 		convertToDNFTree(f->left);
 	}
-	if (f->right != NULL)
+	if (!right_ok && f->right != NULL)
 	{
 		convertToDNFTree(f->right);
+	}
+	return;
+}
+
+void Reader::convertToDNFTree2(Formula * f) {
+	if (f->left != NULL)
+	{
+		convertToDNFTree2(f->left);
+	}
+	if (f->right != NULL)
+	{
+		convertToDNFTree2(f->right);
+	}
+
+	if (f->label == "&") {
+		if ((f->right && f->right->label == "|") || f->left->label == "|") {
+			inwardMoveAnd(f);
+		}
 	}
 	return;
 }
@@ -555,8 +589,10 @@ void Reader::convertToCNFTree(Formula * f) {
 	removeDoubleNot(f);
 	if (f->label == "=>")
 		removeImply(f);
+
 	if (f->label == "oneof")
 		removeOneof(f);
+	
 	if (f->label == "~" &&
 		(f->left->label == "&" || f->left->label == "|"))
 			inwardMoveNot(f);
@@ -573,19 +609,21 @@ void Reader::convertToCNFTree(Formula * f) {
 		}
 		if (f->left->label == "DK" &&
 			f->right && f->right->label == "DK")
-			mergeDK(f);
-		if (f->left->label == "=>")
-			removeImply(f->left);
-		if (f->right->label == "=>")
-			removeImply(f->right);
-		if (f->left->label == "~" &&
-			(f->left->left->label == "&" || f->left->left->label == "|"))
-			inwardMoveNot(f->left);
-		if (f->right && f->right->label == "~" &&
-			(f->right->left->label == "&" || f->right->left->label == "|"))
-			inwardMoveNot(f->right);
-		if (f->left->label == "&" || (f->right && f->right->label == "&"))
-			inwardMoveOr(f);
+			mergeDK(f);  // mergeK method convert label "|" to "DK"!
+		else {
+			if (f->left->label == "=>")
+				removeImply(f->left);
+			if (f->right->label == "=>")
+				removeImply(f->right);
+			if (f->left->label == "~" &&
+				(f->left->left->label == "&" || f->left->left->label == "|"))
+				inwardMoveNot(f->left);
+			if (f->right && f->right->label == "~" &&
+				(f->right->left->label == "&" || f->right->left->label == "|"))
+				inwardMoveNot(f->right);
+			if (f->left->label == "&" || (f->right && f->right->label == "&"))
+				inwardMoveOr(f);
+		}
 	}
 
 	if (!left_ok && f->left != NULL)

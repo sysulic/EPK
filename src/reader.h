@@ -42,6 +42,7 @@ class Reader
   void inwardMoveAnd(Formula * f);
   void inwardMoveOr(Formula * f) ;
   void convertToDNFTree(Formula * f);
+  void convertToDNFTree2(Formula * f);
   void convertToCNFTree(Formula * f);
 
   void printInit(ofstream &);

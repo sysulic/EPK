@@ -1,20 +1,18 @@
 (define (domain btc)
-  (:types)
-  (:predicates (disarmed ?p - package)
-  )
+   (:types)
+   (:predicates (disarmed ?p - package))
 
-  (:action dunk
-   :parameters (?p - package)
-   :precondition (and (K (not(clogged))) (DK (not (disarmed ?p))))
-   :effect (
-            ((True), (disarmed ?p))
-            ((True), (clogged))
+   (:action dunk
+    :parameters (?p - package)
+    :precondition (and (K (not(clogged))) (DK (not (disarmed ?p))))
+    :effect (((True), (disarmed ?p))
+             ((True), (clogged))
             )
-  )
+   )
    
-  (:action flush	
-   :parameters ()
-   :precondition(DK (clogged))
-   :effect (((True), (not (clogged))))
-  )  
+   (:action flush	
+    :parameters ()
+    :precondition(DK (clogged))
+    :effect (((True), (not (clogged))))
+   )  
 )

@@ -1,0 +1,30 @@
+(define (domain medpks-2)
+	(:types ILLNESS STAIN)
+	(:predicates (stain ?i - STAIN)
+				 (ill ?i - ILLNESS)
+	)
+	
+	(:action inspect-stain
+	 :parameters (?i - STAIN)
+	 :precondition (K (not (dead)))
+	 :observe (stain ?i)
+	)
+	 	
+	(:action stain
+	 :parameters()
+	 :precondition (K (not (dead)))
+	 :effect (((ill.i1), (stain.s1))
+	          ((ill.i2), (stain.s2))
+			 )
+	)
+	
+	(:action medicate
+	 :parameters ()
+	 :precondition (K (and (not (dead)) (not (ill.i0))))
+	 :effect (((stain.s1), (ill.i0, not (stain.s1), not (ill.i1)))
+	          ((stain.s2), (ill.i0, not (stain.s2), not (ill.i2)))
+	          )
+	 
+	)
+
+)

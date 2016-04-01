@@ -34,6 +34,7 @@ extern Reader reader;
 %start epddlDoc
 
 %token <str> NAME
+%token <str> VARIABLE
 
 %token K
 %token DK
@@ -78,6 +79,7 @@ extern Reader reader;
 %type <multitype_list> typedVariableList
 %type <singletype_pair> singleTypeVarList
 %type <str_list> variables
+%type <str_list> names
 
 %type <str> lit
 %type <str_list> litSet
@@ -223,12 +225,12 @@ singleTypeVarList
 	}
 	;
 variables
-	:	variables NAME
+	:	variables VARIABLE
 	{
 		$$ = $1;
 		$$->push_back(*$2);
 	}
-	|	NAME
+	|	VARIABLE
 	{
 		$$ = new StringList;
 		$$->push_back(*$1);
@@ -341,7 +343,29 @@ atomicProp
 		}
 		//if (!variable_exist) reader.atomicPropSet.insert(*$$);
 	}
+    |	predicate names
+	{
+		$$ = new string(*$1);
+		//bool variable_exist = false;
+		for (StringList::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
+		{
+			*$$ += " " + *ssi;
+		}
+		//reader.atomicPropSet.insert(*$$);
+	}
 	|	NAME { $$ = $1; reader.atomicPropSet.insert(*$1); }
+	;
+names
+	:	names NAME
+	{
+		$$ = $1;
+		$$->push_back(*$2);
+	}
+	|	NAME
+	{
+		$$ = new StringList;
+		$$->push_back(*$1);
+	}
 	;
 /** observe **/
 observe
@@ -381,26 +405,13 @@ litSet
 	}
 	;
 lit
-	:   TRUE	{ $$ = $1; }
-	|	FALSE	{ $$ = $1; }
-    |	NAME    { $$ = $1; reader.atomicPropSet.insert(*$1); }
-	|	NOT LEFT_PAREN NAME RIGHT_PAREN { $$ = new string("not(" + *$3 + ")");}
-	|	predicate variables
+	:	atomicProp
 	{
-		$$ = new string(*$1);
-		for (StringList::iterator ssi = (*$2).begin(); ssi != (*$2).end(); ssi++)
-		{
-			*$$ += " " + *ssi;
-		}
+		$$ = $1;
 	}
-	|	NOT LEFT_PAREN predicate variables RIGHT_PAREN
+	|	NOT LEFT_PAREN atomicProp RIGHT_PAREN
 	{
-		$$ = new string("not("+*$3);
-		for (StringList::iterator ssi = (*$4).begin(); ssi != (*$4).end(); ssi++)
-		{
-			*$$ += " " + *ssi;
-		}
-		*$$ += ")";
+		$$ = new string("not(" + *$3 + ")");
 	}
 	;
 /************* PROBLEMS ***************************/
@@ -429,6 +440,10 @@ problemDecl
 	;
 problemDomain
 	:	LEFT_PAREN COLON DOMAIN NAME RIGHT_PAREN
+	{
+		if (*$4 != reader.domainName)
+			cout << "Error: Wrong domain name!" << endl;
+	}
 	;
 /** objectdecl **/
 objectDecl

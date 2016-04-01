@@ -7,11 +7,14 @@ bool PropClause::entails(const PropClause& prop_clause) const
 }
 
 PropTerm PropClause::negation() const
-{
+{   
     PropTerm result(length);
+    if (is_true()) {
+        result.literals.set();
+        return result;
+    }
     for (size_t i = 0; i < literals.size(); i++) {
         if(literals[i]) {
-            result.literals[i] = 0; //?dynamic_bitset constructor makes all of bis in literals 0, so this clause is useless 
             if (i % 2 == 0) 
                 result.literals[i + 1] = 1;
             else                    //this else is useless!!!

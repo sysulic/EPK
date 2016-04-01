@@ -1,0 +1,292 @@
+================================================================
+domain_file(../epddl/btc/btc_domain.epddl) p_file(../epddl/btc/btc_p20.epddl) search_type(Deap first)
+Preprocessing...
+
+-----begin parsing
+                                                                             	                        	 	 			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			    		 				    				     				     				    				     				     				     				     				     				     				     				     				     				     				     				    				     				     				     				     				     	       		  				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   	          	        	
+-----end parsing
+Planning...
+
+Plan tree:
+ dunk (p1, )
+  flush
+   dunk (p2, )
+    flush
+     dunk (p3, )
+      flush
+       dunk (p4, )
+        flush
+         dunk (p5, )
+          flush
+           dunk (p6, )
+            flush
+             dunk (p7, )
+              flush
+               dunk (p8, )
+                flush
+                 dunk (p9, )
+                  flush
+                   dunk (p10, )
+                    flush
+                     dunk (p11, )
+                      flush
+                       dunk (p12, )
+                        flush
+                         dunk (p13, )
+                          flush
+                           dunk (p14, )
+                            flush
+                             dunk (p15, )
+                              flush
+                               dunk (p16, )
+                                flush
+                                 dunk (p17, )
+                                  flush
+                                   dunk (p18, )
+                                    flush
+                                     dunk (p19, )
+                                      flush
+                                       dunk (p20, )
+
+Statistic:
+ preprocess time: 0.0083s
+ search time: 0.1903s
+ solution size: 40
+ solution depth: 39
+ search size: 230
+
+================================================================
+domain_file(../epddl/btc/btc_domain.epddl) p_file(../epddl/btc/btc_p30.epddl) search_type(Deap first)
+Preprocessing...
+
+-----begin parsing
+                                                                             	                        	 	 		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		  		    		 				   				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     	        		  				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   	          	       	
+-----end parsing
+Planning...
+
+Plan tree:
+ dunk (p1, )
+  flush
+   dunk (p2, )
+    flush
+     dunk (p3, )
+      flush
+       dunk (p4, )
+        flush
+         dunk (p5, )
+          flush
+           dunk (p6, )
+            flush
+             dunk (p7, )
+              flush
+               dunk (p8, )
+                flush
+                 dunk (p9, )
+                  flush
+                   dunk (p10, )
+                    flush
+                     dunk (p11, )
+                      flush
+                       dunk (p12, )
+                        flush
+                         dunk (p13, )
+                          flush
+                           dunk (p14, )
+                            flush
+                             dunk (p15, )
+                              flush
+                               dunk (p16, )
+                                flush
+                                 dunk (p17, )
+                                  flush
+                                   dunk (p18, )
+                                    flush
+                                     dunk (p19, )
+                                      flush
+                                       dunk (p20, )
+                                        flush
+                                         dunk (p21, )
+                                          flush
+                                           dunk (p22, )
+                                            flush
+                                             dunk (p23, )
+                                              flush
+                                               dunk (p24, )
+                                                flush
+                                                 dunk (p25, )
+                                                  flush
+                                                   dunk (p26, )
+                                                    flush
+                                                     dunk (p27, )
+                                                      flush
+                                                       dunk (p28, )
+                                                        flush
+                                                         dunk (p29, )
+                                                          flush
+                                                           dunk (p30, )
+
+Statistic:
+ preprocess time: 0.0065s
+ search time: 0.8100s
+ solution size: 60
+ solution depth: 59
+ search size: 495
+
+================================================================
+domain_file(../epddl/btc/btc_domain.epddl) p_file(../epddl/btc/btc_p50.epddl) search_type(Deap first)
+Preprocessing...
+
+-----begin parsing
+                                                                             	                        	 	 			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			    		 				   				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     				     				     				    				     				     	       		  				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   	          	       	
+-----end parsing
+Planning...
+
+Plan tree:
+ dunk (p1, )
+  flush
+   dunk (p2, )
+    flush
+     dunk (p3, )
+      flush
+       dunk (p4, )
+        flush
+         dunk (p5, )
+          flush
+           dunk (p6, )
+            flush
+             dunk (p7, )
+              flush
+               dunk (p8, )
+                flush
+                 dunk (p9, )
+                  flush
+                   dunk (p10, )
+                    flush
+                     dunk (p11, )
+                      flush
+                       dunk (p12, )
+                        flush
+                         dunk (p13, )
+                          flush
+                           dunk (p14, )
+                            flush
+                             dunk (p15, )
+                              flush
+                               dunk (p16, )
+                                flush
+                                 dunk (p17, )
+                                  flush
+                                   dunk (p18, )
+                                    flush
+                                     dunk (p19, )
+                                      flush
+                                       dunk (p20, )
+                                        flush
+                                         dunk (p21, )
+                                          flush
+                                           dunk (p22, )
+                                            flush
+                                             dunk (p23, )
+                                              flush
+                                               dunk (p24, )
+                                                flush
+                                                 dunk (p25, )
+                                                  flush
+                                                   dunk (p26, )
+                                                    flush
+                                                     dunk (p27, )
+                                                      flush
+                                                       dunk (p28, )
+                                                        flush
+                                                         dunk (p29, )
+                                                          flush
+                                                           dunk (p30, )
+                                                            flush
+                                                             dunk (p31, )
+                                                              flush
+                                                               dunk (p32, )
+                                                                flush
+                                                                 dunk (p33, )
+                                                                  flush
+                                                                   dunk (p34, )
+                                                                    flush
+                                                                     dunk (p35, )
+                                                                      flush
+                                                                       dunk (p36, )
+                                                                        flush
+                                                                         dunk (p37, )
+                                                                          flush
+                                                                           dunk (p38, )
+                                                                            flush
+                                                                             dunk (p39, )
+                                                                              flush
+                                                                               dunk (p40, )
+                                                                                flush
+                                                                                 dunk (p41, )
+                                                                                  flush
+                                                                                   dunk (p42, )
+                                                                                    flush
+                                                                                     dunk (p43, )
+                                                                                      flush
+                                                                                       dunk (p44, )
+                                                                                        flush
+                                                                                         dunk (p45, )
+                                                                                          flush
+                                                                                           dunk (p46, )
+                                                                                            flush
+                                                                                             dunk (p47, )
+                                                                                              flush
+                                                                                               dunk (p48, )
+                                                                                                flush
+                                                                                                 dunk (p49, )
+                                                                                                  flush
+                                                                                                   dunk (p50, )
+
+Statistic:
+ preprocess time: 0.0140s
+ search time: 6.4134s
+ solution size: 100
+ solution depth: 99
+ search size: 1325
+
+
+================================================================
+domain_file(../epddl/cube/new_cube_domain3.epddl) p_file(../epddl/cube/new_cube_p3.epddl) search_type(Deap first)
+Preprocessing...
+
+-----begin parsing
+  	 	    	                				      	    	 	  	         	  			 	  	   	        			 	  	    	        			 	                    			                           	 	                    			                                     	 	         	            			                                   	                          			                                    	 	                    			                         	  	 	                    			                                 	 	     				  				  				  			        	                 		    		          	                    		   	
+-----end parsing
+Planning...
+
+Plan tree:
+ right
+  right
+   left
+    down
+     down
+      up
+       out
+        out
+         in
+          senseGold +:
+           pickGold
+          senseGold -:
+           left
+            up
+             in
+
+Statistic:
+ preprocess time: 0.0029s
+ search time: 5.1353s
+ solution size: 16
+ solution depth: 13
+ search size: 864
+
+================================================================
+domain_file(../epddl/cube/new_cube_domain5.epddl) p_file(../epddl/cube/new_cube_p5.epddl) search_type(Deap first)
+Preprocessing...
+
+-----begin parsing
+  	 	    	                				      	    	 	  	         	  			 	  	   	        			 	  	    	        			 	                    			        			        			                           	 	                    			        			        			                                     	 	         	            			        			        			        	                          	                          			        			        			                                    	 	                    			        			        			                         	  	 	                    			        			        			        	                          	 	     				  				  				 				  				  			        	                 		    		          	                    		   	
+-----end parsing

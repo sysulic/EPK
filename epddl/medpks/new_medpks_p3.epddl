@@ -1,0 +1,51 @@
+(define (problem medpks-3)
+	(:domain medpks-3)
+	(:objects  i0 i1 i2 i3 - ILLNESS
+			   s0 s1 s2 s3 - STAIN
+	)
+ 
+    (:init (or 
+	            (and (K (and 
+					          (not (dead))
+						      (not(ill i0))
+						      (ill i1) 
+					    )
+					  )
+				     (DK (ill i2))
+					 (DK (not (ill i2)))
+				     (DK (ill i3))
+					 (DK (not (ill i3)))
+				)
+			    (and (K (and 
+					          (not (dead))
+						      (not(ill i0))
+						      (ill i2) 
+					    )
+					  )
+				     (DK (ill i1))
+					 (DK (not (ill i1)))
+				     (DK (ill i3))
+					 (DK (not (ill i3)))
+				)
+			    (and (K (and 
+					          (not (dead))
+						      (not (ill i0))
+						      (ill i3) 
+					    )
+					  )
+				     (DK (ill i1))
+					 (DK (not (ill i1)))
+				     (DK (ill i2))
+					 (DK (not (ill i2)))
+				)	
+           )
+	)
+	
+	(:goal (K (and 
+	               (not (dead))
+	               (ill i0)
+			  )
+		   )
+	)
+)
+

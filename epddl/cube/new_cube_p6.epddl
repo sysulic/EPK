@@ -1,0 +1,21 @@
+(define (problem cube-6)
+	(:domain cube-6)
+	(:objects   p1  
+				p2  
+				p3  
+				p4 
+				p5 
+				p6 - pos
+				gold - gold
+	)
+	
+	(:init(or (K (and (x p1) (y p1) (z p1)))
+	          (K (and (x p6) (y p6) (z p6)))
+		)
+    )
+	
+	(:goal (or (K (and (x p1) (y p1) (z p1) (gold)))
+	           (K (and (x p1) (y p1) (z p1) (not (gold))))
+		   )
+	)
+)

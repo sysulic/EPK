@@ -40,64 +40,66 @@
       know about them.  */
    enum yytokentype {
      NAME = 258,
-     K = 259,
-     DK = 260,
-     AND = 261,
-     OR = 262,
-     NOT = 263,
-     IMPLY = 264,
-     ONEOF = 265,
-     TRUE = 266,
-     FALSE = 267,
-     LEFT_PAREN = 268,
-     RIGHT_PAREN = 269,
-     COMMA = 270,
-     COLON = 271,
-     CONNECTOR = 272,
-     DEFINE = 273,
-     DOMAIN = 274,
-     TYPES = 275,
-     PREDICATES = 276,
-     PRECONDITION = 277,
-     ACTION = 278,
-     PARAMETERS = 279,
-     OBSERVE = 280,
-     EFFECT = 281,
-     PROBLEM = 282,
-     OBJECTS = 283,
-     INIT = 284,
-     GOAL = 285
+     VARIABLE = 259,
+     K = 260,
+     DK = 261,
+     AND = 262,
+     OR = 263,
+     NOT = 264,
+     IMPLY = 265,
+     ONEOF = 266,
+     TRUE = 267,
+     FALSE = 268,
+     LEFT_PAREN = 269,
+     RIGHT_PAREN = 270,
+     COMMA = 271,
+     COLON = 272,
+     CONNECTOR = 273,
+     DEFINE = 274,
+     DOMAIN = 275,
+     TYPES = 276,
+     PREDICATES = 277,
+     PRECONDITION = 278,
+     ACTION = 279,
+     PARAMETERS = 280,
+     OBSERVE = 281,
+     EFFECT = 282,
+     PROBLEM = 283,
+     OBJECTS = 284,
+     INIT = 285,
+     GOAL = 286
    };
 #endif
 /* Tokens.  */
 #define NAME 258
-#define K 259
-#define DK 260
-#define AND 261
-#define OR 262
-#define NOT 263
-#define IMPLY 264
-#define ONEOF 265
-#define TRUE 266
-#define FALSE 267
-#define LEFT_PAREN 268
-#define RIGHT_PAREN 269
-#define COMMA 270
-#define COLON 271
-#define CONNECTOR 272
-#define DEFINE 273
-#define DOMAIN 274
-#define TYPES 275
-#define PREDICATES 276
-#define PRECONDITION 277
-#define ACTION 278
-#define PARAMETERS 279
-#define OBSERVE 280
-#define EFFECT 281
-#define PROBLEM 282
-#define OBJECTS 283
-#define INIT 284
-#define GOAL 285
+#define VARIABLE 259
+#define K 260
+#define DK 261
+#define AND 262
+#define OR 263
+#define NOT 264
+#define IMPLY 265
+#define ONEOF 266
+#define TRUE 267
+#define FALSE 268
+#define LEFT_PAREN 269
+#define RIGHT_PAREN 270
+#define COMMA 271
+#define COLON 272
+#define CONNECTOR 273
+#define DEFINE 274
+#define DOMAIN 275
+#define TYPES 276
+#define PREDICATES 277
+#define PRECONDITION 278
+#define ACTION 279
+#define PARAMETERS 280
+#define OBSERVE 281
+#define EFFECT 282
+#define PROBLEM 283
+#define OBJECTS 284
+#define INIT 285
+#define GOAL 286
 
 
 
@@ -122,7 +124,7 @@ typedef union YYSTYPE
   Formula* tree;
 }
 /* Line 1529 of yacc.c.  */
-#line 126 "parse.h"
+#line 128 "parse.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -1,5 +1,5 @@
 (define (domain dispose) 
-   (:types)
+   (:types pos obj)
    (:predicates (adj ?i ?j - pos) 
                 (at ?i - pos) 
                 (holding ?o - obj) 

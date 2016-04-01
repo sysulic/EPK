@@ -25,7 +25,7 @@ bool PropTerm::equals(const PropTerm& prop_term)
 //This reasoning rule is Proposition 3.4 PropTerm |= PropClause
 bool PropTerm::entails(const PropClause& prop_clause) const
 {
-    //I understood Proposition 3.4 means if the PropTerm and PropClause has only one same literal, 
+    //Proposition 3.4 means if the PropTerm and PropClause has only one same literal, 
     //then return true, otherwise return false
     for (int i = 0; i < length/2; i++) {
         if ((literals[2 * i] && prop_clause.literals[2 * i]) || 
@@ -323,91 +323,6 @@ PropDNF PropDNF::ontic_prog(const OnticAction& ontic_action)
     return result;
 }
 
-void PropDNF::convert_IPIA() {
-    assert(false);
-    assert(! prop_terms.empty());
-    list<PropTerm>::const_iterator it = prop_terms.begin();
-    list<PropTerm> pi;
-    pi.push_back(*it);
-    for (++it; it != prop_terms.end(); ++it) {
-        // Algorithm 1: Incremental prime implicant algorithm
-        PropTerm t = *it;
-        list<PropTerm> segma;
-        segma.push_back(t);
-        // delete operation
-        bool is_t_delete = delete_operation_in_IPIA(t, pi, segma);
-        if (! is_t_delete) {
-            list<PropTerm> new_to_segma;
-            for (size_t l = 0; l < t.literals.size(); ++ l) {
-                if (! t.literals.test(l)) {
-                    continue;
-                }
-                // 存在 t'属于pi，t''属于segma，
-                // 且 (l属于t') && (~l属于t'') || (~l属于t') && (l属于t'')
-                size_t _l = (l % 2 == 0) ? l + 1 : l - 1;
-                for (list<PropTerm>::iterator it_pi = pi.begin();
-                        it_pi != pi.end(); ++it_pi) {
-                    for (list<PropTerm>::iterator it_segma = segma.begin();
-                            it_segma != segma.end(); ++it_segma) {
-                        if ((it_pi->literals.test(l) && it_segma->literals.test(_l)) ||
-                                (it_pi->literals.test(_l) && it_segma->literals.test(l))) {
-                            // t* = term(t', t'', l);
-                            PropTerm tx = *it_pi;
-                            tx.literals |= it_segma->literals;
-                            tx.literals.reset(l);
-                            tx.literals.reset(_l);
-                            // segma = segma \cup {t*}
-                            if (tx.consistent()) 
-                                new_to_segma.push_back(tx);
-                        }
-                    }
-                }
-            }
-            segma.insert(segma.end(), new_to_segma.begin(), new_to_segma.end());
-            // delete operation，需要保证没有重复的元素
-            delete_operation_in_IPIA(t, pi, segma);
-        }
-        // pi = pi \cup segma, update it for the next iteration
-        pi.insert(pi.end(), segma.begin(), segma.end());
-    }
-    prop_terms = pi;
-}
-// 
-bool PropDNF::delete_operation_in_IPIA(const PropTerm &t, list<PropTerm> &pi, 
-        list<PropTerm> &segma) {
-    list<PropTerm> segma_tmp = segma;
-    // 处理pi
-    for (list<PropTerm>::iterator it = pi.begin(); it != pi.end(); ) {
-        bool is_delete = false;
-        for (list<PropTerm>::const_iterator it_segma = segma_tmp.begin();
-                (! is_delete) && (it_segma != segma_tmp.end()); ++it_segma) {
-            if (it->entails(*it_segma)) {
-                is_delete = true;
-                it = pi.erase(it);
-            }
-        }
-        if (! is_delete)
-            ++it;
-    }
-    // 处理segma
-    bool is_t_delete = false;
-    for (list<PropTerm>::iterator it = segma.begin(); it != segma.end(); ) {
-        bool is_delete = false;
-        for (list<PropTerm>::const_iterator it_pi = pi.begin();
-                (! is_delete) && (it_pi != pi.end()); ++it_pi) {
-            if (it->entails(*it_pi)) {
-                is_delete = true;
-                if (it->equals(t))
-                    is_t_delete = true;
-                it = segma.erase(it);
-            }
-        }
-        if (! is_delete)
-            ++it;
-    }
-    return is_t_delete;
-}
-
 void PropDNF::show(ofstream & out, bool print_new_line) const 
 {
     if (prop_terms.empty())
@@ -491,8 +406,9 @@ bool EpisTerm::entails(const EpisClause& epis_clause) const
     
     //case 3 of Proposition 3.2
     for (list<PropCNF>::const_iterator it = epis_clause.pos_propCNFs.begin(); it != epis_clause.pos_propCNFs.end(); ++it) {
-        if (!pos_propDNF.group(it->negation()).consistent())
+        if (!pos_propDNF.group(it->negation()).consistent()) {
             return true;
+        }
     }
     
     return false;
@@ -545,15 +461,6 @@ void EpisTerm::show(ofstream & out) const
             it != neg_propDNFs.end(); ++it) {
         out << "~K~";
         it->show(out);
-    }
-}
-
-void EpisTerm::convert_IPIA() {
-    if (! pos_propDNF.prop_terms.empty())
-        pos_propDNF.convert_IPIA();
-    for (list<PropDNF>::iterator it = neg_propDNFs.begin();
-            it != neg_propDNFs.end(); ++it) {
-        it->convert_IPIA();
     }
 }
 
@@ -659,13 +566,6 @@ void EpisDNF::show(ofstream &out) const
         out << "epis term " << i++ << endl;
         it->show(out);
         out << endl;
-    }
-}
-
-void EpisDNF::convert_IPIA() {
-    for (list<EpisTerm>::iterator it = epis_terms.begin();
-            it != epis_terms.end(); ++it) {
-        it->convert_IPIA();
     }
 }
 
