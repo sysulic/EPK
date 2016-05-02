@@ -19,6 +19,7 @@ Plan::Plan(const char *domain, const char *p, int type){
     printf("Preprocessing...\n");
     in.exec(domain, p);
 
+    //*
     //print actions
     int i = 0;
     cout << "======= epis actions : ============" << endl;
@@ -33,6 +34,7 @@ Plan::Plan(const char *domain, const char *p, int type){
         cout << i++ << ": " << (*v).name << endl;
     }
     cout << "===================================" << endl;
+    //*/
 
     clock_t t_end = clock();
     preprocess_time = difftime(t_end, t_start) / 1000000.0;
@@ -73,6 +75,7 @@ void Plan::exec_plan() {
 // Algorithm 7
 void Plan::explore(int node_pos){
 
+    /*
     // print edges
     cout << "======== edges ================" << endl;
     for (size_t i = 0; i < all_edges.size(); ++i) {
@@ -80,20 +83,35 @@ void Plan::explore(int node_pos){
             << " -- " << (all_edges[i].is_observe_action ? "epis " : "ontic ") << all_edges[i].action_number
             << " --> " << all_edges[i].next_state << endl;
     }
-    if (all_nodes.size() >  150) {
-    ofstream out("aaaa", ios::app);
-        out << "~~~~~~~~~~~~~~ " << endl;
-    all_nodes[0].kb.show(out);
-    all_nodes[12].kb.show(out);
-    all_nodes[145].kb.show(out);
-    out << endl << endl;
+
+
+    int i = 0;
+    for (std::vector<OnticAction>::const_iterator v = ontic_actions.begin();
+        v != ontic_actions.end(); ++v) {
+
+
+        if (all_nodes.size() > 138 && i == 41) {
+            if (all_nodes[138].kb.entails(v->pre_con)) {
+                cout << "--------hahaha----------" << endl;
+                
+    ofstream out("abc", ios::app);
+    all_nodes[138].kb.show(out);
     out.close();
-        out << "~~~~~~~~~~~~~~~" << endl;
+
+                cout << "--------hahaha----------" << endl;
+            }
+        }
+        i++;;
     }
+
+    if (all_nodes.size() > 1000) {
+        cout << "frank: " << all_nodes[138].flag << " " << all_nodes[138].isolated << endl;
+    }
+
+
     cout << "===============================" << endl;
-
+    */
     
-
     //cout << "explore..." << endl;
     bool execed = false;//deep search find new node
     // 进行感知演进

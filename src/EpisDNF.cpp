@@ -370,17 +370,17 @@ bool EpisTerm::entails(const EpisTerm& epis_term) const
             return true;
         
         //The following is the second case of rule 2 in Proposition 3.5
-	for (list<PropDNF>::const_iterator post_it = epis_term.neg_propDNFs.begin(); post_it != epis_term.neg_propDNFs.end(); post_it++) {
+	    for (list<PropDNF>::const_iterator post_it = epis_term.neg_propDNFs.begin(); post_it != epis_term.neg_propDNFs.end(); post_it++) {
             bool can_entail = false;
             for (list<PropDNF>::const_iterator pre_it = neg_propDNFs.begin(); pre_it != neg_propDNFs.end(); pre_it++) {
                 if (pre_it->entails(*post_it)) {
                     can_entail = true;
                     break;
                 }
-	    }		
+	        }
             if (!can_entail)
                 return false;           
-        }		
+        }	
         return true;
     }
 }

@@ -54,7 +54,7 @@ struct Node
     //下面两个变量分别是在搜索过程中所需要的两中标记
     STATE_TYPE flag;
     bool isolated;
-    Node(){};
+    Node() {};
     Node(STATE_TYPE s, bool b, EpisDNF ed, int n){flag = s; isolated = b; kb = ed; }; //num = n;
     ~Node(){};
 };

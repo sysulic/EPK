@@ -175,8 +175,11 @@ PreSenseAction Initial::episActionParamGrouding(PreSenseAction & senseAction,
 void Initial::replaceParamWithObj(Formula * f, const string param, const string obj) {
     // cout << param << " " << obj << endl;
     size_t found = f->label.find(param);
-    while (found != string::npos) {
-        f->label.replace(found, param.size(), obj);
+    // care the case: two similar parameters '?b' and 'bf' !
+    while (found != string::npos &&
+        ( (found+param.size() < f->label.size() && f->label[found+param.size()] == ' ')
+        || (found+param.size() == f->label.size()) ) ) {
+            f->label.replace(found, param.size(), obj);
         found = f->label.find(param);
     }
     if (f->left != NULL)
@@ -279,7 +282,10 @@ StringList Initial::getGroundedStr(StringList sl, const string param, const stri
     // for method replace, so no const_iterator here
     for (StringList::iterator str = sl.begin(); str != sl.end(); ++str) {
         size_t found = str->find(param);
-        while (found != string::npos) {
+        while (found != string::npos &&
+        ( (found+param.size() < str->size() && str->at(found+param.size()) == ' ')
+        || (found+param.size() < str->size() && str->at(found+param.size()) == ')')
+        || (found+param.size() == str->size()) ) ) {
             str->replace(found, param.size(), obj);
             found = str->find(param);
         }
