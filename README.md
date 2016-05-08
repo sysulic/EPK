@@ -9,7 +9,7 @@ Intuitively, the planner provide an agent with a series of algorithms so that th
 
 ## Programme Structure
 This planner could be divided into three parts:
-![](/Users/apple/Desktop/Single-Agent Planner.png)
+![](https://github.com/fangbq/SingleAgentPlanner/blob/master/img/Single-Agent%20Planner.png?raw=true)
 
 #### 1. Parsing
 This part, also called preprocess, contains three subtasks:
