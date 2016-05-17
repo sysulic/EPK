@@ -41,6 +41,7 @@ We now formalize that example as follows:
 
 <img src="http://chart.googleapis.com/chart?cht=tx&chl=\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" style="border:none;">
 
+### 2. //todo
 			
 ## Son Thanh To. Phd
 http://www.cs.nmsu.edu/~sto/
