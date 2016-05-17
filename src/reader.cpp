@@ -56,7 +56,7 @@ void Reader::exec(const char* dFile, const char* pFile) {
   		it_action != onticActions.end(); ++it_action) {
 		convertToCNFTree(&(*it_action).preCondition);
   	}
-///*
+/*
 	// print what Reader reads
 	string out_file = "../output/";
 	out_file += domainName + "+" + problemName; out_file += "_reader";
@@ -70,7 +70,7 @@ void Reader::exec(const char* dFile, const char* pFile) {
 	printSenseActions(out);
 	printOnticActions(out);
 	out.close();
-//	*/
+*/
 }
 
 void Reader::printInit(ofstream & out_file) {

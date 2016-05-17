@@ -1,9 +1,3 @@
- /*
- * File: epddl-parser-cpp.l
- * Description: A parser for a sepecific file type epddl.
- *
- * Created by Biqing Fang on 10/25/2015.
- */
 %{
 #include "reader.h"
 

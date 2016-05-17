@@ -2,13 +2,13 @@
 
 Plan::Plan(const char *domain, const char *p, int type){
     printf("================================================================\n");
-    printf("domain_file(%s) p_file(%s) ", domain, p);
+    printf("domain_file(%s)\np_file(%s)\n", domain, p);
     if(type == 0)
-        cout << "search_type(Heur first)" << endl;
+        cout << "search_type(Heur first)\n" << endl;
     if(type == 1)
-        cout << "search_type(Deap first)" << endl;
+        cout << "search_type(Deap first)\n" << endl;
     if(type == 2)
-        cout << "search_type(Bread first)" << endl;
+        cout << "search_type(Bread first)\n" << endl;
     all_nodes.clear();
     all_edges.clear();
     explored_num = -1;
@@ -19,7 +19,7 @@ Plan::Plan(const char *domain, const char *p, int type){
     printf("Preprocessing...\n");
     in.exec(domain, p);
 
-    //*
+    /*
     //print actions
     int i = 0;
     cout << "======= epis actions : ============" << endl;
@@ -34,7 +34,7 @@ Plan::Plan(const char *domain, const char *p, int type){
         cout << i++ << ": " << (*v).name << endl;
     }
     cout << "===================================" << endl;
-    //*/
+    */
 
     clock_t t_end = clock();
     preprocess_time = difftime(t_end, t_start) / 1000000.0;

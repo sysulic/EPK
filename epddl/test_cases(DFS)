@@ -1,10 +1,4 @@
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p20.epddl 1
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p30.epddl 1
-../epddl/btc/btc_domain.epddl ../epddl/btc/btc_p50.epddl 1
-
 ../epddl/cube/new_cube_domain3.epddl ../epddl/cube/new_cube_p3.epddl 1
-../epddl/cube/new_cube_domain5.epddl ../epddl/cube/new_cube_p5.epddl 1
-../epddl/cube/new_cube_domain6.epddl ../epddl/cube/new_cube_p6.epddl 1
 
 ../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-1.epddl 1
 ../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-2.epddl 1
@@ -12,7 +6,6 @@
 
 ../epddl/doors/doors_domain2.epddl ../epddl/doors/doors_p2.epddl 1
 ../epddl/doors/doors_domain5.epddl ../epddl/doors/doors_p5.epddl 1
-../epddl/doors/new_doors_domain.epddl ../epddl/doors/new_doors_p2.epddl 1
 
 ../epddl/ebtcs/new_ebtcs_domain.epddl ../epddl/ebtcs/new_ebtcs_p2-5.epddl 1
 ../epddl/ebtcs/new_ebtcs_domain.epddl ../epddl/ebtcs/new_ebtcs_p2-6.epddl 1
@@ -32,4 +25,3 @@
 ../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl 1
 
 ../epddl/blocks/blocks_domain.epddl ../epddl/blocks/blocks_p3.epddl 1
-

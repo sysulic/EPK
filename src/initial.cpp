@@ -10,7 +10,7 @@ void Initial::exec(const char* dFile, const char* pFile) {
     goal = getEpisCNFfromTree(&reader.goal);
     episActionsGrounding();
     onticActionsGrounding();
-///*
+/*
     string endFile = "../output/";
     endFile += reader.domainName + "+" + reader.problemName; endFile += "_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
@@ -24,7 +24,7 @@ void Initial::exec(const char* dFile, const char* pFile) {
     printEpisActions(out_end);
     printOnticActions(out_end);  // conversion after first printActions()
     out_end.close();
-//*/
+*/
 }
 
 void Initial::printInit(ofstream & out) {
@@ -133,8 +133,11 @@ void Initial::episActionsGrounding() {
                         for (StringList::const_iterator ob = (*obj).second.begin();
                             ob != (*obj).second.end(); ++ob) {
 
-                            actions.push(episActionParamGrouding(actions.front(),
-                                    *(*param).second.begin(), *ob));
+                            // avoid adding redundant actions
+                            string newParam = *ob+',';
+                            if (actions.front().name.find(newParam) == string::npos)
+                                actions.push(episActionParamGrouding(actions.front(),
+                                            *(*param).second.begin(), *ob));
                         }
                         actions.pop();
                     }
@@ -147,6 +150,8 @@ void Initial::episActionsGrounding() {
         while (!actions.empty()) {
             EpisAction epis_action;
             epis_action.name = actions.front().name;
+            if (epis_action.name[epis_action.name.length()-1] == ')')
+                epis_action.name = epis_action.name.substr(0, epis_action.name.length()-3)+')';
             epis_action.pre_con = getEpisCNFfromTree(&(actions.front().preCondition));
             epis_action.pos_res = getPropDNFfromTree(&(actions.front().observe));
             epis_actions.push_back(epis_action);
@@ -180,7 +185,7 @@ void Initial::replaceParamWithObj(Formula * f, const string param, const string 
         ( (found+param.size() < f->label.size() && f->label[found+param.size()] == ' ')
         || (found+param.size() == f->label.size()) ) ) {
             f->label.replace(found, param.size(), obj);
-        found = f->label.find(param);
+            found = f->label.find(param);
     }
     if (f->left != NULL)
     {
@@ -235,8 +240,11 @@ void Initial::onticActionsGrounding() {
                         for (StringList::const_iterator ob = (*obj).second.begin();
                             ob != (*obj).second.end(); ++ob) {
 
-                            actions.push(onticActionParamGrouding(actions.front(),
-                                    *(*param).second.begin(), *ob));
+                            // avoid adding redundant actions
+                            string newParam = *ob+',';
+                            if (actions.front().name.find(newParam) == string::npos)
+                                actions.push(onticActionParamGrouding(actions.front(),
+                                            *(*param).second.begin(), *ob));
                         }
                         actions.pop();
                     }
@@ -249,6 +257,8 @@ void Initial::onticActionsGrounding() {
         while (!actions.empty()) {
             OnticAction ontic_action;
             ontic_action.name = actions.front().name;
+            if (ontic_action.name[ontic_action.name.length()-1] == ')')
+                ontic_action.name = ontic_action.name.substr(0, ontic_action.name.length()-3)+')';
             ontic_action.pre_con = getEpisCNFfromTree(&(actions.front().preCondition));
             ontic_action.con_eff = getOnticEffect(actions.front().effects);
             ontic_actions.push_back(ontic_action);

@@ -1,0 +1,28 @@
+../epddl/cube/new_cube_domain6.epddl ../epddl/cube/new_cube_p3.epddl 2
+
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-1.epddl 2
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p2-2.epddl 2
+../epddl/dispose/dispose_domain.epddl ../epddl/dispose/dispose_p3-1.epddl 2
+
+../epddl/doors/doors_domain2.epddl ../epddl/doors/doors_p2.epddl 2
+../epddl/doors/doors_domain5.epddl ../epddl/doors/doors_p5.epddl 2
+../epddl/doors/new_doors_domain.epddl ../epddl/doors/new_doors_p2.epddl 2
+
+../epddl/ebtcs/new_ebtcs_domain.epddl ../epddl/ebtcs/new_ebtcs_p2-5.epddl 2
+../epddl/ebtcs/new_ebtcs_domain.epddl ../epddl/ebtcs/new_ebtcs_p2-6.epddl 2
+
+../epddl/farmer/new_farmer_domain.epddl ../epddl/farmer/new_farmer_p.epddl 2
+
+../epddl/inroom/inroom_domain.epddl ../epddl/inroom/inroom_p.epddl 2
+
+../epddl/medpks/new_medpks_domain2.epddl ../epddl/medpks/new_medpks_p2.epddl 2
+../epddl/medpks/new_medpks_domain3.epddl ../epddl/medpks/new_medpks_p3.epddl 2
+../epddl/medpks/new_medpks_domain6.epddl ../epddl/medpks/new_medpks_p6.epddl 2
+
+../epddl/push/push_domain.epddl ../epddl/push/push_p3-1.epddl 2
+../epddl/push/push_domain.epddl ../epddl/push/push_p3-2.epddl 2
+
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p1.epddl 2 
+../epddl/unix/unix_domain.epddl ../epddl/unix/unix_p2.epddl 2
+
+../epddl/blocks/blocks_domain.epddl ../epddl/blocks/blocks_p3.epddl 2

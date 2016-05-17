@@ -1,10 +1,3 @@
-/* 
- * File:   define2.h
- * Author: Frank
- *
- * Created on 2015年12月19日, 下午9:24
- */
-
 #ifndef DEFINE2_H
 #define	DEFINE2_H
 
