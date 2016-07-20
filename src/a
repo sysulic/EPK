@@ -1,0 +1,1726 @@
+++++++++++++++++++++++++++++++++++ BFS ++++++++++++++++++++++++++++++++++
+================================================================
+domain_file(../epddl/cube/new_cube_domain6.epddl)
+p_file(../epddl/cube/new_cube_p3.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	 	    	                				      	    	 	  	         	  			 	  	   	        			 	  	    	        			 	                    			        			        			         			                     	 	                    			        			        			        			                                     	 	         	            			        			        			        			         	                          	                          			        			        			        			                                    	 	                    			        			        			        			                        	 	 	                    			        			        			        			        		                          	 Error: Wrong domain name!
+	     				  				  				  			        	                 		    		          	                    		   	
+-----end parsing
+hah1
+10
+hah2
+hah1
+10
+hah2
+hah1
+10
+hah2
+Planning...
+
+Plan tree:
+ left
+  left
+   up
+    up
+     in
+      senseGold +:
+       pickGold
+      senseGold -:
+       in
+
+Statistic:
+ preprocess time: 0.0016s
+ search time: 2.8807s
+ solution size: 10
+ solution depth: 7
+ search size: 1900
+
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p2-1.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 		     		   								   	    	 				  				   				 				   				   				   				   				 				   				   				   				   				   											   
+-----end parsing
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+Planning...
+
+Plan tree:
+ pickup (o1, p11)
+  drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0014s
+ search time: 0.0004s
+ solution size: 3
+ solution depth: 2
+ search size: 17
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p2-2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 		     		   								   	    	 				  				  				 				   				   				   				   				 				   				   				   				   				 					  					  				 			  		   	          
+-----end parsing
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+Planning...
+
+Plan tree:
+ sense_object (p11, o1) +:
+  pickup (o1, p11)
+   drop (o1, p11)
+ sense_object (p11, o1) -:
+  move (p11, p12)
+   move (p12, p22)
+    move (p22, p12)
+     pickup (o1, p12)
+      move (p12, p11)
+       drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0018s
+ search time: 0.0534s
+ solution size: 11
+ solution depth: 7
+ search size: 467
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p3-1.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 	     		   																		   	  	  				  				   				 				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   			   				           
+-----end parsing
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+Planning...
+
+Plan tree:
+ move (p22, p12)
+  move (p12, p11)
+   pickup (o1, p11)
+    drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0041s
+ search time: 0.0585s
+ solution size: 5
+ solution depth: 4
+ search size: 348
+
+
+================================================================
+domain_file(../epddl/doors/doors_domain2.epddl)
+p_file(../epddl/doors/doors_p2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                                       		  		  		 		                             						                                                                                                                                                                                                                     						                                                                             
+-----end parsing
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+Planning...
+
+Plan tree:
+ senenPos (p11) +:
+  openDoor (p11, p12)
+   move (p11, p12)
+    openDoor (p12, p22)
+     move (p12, p22)
+ senenPos (p11) -:
+  openDoor (p12, p22)
+   move (p12, p22)
+
+Statistic:
+ preprocess time: 0.0018s
+ search time: 0.0128s
+ solution size: 9
+ solution depth: 5
+ search size: 124
+
+================================================================
+domain_file(../epddl/doors/doors_domain5.epddl)
+p_file(../epddl/doors/doors_p5.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                           	 	 																																																		   	  	  					  					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  		                       	          
+-----end parsing
+hah1
+675
+hah2
+Planning...
+
+Plan tree:
+ openDoor (p13, p23)
+  move (p13, p23)
+   move (p23, p33)
+    openDoor (p33, p43)
+     move (p33, p43)
+      move (p43, p53)
+
+Statistic:
+ preprocess time: 0.0593s
+ search time: 3.7967s
+ solution size: 7
+ solution depth: 6
+ search size: 369
+
+================================================================
+domain_file(../epddl/doors/new_doors_domain.epddl)
+p_file(../epddl/doors/new_doors_p2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                               	 	 								       		   	                  	                  					             						   						   						   						   						   						   						   						   						  						  						 							 							 						 					  				 				   				   		                	             	             				
+-----end parsing
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+Planning...
+
+Plan tree:
+ openDoor (p1-1, p1-2)
+  move (p1-1, p1-2)
+   move (p1-2, p2-2)
+
+Statistic:
+ preprocess time: 0.0019s
+ search time: 0.3029s
+ solution size: 4
+ solution depth: 3
+ search size: 449
+
+
+================================================================
+domain_file(../epddl/ebtcs/new_ebtcs_domain.epddl)
+p_file(../epddl/ebtcs/new_ebtcs_p2-5.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	   				      			   			       	 	       	   	    		 		          	   	  	 		            	 		 		 		    	   	           	 	 		 		  		 		 		 		 		  		  			  	             				        	                    					     					    					     					    					     					    					     			    				 				        	                    					     					    					     					    					     					    					     			               			     	                 	                 						    	
+-----end parsing
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+hah1
+13
+hah2
+Planning...
+
+Plan tree:
+ senseP (p0, b0) +:
+  flush (t0)
+   dunk (p0, b0, t0)
+ senseP (p0, b0) -:
+  flush (t0)
+   dunk (p0, b1, t0)
+
+Statistic:
+ preprocess time: 0.0018s
+ search time: 0.3305s
+ solution size: 7
+ solution depth: 3
+ search size: 1030
+
+================================================================
+domain_file(../epddl/ebtcs/new_ebtcs_domain.epddl)
+p_file(../epddl/ebtcs/new_ebtcs_p2-6.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	   				      			   			       	 	       	   	    		 		          	   	  	 		            	 		 		 		    	   	           	 	 		 		  		 		 		 		 				  		  			  	             				        	                    					     					    					     					    					     					    					     					    					     			    				 				        	                    					     					    					     					    					     					    					     					    					     			               			      	                  	                  			    		    	
+-----end parsing
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+Planning...
+
+Plan tree:
+ senseP (p0, b0) +:
+  flush (t0)
+   dunk (p0, b0, t0)
+ senseP (p0, b0) -:
+  flush (t0)
+   dunk (p0, b1, t0)
+
+Statistic:
+ preprocess time: 0.0037s
+ search time: 0.6214s
+ solution size: 7
+ solution depth: 3
+ search size: 1498
+
+
+================================================================
+domain_file(../epddl/farmer/new_farmer_domain.epddl)
+p_file(../epddl/farmer/new_farmer_p.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+    	  	                                 	 	  	    	  	                 	                 	         			 	 	      	  	             			         			         			  			 	 	      	   	             			 				 	 	      	   	             			        			         	         			 	 	      	   	              			      			 	 	 	 	 	      	   	              			      	          	 	 	 	 	      	   	              			      	         			 	 	   	    	                 	                 	         			 	 	     	    	              			         			        			 			 	 	      	    	              			 			 	 	     	    	              			         			          			 			 	 	     	    	              			      			  			 	 	     	    	              			      			 			 	 	     	    	              			      			 	  	 		  	               				         		                 		                 		          	    	        				           		                    						         								 								       									  							     						    			                 							     								 								       									  							    										                  							     								      									  														    		               		          		           		            	      			   	                 					      						 					 										     						 					 					 					     						 					 										     						 				     										     						 					 										     						 					 								
+-----end parsing
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+hah1
+11
+hah2
+Planning...
+
+Plan tree:
+ double +:
+  wsright
+   csleft
+    csright
+ double -:
+  sright
+   left
+    wright
+     sleft
+      cright
+       left
+        sright
+
+Statistic:
+ preprocess time: 0.0022s
+ search time: 0.0207s
+ solution size: 13
+ solution depth: 8
+ search size: 90
+
+
+================================================================
+domain_file(../epddl/inroom/inroom_domain.epddl)
+p_file(../epddl/inroom/inroom_p.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                   	 		 	              				           			               		            	            	            	             	            	             	          		 	            	             	       	
+-----end parsing
+hah1
+4
+hah2
+hah1
+4
+hah2
+hah1
+4
+hah2
+hah1
+4
+hah2
+hah1
+4
+hah2
+hah1
+4
+hah2
+hah1
+4
+hah2
+Planning...
+
+Plan tree:
+ senseL +:
+  knock
+   senseD +:
+   senseD -:
+ senseL -:
+
+Statistic:
+ preprocess time: 0.0008s
+ search time: 0.0002s
+ solution size: 6
+ solution depth: 3
+ search size: 6
+
+
+================================================================
+domain_file(../epddl/medpks/new_medpks_domain2.epddl)
+p_file(../epddl/medpks/new_medpks_p2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	  	    				    			 	    	    	   		 		 	 	    	  . .	          . .			 			 	  	       .	  . .  .  .	          . .  .  .	          	 	  	 	      			       	       	             				        					            						        						         					     					   				        					     							        					            						        						         					      					   				        					     						   			   	                 	                 			  		   	
+-----end parsing
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+hah1
+7
+hah2
+Planning...
+
+Plan tree:
+ stain
+  medicate
+
+Statistic:
+ preprocess time: 0.0008s
+ search time: 0.0019s
+ solution size: 3
+ solution depth: 2
+ search size: 39
+
+================================================================
+domain_file(../epddl/medpks/new_medpks_domain3.epddl)
+p_file(../epddl/medpks/new_medpks_p3.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	  	    				    			 	    	    	   		 		 	 	    	  . .	          . .	          . .			 			 	  	       .	  . .  .  .	          . .  .  .	          . .  .  .	          	 	  	 	       			        	       	               					           						       						        					    					  				       					    				       					    							       					           						       						        					    					  				       					    				       					    							       					           						        						        					    					  				       					    				       					    					           			   	                	                			  		   	
+-----end parsing
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+hah1
+9
+hah2
+Planning...
+
+Plan tree:
+ stain
+  medicate
+
+Statistic:
+ preprocess time: 0.0011s
+ search time: 0.0059s
+ solution size: 3
+ solution depth: 2
+ search size: 59
+
+================================================================
+domain_file(../epddl/medpks/new_medpks_domain6.epddl)
+p_file(../epddl/medpks/new_medpks_p6.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	  	    				    			 	    	    	   		 		 	 	    	  . .	          . .	          . .	          . .	          . .	          . .			 			 	  	       .	  . .  .  .	          . .  .  .	          . .  .  .	          . .  .  .	          . .  .  .	          . .  .  .	          	 	  	 	          			           	       	               					           						       						        					    					 				       					    				       					    				       					    				       					    				       					    							       					           						       						        					    					 				       					    				       					    				       					    				       					    				       					    							       					           						       						        					    					  				       					    				       					    				       					    				       					    				       					    								   					           						       						        					    					 				       					    				       					    				       					    				       					    				       					    							       					           						       						        					    					 				       					    				       					    				       					    				       					    				       					    										       					           						       						        					    					 				       					    				       					    				       					    				       					    				       					    				           			   	                 	                 			  		   	
+-----end parsing
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+Planning...
+
+Plan tree:
+ stain
+  medicate
+
+Statistic:
+ preprocess time: 0.0025s
+ search time: 0.1574s
+ solution size: 3
+ solution depth: 2
+ search size: 143
+
+
+================================================================
+domain_file(../epddl/push/push_domain.epddl)
+p_file(../epddl/push/push_p3-1.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                       	                                                                                                                                               	                         			     			     			     			     			     			     			     			                  				   				        				        				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				                                          
+-----end parsing
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+hah1
+109
+hah2
+Planning...
+
+Plan tree:
+ move (p22, p12)
+  move (p12, p11)
+   pickup (o1, p11)
+
+Statistic:
+ preprocess time: 0.0067s
+ search time: 0.0220s
+ solution size: 4
+ solution depth: 3
+ search size: 102
+
+================================================================
+domain_file(../epddl/push/push_domain.epddl)
+p_file(../epddl/push/push_p3-2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                       	                                                                                                                                               	                                                                                                                                                                                             				   				        				        				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				    				                                                             				   			  		      
+-----end parsing
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+hah1
+119
+hah2
+Planning...
+
+Plan tree:
+ move (p22, p12)
+  move (p12, p11)
+   pickup (o1, p11)
+    pickup (o2, p11)
+
+Statistic:
+ preprocess time: 0.0114s
+ search time: 0.7397s
+ solution size: 5
+ solution depth: 4
+ search size: 1374
+
+
+================================================================
+domain_file(../epddl/unix/unix_domain.epddl)
+p_file(../epddl/unix/unix_p1.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                                                                                                                                                                     				   				   				   				   				   				   				  				                                          
+-----end parsing
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+hah1
+63
+hah2
+Planning...
+
+Plan tree:
+ cd_down (root, sub1)
+  cd_down (sub1, sub11)
+   mv (my_file, sub11, root)
+
+Statistic:
+ preprocess time: 0.0061s
+ search time: 0.0038s
+ solution size: 4
+ solution depth: 3
+ search size: 37
+
+================================================================
+domain_file(../epddl/unix/unix_domain.epddl)
+p_file(../epddl/unix/unix_p2.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                                                                                                                                                                                                                  					  					  					  					  					  					  					  					  					  					  					  					  					  					  					 					                                         
+-----end parsing
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+hah1
+255
+hah2
+Planning...
+
+Plan tree:
+ cd_down (root, sub1)
+  cd_down (sub1, sub11)
+   mv (my_file, sub11, root)
+
+Statistic:
+ preprocess time: 0.0242s
+ search time: 0.0401s
+ solution size: 4
+ solution depth: 3
+ search size: 39
+
+
+================================================================
+domain_file(../epddl/blocks/blocks_domain.epddl)
+p_file(../epddl/blocks/blocks_p3.epddl)
+search_type(Bread first)
+
+Preprocessing...
+
+-----begin parsing
+  	   	      				      				       	  	   	         	     	      	  	   	      	     	     	  	   		      	     	     	  	  	           	           	               	  	  	        	         	           	  	  	        	          	            	                    				    				    				   					     					     				   				   					     					     									   					  					  				   				   					  					  				   				   					  					   				   				   					  					   				   				   					  					   				   				   					  					                                                    				   				                             
+-----end parsing
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+hah1
+15
+hah2
+Planning...
+
+Plan tree:
+ senseON (b2, b3) +:
+  move-b-to-b (b2, b3, b1)
+   move-t-to-b (b3, b2)
+ senseON (b2, b3) -:
+  senseON (b1, b2) +:
+  senseON (b1, b2) -:
+   move-b-to-b (b3, b2, b1)
+    move-b-to-b (b3, b1, b2)
+     senseON (b1, b3) +:
+      move-to-t (b1, b3)
+       move-to-t (b3, b2)
+        move-t-to-b (b2, b3)
+         move-b-to-b (b2, b3, b1)
+          move-t-to-b (b3, b2)
+     senseON (b1, b3) -:
+      move-to-t (b3, b2)
+       move-t-to-b (b2, b3)
+        move-b-to-b (b2, b3, b1)
+         move-t-to-b (b3, b2)
+
+Statistic:
+ preprocess time: 0.0200s
+ search time: 0.3242s
+ solution size: 20
+ solution depth: 10
+ search size: 892
+
+++++++++++++++++++++++++++++++++++ DFS ++++++++++++++++++++++++++++++++++
+================================================================
+domain_file(../epddl/cube/new_cube_domain3.epddl)
+p_file(../epddl/cube/new_cube_p3.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+  	 	    	                				      	    	 	  	         	  			 	  	   	        			 	  	    	        			 	                    			                           	 	                    			                                     	 	         	            			                                   	                          			                                    	 	                    			                         	  	 	                    			                                 	 	     				  				  				  			        	                 		    		          	                    		   	
+-----end parsing
+hah1
+10
+hah2
+hah1
+10
+hah2
+hah1
+10
+hah2
+Planning...
+
+Plan tree:
+ right
+  right
+   left
+    down
+     down
+      up
+       out
+        out
+         in
+          senseGold +:
+           pickGold
+          senseGold -:
+           left
+            up
+             in
+
+Statistic:
+ preprocess time: 0.0009s
+ search time: 0.7631s
+ solution size: 16
+ solution depth: 13
+ search size: 864
+
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p2-1.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 		     		   								   	    	 				  				   				 				   				   				   				   				 				   				   				   				   				   											   
+-----end parsing
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+Planning...
+
+Plan tree:
+ pickup (o1, p11)
+  drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0016s
+ search time: 0.0014s
+ solution size: 3
+ solution depth: 2
+ search size: 39
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p2-2.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 		     		   								   	    	 				  				  				 				   				   				   				   				 				   				   				   				   				 					  					  				 			  		   	          
+-----end parsing
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+hah1
+30
+hah2
+Planning...
+
+Plan tree:
+ sense_object (p11, o1) +:
+  pickup (o1, p11)
+   drop (o1, p11)
+ sense_object (p11, o1) -:
+  move (p11, p21)
+   move (p21, p11)
+    move (p11, p12)
+     pickup (o1, p12)
+      move (p12, p11)
+       drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0019s
+ search time: 0.0356s
+ solution size: 11
+ solution depth: 7
+ search size: 370
+
+================================================================
+domain_file(../epddl/dispose/dispose_domain.epddl)
+p_file(../epddl/dispose/dispose_p3-1.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                	                                                                                                                                             	 	     		   																		   	  	  				  				   				 				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   			   				           
+-----end parsing
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+hah1
+110
+hah2
+Planning...
+
+Plan tree:
+ move (p22, p12)
+  move (p12, p11)
+   pickup (o1, p11)
+    drop (o1, p11)
+
+Statistic:
+ preprocess time: 0.0043s
+ search time: 1.4516s
+ solution size: 5
+ solution depth: 4
+ search size: 2487
+
+
+================================================================
+domain_file(../epddl/doors/doors_domain2.epddl)
+p_file(../epddl/doors/doors_p2.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                                                                       		  		  		 		                             						                                                                                                                                                                                                                     						                                                                             
+-----end parsing
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+hah1
+24
+hah2
+Planning...
+
+Plan tree:
+ senenPos (p11) +:
+  senenPos (p21) +:
+   senenPos (p22) +:
+   senenPos (p22) -:
+    openDoor (p11, p12)
+     openDoor (p11, p21)
+      openDoor (p21, p11)
+       openDoor (p21, p22)
+        move (p21, p22)
+  senenPos (p21) -:
+   senenPos (p22) +:
+   senenPos (p22) -:
+    openDoor (p11, p12)
+     openDoor (p11, p21)
+      move (p11, p12)
+       openDoor (p12, p11)
+        openDoor (p12, p22)
+         move (p12, p22)
+ senenPos (p11) -:
+  openDoor (p12, p22)
+   move (p12, p22)
+
+Statistic:
+ preprocess time: 0.0016s
+ search time: 0.0081s
+ solution size: 22
+ solution depth: 9
+ search size: 93
+
+================================================================
+domain_file(../epddl/doors/doors_domain5.epddl)
+p_file(../epddl/doors/doors_p5.epddl)
+search_type(Deap first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                                                                                           	 	 																																																		   	  	  					  					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					   					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  					  		                       	          
+-----end parsing
+hah1
+675
+hah2
+++++++++++++++++++++++++++++++++++ Heu ++++++++++++++++++++++++++++++++++
+================================================================
+domain_file(../epddl/btc/btc_domain.epddl)
+p_file(../epddl/btc/btc_p20.epddl)
+search_type(Heur first)
+
+Preprocessing...
+
+-----begin parsing
+                                                                             	                        	 	 			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			    		 				    				     				     				    				     				     				     				     				     				     				     				     				     				     				     				    				     				     				     				     				     	       		  				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   				   	          	        	
+-----end parsing
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2
+hah1
+21
+hah2

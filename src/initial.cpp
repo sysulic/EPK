@@ -10,9 +10,9 @@ void Initial::exec(const char* dFile, const char* pFile) {
     goal = getEpisCNFfromTree(&reader.goal);
     episActionsGrounding();
     onticActionsGrounding();
-/*
+//*
     string endFile = "../output/";
-    endFile += reader.domainName + "+" + reader.problemName; endFile += "_initial";
+    endFile += reader.domainName + "+" + reader.problemName + "_initial";
     ofstream out_end(endFile);  // 打开要写入的文本文件
     if(!out_end.is_open()) {
         cout << "cannot open " << endFile << endl;
@@ -24,7 +24,7 @@ void Initial::exec(const char* dFile, const char* pFile) {
     printEpisActions(out_end);
     printOnticActions(out_end);  // conversion after first printActions()
     out_end.close();
-*/
+//*/
 }
 
 void Initial::printInit(ofstream & out) {
