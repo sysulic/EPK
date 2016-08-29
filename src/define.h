@@ -81,7 +81,7 @@ struct PreSenseAction
 struct Effect
 {
     StringList condition; //效果中的条件
-    StringList lits;  
+    StringList lits;
 };
 
 //物理动作的描述 - for preprocessing

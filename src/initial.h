@@ -25,12 +25,12 @@ public:
     // for epistemic action grounding
     void episActionsGrounding();
     PreSenseAction episActionParamGrouding(PreSenseAction & senseAction,
-                                        const string param, const string obj);
+        const string param, const string obj);
     void replaceParamWithObj(Formula * f, const string param, const string obj);
     // for ontic action grounding
     void onticActionsGrounding();
     PreOnticAction onticActionParamGrouding(PreOnticAction & onticAction,
-                                        const string param, const string obj);
+        const string param, const string obj);
     StringList getGroundedStr(StringList sl, const string param, const string obj);
     vector<ConEffect> getOnticEffect(EffectList effects);
     
