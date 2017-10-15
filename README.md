@@ -14,11 +14,11 @@ This planner could be divided into three parts:
 #### 1. Parsing
 This part, also called preprocess, contains three subtasks:
 
-######a) Parse - recognize and match the strings of epddl files
+###### a) Parse - recognize and match the strings of epddl files
 
-######b) Store - pass tokens to an intermediate structure
+###### b) Store - pass tokens to an intermediate structure
 
-######c) Convert - convert intermediate structure to final structrue to be used to do planning
+###### c) Convert - convert intermediate structure to final structrue to be used to do planning
  
 `Parser` is to parse the input files in epddl language(based on [pddl](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language), which contains the infos of defined actions that agent can do, initial state and goal state), and save the tokens from parser to our final data structure, stored in `Initial`. The intermediate structure `Reader` aims to simplify the code in `Initial` and make the transformation of structure more clear.
 
