@@ -37,9 +37,6 @@ The main planning algorithm is PrAO algorithm [To et al., 2011](http://www.aaai.
 ### 1. Description
 Consider the following example. *There is a room with a light in it. The agent stands out of the room, and it has a intial knowledge base which are some reasoning rules, such as if door open, then somebody in room, light off means nobody in room, and so on... The agent can do three actions defined as `senseL`(sense if the light on), `senseD`(sense if door open) and `knock`(knock the door). Its goal is to get to know if there any people in room.*
 
-We now formalize that example as follows:
-
-<img src="http://chart.googleapis.com/chart?cht=tx&chl=\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" style="border:none;">
 
 ### 2. //todo
 		
