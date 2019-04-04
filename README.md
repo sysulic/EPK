@@ -31,6 +31,9 @@ Progression part helps agent update its knowledge base after an action completed
 #### 3. Planning
 The main planning algorithm is PrAO algorithm [To et al., 2011](http://www.aaai.org/ocs/index.php/ICAPS/ICAPS10/paper/view/1461). The algorithm is based on progression and entailment which have been introduced in the last section.
 
+## Dependencies
+
+[boost c++ libraries](https://www.boost.org/) - EPK uses class: dynamic_bitset
 
 ## Example
 
